@@ -1,309 +1,371 @@
+<script setup>
+import { ref, onMounted } from 'vue';
+
+import aboutUsBg from '../assets/images/aboutus.png';
+import img0_0 from '../assets/images/aboutus_col_0_0.png';
+import img0_1 from '../assets/images/aboutus_col_0_1.png';
+import img0_2 from '../assets/images/aboutus_col_0_2.png';
+import img1_0 from '../assets/images/aboutus_col_1_0.png';
+import img1_1 from '../assets/images/aboutus_col_1_1.png';
+import img1_2 from '../assets/images/aboutus_col_1_2.png';
+import img2_0 from '../assets/images/aboutus_col_2_0.png';
+import img2_1 from '../assets/images/aboutus_col_2_1.png';
+import img2_2 from '../assets/images/aboutus_col_2_2.png';
+
+const col1Images = [img0_0, img0_1, img0_2];
+const col2Images = [img1_0, img1_1, img1_2];
+const col3Images = [img2_0, img2_1, img2_2];
+
+const textSectionBg = aboutUsBg;
+
+const col1Ref = ref(null);
+const col2Ref = ref(null);
+const col3Ref = ref(null);
+
+let autoScroll = 0;
+const autoScrollSpeed = 0.6;
+
+const updateScroll = () => {
+  autoScroll += autoScrollSpeed;
+  const speed = 0.35;
+
+  if (col1Ref.value && col2Ref.value && col3Ref.value) {
+    const col1Height = col1Ref.value.scrollHeight;
+    const col2Height = col2Ref.value.scrollHeight;
+    const col3Height = col3Ref.value.scrollHeight;
+
+    const scroll1 = (autoScroll * speed) % col1Height;
+    const scroll2 = (autoScroll * speed) % col2Height;
+    const scroll3 = (autoScroll * speed) % col3Height;
+
+    col1Ref.value.style.transform = `translateY(-${scroll1}px)`;
+    col2Ref.value.style.transform = `translateY(${scroll2}px)`;
+    col3Ref.value.style.transform = `translateY(-${scroll3}px)`;
+  }
+
+  requestAnimationFrame(updateScroll);
+};
+
+const scrollToBottom = () => {
+  window.scrollTo({
+    top: window.innerHeight,
+    behavior: 'smooth'
+  });
+};
+
+onMounted(() => {
+  updateScroll();
+});
+</script>
+
 <template>
-  <div class="photo-wall">
-    <div class="photo-grid">
-      <div class="photo-item photo-1">
-        <div class="pin pin-red"></div>
-        <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=800" alt="Couple">
-        <div class="overlay">
-          <h2>Moments Précieux</h2>
-          <p>Capturez l'essence de vos relations et créez des souvenirs inoubliables.</p>
+  <div class="scroll-container">
+
+    <div class="hero-section">
+      <div class="ui-layer">
+
+        <div class="mission-container">
+          <p class="sub-text">
+            Notre mission est simple : célébrer la beauté sous toutes ses formes et encourager chaque photographe,
+            amateur ou professionnel.
+          </p>
+          <div class="scroll-button-wrapper" @click="scrollToBottom">
+            <span class="arrow-icon">↓</span>
+          </div>
         </div>
+
+        <h1 class="main-title">
+          À propos
+        </h1>
+
       </div>
 
-      <div class="photo-item photo-2">
-        <div class="pin pin-blue"></div>
-        <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=800" alt="Portrait">
-        <div class="overlay">
-          <h2>Expressions Naturelles</h2>
-          <p>Des photos qui capturent votre vraie joie et énergie positive.</p>
+      <div class="gallery-wrapper">
+        <div class="gallery-grid">
+          <div class="col" ref="col1Ref">
+            <div v-for="(img, index) in [...col1Images, ...col1Images]" :key="index" class="image-item">
+              <img :src="img" alt="Gallery Image" />
+            </div>
+          </div>
+          <div class="col center-col" ref="col2Ref">
+            <div v-for="(img, index) in [...col2Images, ...col2Images]" :key="index" class="image-item">
+              <img :src="img" alt="Gallery Image" />
+            </div>
+          </div>
+          <div class="col" ref="col3Ref">
+            <div v-for="(img, index) in [...col3Images, ...col3Images]" :key="index" class="image-item">
+              <img :src="img" alt="Gallery Image" />
+            </div>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="photo-item photo-3">
-        <div class="pin pin-red"></div>
-        <img src="https://images.unsplash.com/photo-1554080353-a576cf803bda?w=800" alt="Photographe">
-        <div class="overlay">
-          <h2>Passion Créative</h2>
-          <p>L'art de la photographie avec une approche professionnelle.</p>
-        </div>
-      </div>
-
-      <div class="photo-item photo-4">
-        <div class="pin pin-green"></div>
-        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800" alt="Portrait femme">
-        <div class="overlay">
-          <h2>Portraits Authentiques</h2>
-          <p>Révélez votre personnalité unique à travers des portraits naturels.</p>
-        </div>
-      </div>
-
-      <div class="label-card">
-        <div class="pin pin-blue"></div>
-        <h1>FrameLab</h1>
-      </div>
-
-      <div class="photo-item photo-5">
-        <div class="pin pin-green"></div>
-        <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800" alt="Sourire">
-        <div class="overlay">
-          <h2>Émotions Sincères</h2>
-          <p>Chaque sourire raconte une histoire, chaque regard une émotion.</p>
-        </div>
-      </div>
-
-      <div class="photo-item photo-6">
-        <div class="pin pin-red"></div>
-        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800" alt="Appareil photo">
-        <div class="overlay">
-          <h2>Derrière l'Objectif</h2>
-          <p>La magie opère quand passion rencontre professionnalisme.</p>
-        </div>
-      </div>
-
-      <div class="photo-item photo-7">
-        <div class="pin pin-teal"></div>
-        <img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?w=800" alt="Groupe">
-        <div class="overlay">
-          <h2>Souvenirs Partagés</h2>
-          <p>Immortalisez vos moments ensemble et créez une galerie mémorable.</p>
-        </div>
+    <div class="text-section" :style="{ backgroundImage: `url(${textSectionBg})` }">
+      <div class="text-overlay"></div>
+      <div class="text-content">
+        <p>
+          Chez FrameLab, nous croyons que la photographie est bien plus qu'un art : c'est une expérience,
+          une émotion capturée dans chaque image. Depuis notre création, nous nous consacrons à offrir aux
+          passionnés de photographie le meilleur du matériel haut de gamme et des événements exclusifs où
+          créativité et inspiration se rencontrent.
+        </p>
+        <p>
+          Pour nourrir cette passion et renforcer les liens de notre communauté, nous proposons un
+          <strong>challenge photo hebdomadaire</strong>. Chaque semaine, un thème et une photo imposée sont
+          partagés, invitant nos membres à laisser libre cours à leur créativité. Les retouches et interprétations
+          sont ensuite mises en lumière sur notre plateforme web communautaire.
+        </p>
+        <p>
+          FrameLab, c'est donc plus qu'une entreprise : c'est un espace où la technique rencontre l'esthétique,
+          où chaque image raconte une histoire, et où chaque photographe trouve sa place au sein d'une communauté
+          passionnée et engagée.
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.photo-wall {
-  min-height: 100vh;
-  padding: 20px 10px;
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Manrope:wght@300;400;600&display=swap');
+
+@font-face {
+  font-family: 'Magilio';
+  src: url('../fonts/Magilio.ttf') format('truetype'),
+    url('../fonts/MagilioDEMO.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.scroll-container {
+  min-height: 200vh;
+  background-color: #faf9f9; 
+  color: #ffffff;
+  font-family: 'Manrope', sans-serif;
+  overflow-x: hidden;
+}
+
+.hero-section {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.ui-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.mission-container {
+  position: absolute;
+  top: 55%;
+  left: 8%;
+  width: 300px;
+  transform: translateY(-50%);
   display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: flex-start;
+  pointer-events: auto;
+  text-align: left;
+}
+
+.sub-text {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #ffffff;
+  margin: 0;
+  font-weight: 500;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+}
+
+.scroll-button-wrapper {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
   align-items: center;
+  width: 60px;
+  height: 60px;
+  animation: bounce 2s infinite;
+}
+
+.arrow-icon {
+  font-size: 3rem;
+  color: #ffffff;
+  line-height: 1;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.main-title {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  font-family: 'Magilio';
+  font-size: 10vw;
+  line-height: 1;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+  pointer-events: auto;
+  text-align: right;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.gallery-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  backdrop-filter: none;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.gallery-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
+  background-size: 4px 4px;
+  pointer-events: none;
+  opacity: 0.1;
+  z-index: 6;
+}
+
+.gallery-grid {
+  display: flex;
+  gap: 2vw;
+  transform: rotate(-15deg) scale(1.5);
+  width: 120vw;
+  height: 150vh;
   justify-content: center;
 }
 
-.photo-grid {
-  width: 100%;
-  max-width: 1100px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  padding: 0;
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 2vw;
+  width: 25vw;
+  will-change: transform;
 }
 
-.photo-item {
+.center-col {
+  margin-top: -30vh;
+}
+
+.image-item {
+  width: 691px;
+  height: 461px;
   position: relative;
-  background: white;
-  padding: 8px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  aspect-ratio: 4/3;
+  overflow: hidden;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
 }
 
-.photo-item:hover {
-  transform: translateY(-5px) rotate(2deg);
-  z-index: 10;
+.image-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
+  background-size: 4px 4px;
+  background-color: transparent;
+  backdrop-filter: none;
+  pointer-events: none;
+  opacity: 0.1;
+  z-index: 1;
 }
 
-.photo-item img {
+.image-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: all 0.4s ease;
+  display: block;
+  filter: contrast(1.05) brightness(1.05); 
+  transition: filter 0.3s;
 }
 
-.overlay {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  right: 8px;
-  bottom: 8px;
-  background: rgba(0, 0, 0, 0.88);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  padding: 20px;
-  text-align: center;
-}
-
-.photo-item:hover .overlay {
-  opacity: 1;
-}
-
-.photo-item:hover img {
-  filter: blur(2px);
-}
-
-.overlay h2 {
-  color: #fff;
-  font-size: 1.3em;
-  margin-bottom: 10px;
-  font-weight: 600;
-}
-
-.overlay p {
-  color: #e0e0e0;
-  font-size: 0.85em;
-  line-height: 1.5;
-}
-
-.pin {
-  position: absolute;
-  top: -8px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  z-index: 10;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.pin-red {
-  background: #e74c3c;
-  left: 15px;
-}
-
-.pin-blue {
-  background: #3498db;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.pin-green {
-  background: #2ecc71;
-  right: 15px;
-}
-
-.pin-teal {
-  background: #1abc9c;
-  right: 20px;
-}
-
-.photo-1 {
-  grid-column: 1;
-  grid-row: 1;
-  transform: rotate(-3deg);
-}
-
-.photo-2 {
-  grid-column: 2;
-  grid-row: 1;
-  transform: rotate(2deg);
-}
-
-.photo-3 {
-  grid-column: 3;
-  grid-row: 1;
-  transform: rotate(-2deg);
-}
-
-.photo-4 {
-  grid-column: 1;
-  grid-row: 2;
-  transform: rotate(1deg);
-}
-
-.label-card {
-  grid-column: 2;
-  grid-row: 2;
-  background: white;
-  padding: 25px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+.text-section {
+  min-height: 100vh;
+  background-color: #111111;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 5rem 2rem;
   position: relative;
-  transform: rotate(-1deg);
 }
 
-.label-card h1 {
-  font-family: 'Brush Script MT', cursive;
-  font-size: 2em;
-  color: #333;
+.text-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
+  background-size: 4px 4px;
+  pointer-events: none;
+  opacity: 0.1;
+  z-index: 1;
 }
 
-.photo-5 {
-  grid-column: 3;
-  grid-row: 2;
-  transform: rotate(2deg);
+.text-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent; 
+  z-index: 1;
 }
 
-.photo-6 {
-  grid-column: 1;
-  grid-row: 3;
-  transform: rotate(-2deg);
+.text-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  color: #ffffff;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.9);
 }
 
-.photo-7 {
-  grid-column: 2 / 4;
-  grid-row: 3;
-  transform: rotate(1deg);
-  aspect-ratio: 8/3; 
+.text-content p {
+  margin-bottom: 2rem;
+  text-align: justify;
 }
 
-@media (max-width: 1366px) {
-  .photo-grid {
-    max-width: 1000px;
-    gap: 12px;
-  }
-  
-  .overlay h2 {
-    font-size: 1.2em;
-  }
-  
-  .overlay p {
-    font-size: 0.8em;
-  }
-  
-  .label-card h1 {
-    font-size: 1.8em;
-  }
-}
-
-@media (max-width: 1024px) {
-  .photo-grid {
-    max-width: 850px;
-    gap: 12px;
-  }
-  
-  .overlay h2 {
-    font-size: 1.1em;
-  }
-  
-  .overlay p {
-    font-size: 0.75em;
-  }
-  
-  .label-card h1 {
-    font-size: 1.7em;
-  }
-}
-
-@media (max-width: 768px) {
-  .photo-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    max-width: 400px;
-  }
-
-  .photo-1, .photo-2, .photo-3, .photo-4, .photo-5, .photo-6, .photo-7 {
-    grid-column: 1 !important;
-    grid-row: auto !important;
-  }
-
-  .label-card {
-    grid-column: 1 !important;
-    grid-row: auto !important;
-  }
-  
-  .overlay h2 {
-    font-size: 1.4em;
-  }
-  
-  .overlay p {
-    font-size: 0.9em;
-  }
+.text-content strong {
+  font-weight: 600;
+  color: #ffffff;
 }
 </style>
