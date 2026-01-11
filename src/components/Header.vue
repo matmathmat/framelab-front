@@ -16,41 +16,55 @@
 
 <style scoped>
 .header {
-  height: 10vh;
+  height: 15vh;
   display: flex;
-  align-items: flex-end;
-  padding-left: 2rem;
-  padding-bottom: 0;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  background-color: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 2rem 0;
 }
 
 .header-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  width: 100%;
+  justify-content: center;
   gap: 1rem;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 2rem;
 }
 
 .nav {
   display: flex;
-  gap: 1.5rem;
+  gap: 3rem;
   white-space: nowrap;
 }
 
 .nav-link {
-  font-size: 0.875rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  color: black;
+  color: white;
   text-decoration: none;
+  transition: opacity 0.2s ease;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .nav-link:hover {
-  text-decoration: underline;
+  opacity: 0.7;
 }
 
 .header-line {
   height: 2px;
-  background-color: black;
-  flex: 1;
+  background-color: white;
+  width: 100%;
+  max-width: 1200px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 </style>

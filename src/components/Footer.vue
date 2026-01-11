@@ -1,7 +1,6 @@
 <template>
   <footer class="footer">
-    <div class="footer-line"></div>
-    <div class="footer-text">2026 By FrameLab All right reserved.</div>
+    <div class="footer-text">2026 by FrameLab</div>
   </footer>
 </template>
 
@@ -9,22 +8,27 @@
 .footer {
   height: 10vh;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding-left: 2rem;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-}
-
-.footer-line {
-  height: 2px;
-  background-color: black;
-  width: 90%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: transparent;
+  z-index: 1000;
 }
 
 .footer-text {
-  margin-top: 0.5rem;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
   font-size: 0.875rem;
-  font-weight: bold;
-  text-transform: uppercase;
+  z-index: 2;
 }
 </style>
