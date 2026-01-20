@@ -9,6 +9,7 @@ import Challenges from './views/Challenges.vue'
 import HallOfFrames from './views/HallOfFrames.vue'
 import Contact from './views/Contact.vue'
 import MyAccount from './views/MyAccount.vue'
+import Login from './views/Login.vue'
 
 const routes: Array<RouteRecordRaw> = [
   { path: '/', name: 'Home', component: Home },
@@ -18,6 +19,7 @@ const routes: Array<RouteRecordRaw> = [
   { path: '/hall-of-frames', name: 'HallOfFrames', component: HallOfFrames },
   { path: '/contact', name: 'Contact', component: Contact },
   { path: '/me', name: 'MyAccount', component: MyAccount },
+  { path: '/login', name: 'Login', component: Login },
 ]
 
 const router = createRouter({
