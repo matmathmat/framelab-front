@@ -22,17 +22,22 @@ function getCookie(cname) {
 }
 
 async function loadProfile() {
-    const token = getCookie('token');
-    const user = await fetch('/users/me', {
+    const userResponse = await fetch('api/users/me', {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
     })
 
-    const result = await response.json();
+    const result = await userResponse.json();
+
+    const firstname = result.result.firstname;
+    const lastname = result.result.lastname;
+    const email = result.result.email;
+    const userId = result.result.userId;
+    const isAdmin = result.result === 1;
+
+    console.log(result);
 }
 
 onBeforeMount(() => {
