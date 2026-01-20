@@ -8,6 +8,7 @@
         <router-link to="/hall-of-frames" class="nav-link">Hall of Frames</router-link>
         <router-link to="/about" class="nav-link">A propos</router-link>          
         <router-link to="/contact" class="nav-link">Contact</router-link>
+        <router-link to="/me" class="nav-link">Mon compte</router-link>
       </nav>
       <div class="header-line"></div>
     </div>
