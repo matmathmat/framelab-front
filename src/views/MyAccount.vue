@@ -1,33 +1,34 @@
 <script setup>
-function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
+    import { onBeforeMount } from 'vue'
 
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
 
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
         }
 
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
+        return "";
     }
 
-    return "";
-}
+    onBeforeMount(() => {
+        const token = getCookie('token');
+        console.log(token);
 
-var token = getCookie('token');
-
-// Vérifier le token de l'utilisateur
-if (token) {
-    //
-} else {
-    // Rediriger vers la page de connexion
-    window.location = '/login';
-}
+        if (!token) {
+            window.location.href = '/login'
+        }
+    })
 </script>
 
 <template>
