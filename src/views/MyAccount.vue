@@ -1,4 +1,6 @@
 <script setup>
+import { onBeforeMount } from 'vue'
+
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -19,15 +21,31 @@ function getCookie(cname) {
     return "";
 }
 
-var token = getCookie('token');
+async function loadProfile() {
+    const token = getCookie('token');
+    const user = await fetch('/users/me', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
 
-// Vérifier le token de l'utilisateur
-if (token) {
-    //
-} else {
-    // Rediriger vers la page de connexion
-    window.location = '/login';
+    const result = await response.json();
 }
+
+onBeforeMount(() => {
+    const token = getCookie('token');
+    console.log(token);
+
+    if (!token) {
+        window.location.href = '/login';
+        return;
+    }
+
+    loadProfile();
+})
 </script>
 
 <template>
