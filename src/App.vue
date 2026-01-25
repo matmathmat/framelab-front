@@ -1,27 +1,16 @@
 <script setup>
-
-import HeroSection from './components/views/landingpage/HeroSection.vue'
-import StorySection from './components/views/landingpage/StorySection.vue'
-import ChallengesSection from './components/views/landingpage/ChallengesSection.vue'
-import HallOfFramesSection from './components/views/landingpage/HallOfFramesSection.vue'
-import ShopSection from './components/views/landingpage/ShopSection.vue'
-import ContactSection from './components/views/landingpage/ContactSection.vue'
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
-
 </script>
 
 <template>
   <div class="app-container">
     <Header />
+    
     <main>
-      <HeroSection />
-      <StorySection />
-      <ChallengesSection />
-      <HallOfFramesSection />
-      <ShopSection />
-      <ContactSection />
+      <RouterView /> 
     </main>
+
     <Footer />
   </div>
 </template>

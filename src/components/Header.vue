@@ -1,7 +1,16 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { RouterLink } from 'vue-router'
 
 const isScrolled = ref(false)
+const isLoggedIn = ref(false)
+
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 50
@@ -9,6 +18,11 @@ const handleScroll = () => {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
+  
+  const token = getCookie('token')
+  if (token) {
+    isLoggedIn.value = true
+  }
 })
 
 onUnmounted(() => {
@@ -18,13 +32,28 @@ onUnmounted(() => {
 
 <template>
   <header :class="{ scrolled: isScrolled }">
-    <div class="logo">FrameLab</div>
+    <RouterLink to="/" class="logo" style="text-decoration:none;">FrameLab</RouterLink>
+    
     <nav class="nav-links">
-      <a href="#challenges" class="nav-item">Challenges</a>
-      <a href="#hall-of-frames" class="nav-item">Hall of Frames</a>
-      <a href="#boutique" class="nav-item">Shop</a>
-      <a href="#contact" class="nav-item">Contact</a>
-      <a href="#" class="cta-header">Mon Compte</a>
+      
+      <!-- Non connecté -->
+      <template v-if="!isLoggedIn">
+        <a href="/#challenges" class="nav-item">Challenges</a>
+        <a href="/#hall-of-frames" class="nav-item">Hall of Frames</a>
+        <a href="/#boutique" class="nav-item">Boutique</a>
+        <a href="/#contact" class="nav-item">Contact</a>
+        <RouterLink to="/login" class="cta-header">Mon Compte</RouterLink>
+      </template>
+
+      <!-- Est connecté -->
+      <template v-else>
+        <RouterLink to="/challenges" class="nav-item">Challenges</RouterLink>
+        <RouterLink to="/hall-of-frames" class="nav-item">Hall of Frames</RouterLink>
+        <a href="https://framelab.shop" class="nav-item">Boutique</a>
+        <RouterLink to="/contact" class="nav-item">Contact</RouterLink>
+        <RouterLink to="/me" class="cta-header">Mon Espace</RouterLink>
+      </template>
+
     </nav>
   </header>
 </template>
