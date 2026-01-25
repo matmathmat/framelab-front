@@ -1,5 +1,18 @@
+<script setup>
+import heroBg from '@/assets/images/landingpage/herosection/background.png'
+import bgMain from '@/assets/images/landingpage/herosection/cardmain.png'
+import card1 from '@/assets/images/landingpage/herosection/card1.png'
+import card2 from '@/assets/images/landingpage/herosection/card2.png'
+</script>
+
 <template>
-    <section id="hero">
+    <section id="hero" :style="{
+        backgroundImage: `
+            radial-gradient(circle at 10% 20%, rgba(198, 156, 109, 0.1) 0%, transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(168, 90, 63, 0.05) 0%, transparent 50%),
+            url(${heroBg})
+        `
+    }">
         <div class="hero-container">
 
             <div class="hero-text-side">
@@ -9,19 +22,15 @@
                 </h1>
                 <p class="hero-sub">
                     Rejoignez le collectif FrameLab. Sublimez vos clichés bruts et révélez votre signature artistique.
-                    Le luxe est dans le détail.
                 </p>
                 <a href="#story" class="btn-pill btn-dark">Découvrir</a>
             </div>
 
             <div class="visual-grid">
                 <div class="floating-text">Art.</div>
-                <img src="https://images.unsplash.com/photo-1548066598-a0a95a27891d?q=80&w=2574&auto=format&fit=crop"
-                    class="image-card img-main" alt="Mood FrameLab">
-                <img src="https://images.unsplash.com/photo-1616166330003-8e10915234a9?q=80&w=2670&auto=format&fit=crop"
-                    class="image-card img-detail-1" alt="Texture Detail">
-                <img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=2675&auto=format&fit=crop"
-                    class="image-card img-detail-2" alt="Gold Detail">
+                <img :src="bgMain" class="image-card img-main" alt="Main Card">
+                <img :src="card1" class="image-card img-detail-1" alt="Card 1">
+                <img :src="card2" class="image-card img-detail-2" alt="Card 2">
             </div>
 
         </div>
@@ -29,12 +38,21 @@
 </template>
 
 <style scoped>
+@font-face {
+  font-family: 'Magilio';
+  src: url('../fonts/Magilio.ttf') format('truetype'),
+    url('../fonts/MagilioDEMO.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 #hero {
     min-height: 100vh;
     width: 100%;
     position: relative;
-    background: radial-gradient(circle at 10% 20%, rgba(198, 156, 109, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(168, 90, 63, 0.05) 0%, transparent 50%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     padding: 0 5%;
@@ -56,27 +74,26 @@
 }
 
 .hero-title {
-    font-family: var(--font-serif);
+    font-family: 'Magilio';
     font-size: 4.5rem;
     line-height: 1;
     font-weight: 300;
     margin-bottom: 1.5rem;
-    color: var(--text-dark);
+    color: white;
 }
 
 .hero-title span {
-    font-style: italic;
-    color: var(--accent-gold);
+    color: rgb(252, 198, 188);
 }
 
 .hero-sub {
     font-size: 1.1rem;
     font-weight: 300;
     margin-bottom: 2.5rem;
-    color: var(--text-muted);
+    color: white;
     line-height: 1.6;
     max-width: 500px;
-    border-left: 2px solid var(--accent-gold);
+    border-left: 2px solid rgb(252, 198, 188);
     padding-left: 1.5rem;
 }
 
@@ -107,7 +124,8 @@
 .img-main {
     grid-column: 3 / 11;
     grid-row: 2 / 12;
-    z-index: 2;
+    z-index: 1;
+    border: 4px solid var(--bg-sand);
 }
 
 .img-detail-1 {
@@ -121,6 +139,7 @@
     grid-column: 9 / 13;
     grid-row: 1 / 5;
     z-index: 1;
+    border: 4px solid var(--bg-sand);
 }
 
 .floating-text {
@@ -133,6 +152,28 @@
     top: 5%;
     right: 0;
     pointer-events: none;
+}
+
+.btn-pill {
+    display: inline-block;
+    padding: 0.9rem 2.2rem;
+    border-radius: 999px;
+
+    color: rgb(252, 198, 188);
+    border: 1.5px solid rgb(252, 198, 188);
+    background: transparent;
+
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    transition: all 0.3s ease;
+}
+
+.btn-pill:hover {
+    background: rgb(252, 198, 188);
+    color: #1a1a1a;
 }
 
 @media (max-width: 1024px) {
