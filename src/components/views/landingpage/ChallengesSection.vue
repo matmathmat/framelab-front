@@ -1,18 +1,22 @@
+<script setup>
+import card1 from '@/assets/images/landingpage/challengesection/card1.png'
+import card2 from '@/assets/images/landingpage/challengesection/card2.png'
+import card3 from '@/assets/images/landingpage/challengesection/card3.png'
+</script>
+
 <template>
     <section id="challenges">
         <div class="challenge-layout">
 
             <div class="challenge-mosaic">
-                <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2670&auto=format&fit=crop"
+                <img :src="card1"
                     class="mosaic-img m-img-1" alt="Landscape Raw">
-                <img src="https://images.unsplash.com/photo-1552168324-d612d77725e3?q=80&w=2000&auto=format&fit=crop"
+                <img :src="card2"
                     class="mosaic-img m-img-2" alt="Photographer">
-                <img src="https://images.unsplash.com/photo-1515541356284-a16ae37227eb?q=80&w=500&auto=format&fit=crop"
-                    class="mosaic-img m-img-3" alt="Abstract">
             </div>
 
             <div class="challenge-info">
-                <h2 class="section-title title-align-left">Le Challenge <br><span>Hebdomadaire</span></h2>
+                <h2 class="section-title title-align-left">Le Challenge <span>Hebdomadaire</span></h2>
                 <p>
                     Chaque semaine, une nouvelle photo brute, une nouvelle opportunité. Téléchargez le fichier RAW,
                     appliquez votre style, et soumettez votre création.
@@ -25,6 +29,13 @@
 </template>
 
 <style scoped>
+@font-face {
+  font-family: 'Magilio';
+  src: url('../fonts/Magilio.ttf') format('truetype'),
+    url('../fonts/MagilioDEMO.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 #challenges {
     padding: 8rem 5%;
     background: #EBE5DE;
@@ -39,9 +50,15 @@
 
 .title-align-left {
     text-align: left;
+    font-style: normal;
 }
 
-/* MOSAIQUE */
+.title-align-left span {
+    font-family: 'Magilio';
+    color: white;
+    font-style: normal;
+}
+
 .challenge-mosaic {
     flex: 1;
     position: relative;
@@ -64,6 +81,7 @@
     left: 0;
     z-index: 1;
     filter: grayscale(20%);
+    border: 5px solid white
 }
 
 .m-img-2 {
@@ -72,18 +90,7 @@
     bottom: 0;
     right: 0;
     z-index: 2;
-    border: 5px solid #EBE5DE;
-}
-
-.m-img-3 {
-    width: 30%;
-    height: auto;
-    aspect-ratio: 1/1;
-    top: 40%;
-    left: 60%;
-    z-index: 3;
-    transform: translate(-50%, -50%);
-    border: 3px solid #fff;
+    border: 5px solid white;
 }
 
 .challenge-mosaic:hover .m-img-1 {
