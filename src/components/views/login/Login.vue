@@ -1,83 +1,35 @@
 <script setup>
+import { ref } from 'vue'
 import bgLogin from '@/assets/images/login/background.png'
+import LoginForm from './LoginForm.vue'
+import RegisterForm from './RegisterForm.vue'
 
-function setCookie(name, value, days) {
-    var expires = "";
-
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-}
-
-const submitForm = async (event) => {
-    event.preventDefault();
-
-    const form = event.target;
-
-    const data = {
-        email: form.email.value,
-        password: form.password.value
-    }
-
-    const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-
-    const result = await response.json();
-    console.log(result);
-
-    if (!result.success) {
-        alert("Email ou mot de passe incorrect");
-        return;
-    }
-
-    // On sauvegarde le token dans un cookie
-    setCookie("token", result.result.token);
-
-    // on redirige vers la page du compte
-    window.location = "/me";    
-}
+const isLoginMode = ref(true)
 </script>
 
 <template>
     <main class="login-page" :style="{
-        backgroundImage: `
-            url(${bgLogin})
-        `
+        backgroundImage: `url(${bgLogin})`
     }">
         <div class="login-container">
             <h1 class="login-title">Mon <span>Compte</span></h1>
             
-            <form @submit="submitForm" class="glass-form">
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="text" name="email" required placeholder="votre@email.com">
-                </div>
-
-                <div class="input-group">
-                    <label>Mot de passe</label>
-                    <input type="password" name="password" required placeholder="••••••••">
-                </div>
-
-                <button type="submit" class="btn-pill">Se connecter</button>
-                
-                <div class="form-footer">
-                    <a href="#" class="forgot-pass">Mot de passe oublié ?</a>
-                </div>
-            </form>
+            <!-- On délègue la gestion du form aux enfants -->
+            <Transition name="fade" mode="out-in">
+                <LoginForm 
+                    v-if="isLoginMode" 
+                    @switch-to-register="isLoginMode = false" 
+                />
+                <RegisterForm 
+                    v-else 
+                    @switch-to-login="isLoginMode = true" 
+                />
+            </Transition>
         </div>
     </main>
 </template>
 
-<style scoped>
+<style>
 @font-face {
   font-family: 'Magilio';
   src: url('../fonts/Magilio.ttf') format('truetype'),
@@ -96,6 +48,7 @@ const submitForm = async (event) => {
     background-position: center;
     background-repeat: no-repeat;
     padding-top: 80px; 
+    padding-bottom: 80px;
 }
 
 .login-container {
@@ -120,10 +73,10 @@ const submitForm = async (event) => {
 }
 
 .glass-form {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 20px;
     padding: 3rem 2.5rem;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
@@ -142,7 +95,7 @@ label {
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: rgba(249, 245, 240, 0.8);
+    color: rgba(249, 245, 240, 0.9);
     margin-bottom: 0.5rem;
 }
 
@@ -151,7 +104,7 @@ input {
     padding: 12px 0;
     background: transparent;
     border: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
     color: #fff;
     font-family: var(--font-sans, 'Montserrat', sans-serif);
     font-size: 1rem;
@@ -164,7 +117,7 @@ input:focus {
 }
 
 input::placeholder {
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .btn-pill {
@@ -192,20 +145,31 @@ input::placeholder {
     margin-top: 0.5rem;
 }
 
-.forgot-pass {
-    color: rgba(255, 255, 255, 0.5);
+.toggle-link {
+    color: rgba(255, 255, 255, 0.8);
     font-size: 0.8rem;
     text-decoration: none;
     transition: color 0.3s;
+    font-weight: 500;
 }
 
-.forgot-pass:hover {
+.toggle-link:hover {
     color: rgb(252, 198, 188);
 }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
 @media (max-width: 768px) {
