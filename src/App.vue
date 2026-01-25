@@ -1,29 +1,96 @@
 <script setup>
-import { useRoute } from 'vue-router'
-import { computed } from 'vue'
 
+import HeroSection from './components/views/landingpage/HeroSection.vue'
+import StorySection from './components/views/landingpage/StorySection.vue'
+import ChallengesSection from './components/views/landingpage/ChallengesSection.vue'
+import HallOfFramesSection from './components/views/landingpage/HallOfFramesSection.vue'
+import ShopSection from './components/views/landingpage/ShopSection.vue'
+import ContactSection from './components/views/landingpage/ContactSection.vue'
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 
-const route = useRoute()
 </script>
 
 <template>
-  <div class="container">
+  <div class="app-container">
     <Header />
-    
-    <main class="main-content">
-      <router-view />
+    <main>
+      <HeroSection />
+      <StorySection />
+      <ChallengesSection />
+      <HallOfFramesSection />
+      <ShopSection />
+      <ContactSection />
     </main>
-    
-    <Footer/>
+    <Footer />
   </div>
 </template>
 
-<style scoped>
-.container {
-  background-color: rgb(240, 238, 233);
-  display: flex;
-  flex-direction: column;
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
+:root {
+  --bg-sand: #F9F5F0;
+  --bg-warm: #E6DCD3;
+  --text-dark: #2A221E;
+  --text-light: #F9F5F0;
+  --text-muted: #6B5B52;
+  --accent-gold: #C69C6D;
+  --accent-terracotta: #A85A3F;
+  
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'Montserrat', sans-serif;
 }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg-sand);
+  color: var(--text-dark);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+.btn-pill {
+  display: inline-block;
+  padding: 0.8rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-dark {
+  background: var(--text-dark);
+  color: var(--bg-sand);
+  border: 1px solid var(--text-dark);
+}
+.btn-dark:hover {
+  background: transparent;
+  color: var(--text-dark);
+}
+
+.btn-light {
+  background: var(--bg-sand);
+  color: var(--text-dark);
+}
+.btn-light:hover {
+  background: var(--text-dark);
+  color: var(--bg-sand);
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  font-weight: 400;
+}
+.section-title span { font-style: italic; color: var(--accent-gold); }
 </style>

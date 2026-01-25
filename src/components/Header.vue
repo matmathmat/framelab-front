@@ -1,71 +1,127 @@
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const isScrolled = ref(false)
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 50
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
+</script>
+
 <template>
-  <header class="header">
-    <div class="header-content">
-      <nav class="nav">
-        <router-link to="/" class="nav-link">FrameLab</router-link>
-        <router-link to="/shop" class="nav-link">Boutique</router-link>
-        <router-link to="/challenges" class="nav-link">Challenges</router-link>
-        <router-link to="/hall-of-frames" class="nav-link">Hall of Frames</router-link>
-        <router-link to="/about" class="nav-link">A propos</router-link>          
-        <router-link to="/contact" class="nav-link">Contact</router-link>
-        <router-link to="/me" class="nav-link">Mon compte</router-link>
-      </nav>
-      <div class="header-line"></div>
-    </div>
+  <header :class="{ scrolled: isScrolled }">
+    <div class="logo">FrameLab</div>
+    <nav class="nav-links">
+      <a href="#challenges" class="nav-item">Challenges</a>
+      <a href="#hall-of-frames" class="nav-item">Hall of Frames</a>
+      <a href="#boutique" class="nav-item">Shop</a>
+      <a href="#contact" class="nav-item">Contact</a>
+      <a href="#" class="cta-header">Mon Compte</a>
+    </nav>
   </header>
 </template>
 
 <style scoped>
-.header {
-  height: 15vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  background-color: transparent;
+header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
-  padding: 2rem 0;
-}
-
-.header-content {
+  padding: 1.5rem 3rem;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  width: 100%;
-  max-width: 1400px;
-  padding: 0 2rem;
+  z-index: 1000;
+  background: rgba(249, 245, 240, 0.95);
+  transition: padding 0.3s, box-shadow 0.3s;
 }
 
-.nav {
+header.scrolled {
+  padding: 1rem 3rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-dark);
+}
+
+.nav-links {
   display: flex;
-  gap: 3rem;
-  white-space: nowrap;
+  gap: 2.5rem;
+  align-items: center;
 }
 
-.nav-link {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
+.nav-links a.nav-item {
   text-decoration: none;
-  transition: opacity 0.2s ease;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  color: var(--text-dark);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
 }
 
-.nav-link:hover {
-  opacity: 0.7;
+.nav-links a.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent-terracotta);
+  transition: width 0.3s;
 }
 
-.header-line {
-  height: 2px;
-  background-color: white;
+.nav-links a.nav-item:hover::after {
   width: 100%;
-  max-width: 1200px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.cta-header {
+  border: 1px solid var(--text-dark);
+  padding: 0.6rem 1.8rem;
+  border-radius: 50px;
+  text-decoration: none;
+  color: var(--text-dark);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-left: 2rem;
+}
+
+.cta-header:hover {
+  background: var(--text-dark);
+  color: var(--bg-sand);
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav-links {
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cta-header {
+    margin-left: 0;
+  }
 }
 </style>
