@@ -71,9 +71,11 @@ import card3 from '@/assets/images/landingpage/storysection/card3.png'
 }
 
 .section-title {
+    font-family: 'Magilio';
     text-align: center;
     margin-bottom: 4rem;
     font-size: 2.5rem;
+    color: rgb(252, 198, 188);
 }
 
 .story-container {
@@ -117,10 +119,10 @@ import card3 from '@/assets/images/landingpage/storysection/card3.png'
 }
 
 .story-subtitle {
-    font-family: 'Magilio', serif;
+    font-family: 'Magilio';
     font-size: 2rem;
     margin-bottom: 1.5rem;
-    color: var(--text-dark, #333);
+    color: rgb(252, 198, 188);
 }
 
 .story-content p {

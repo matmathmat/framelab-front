@@ -1,33 +1,39 @@
+<script setup>
+import cardbronze from '@/assets/images/landingpage/hallofframesection/cardbronze.png'
+import cardsilver from '@/assets/images/landingpage/hallofframesection/cardsilver.png'
+import cardgold from '@/assets/images/landingpage/hallofframesection/cardgold.png'
+</script>
+
 <template>
     <section id="hall-of-frames">
         <h2 class="section-title">Hall of <span>Frames</span></h2>
 
         <div class="hof-grid">
             <div class="hof-card grid-bronze">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop"
+                <img :src="cardbronze"
                     alt="Portrait Bronze">
                 <div class="hof-content">
                     <div class="hof-badge bronze-text">III. Bronze</div>
-                    <div class="hof-user">Par @Julie_Art</div>
-                </div>
-            </div>
-
-            <div class="hof-card grid-silver">
-                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=2550&auto=format&fit=crop"
-                    alt="Portrait Silver">
-                <div class="hof-content">
-                    <div class="hof-badge silver-text">II. Argent</div>
                     <div class="hof-user">Par @Marc_Edit</div>
                 </div>
             </div>
 
+            <div class="hof-card grid-silver">
+                <img :src="cardsilver"
+                    alt="Portrait Silver">
+                <div class="hof-content">
+                    <div class="hof-badge silver-text">II. Argent</div>
+                    <div class="hof-user">Par @Julie_Art</div>
+                </div>
+            </div>
+
             <div class="hof-card grid-gold">
-                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=2574&auto=format&fit=crop"
+                <img :src="cardgold"
                     alt="Portrait Gold">
                 <div class="hof-content gold-content">
                     <div class="hof-badge gold-text">I. Or</div>
                     <div class="hof-user editor-week">L'Éditeur de la Semaine : @Sarah_Vision</div>
-                    <a href="#" class="profile-link">Voir le profil</a>
+                    <a href="/users/@Sara_Vision" class="profile-link">Voir le profil</a>
                 </div>
             </div>
         </div>
@@ -35,6 +41,14 @@
 </template>
 
 <style scoped>
+@font-face {
+  font-family: 'Magilio';
+  src: url('../fonts/Magilio.ttf') format('truetype'),
+    url('../fonts/MagilioDEMO.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 #hall-of-frames {
     padding: 6rem 5%;
 }

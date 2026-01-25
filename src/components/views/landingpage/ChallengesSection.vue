@@ -36,6 +36,7 @@ import card3 from '@/assets/images/landingpage/challengesection/card3.png'
   font-weight: normal;
   font-style: normal;
 }
+
 #challenges {
     padding: 8rem 5%;
     background: #EBE5DE;
@@ -55,7 +56,7 @@ import card3 from '@/assets/images/landingpage/challengesection/card3.png'
 
 .title-align-left span {
     font-family: 'Magilio';
-    color: white;
+    color: rgb(252, 198, 188);
     font-style: normal;
 }
 

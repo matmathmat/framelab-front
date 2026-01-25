@@ -43,6 +43,14 @@ import Footer from './components/Footer.vue'
   --font-sans: 'Montserrat', sans-serif;
 }
 
+@font-face {
+  font-family: 'Magilio';
+  src: url('../fonts/Magilio.ttf') format('truetype'),
+    url('../fonts/MagilioDEMO.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
@@ -86,11 +94,13 @@ body {
 }
 
 .section-title {
-  font-family: var(--font-serif);
+  font-family: 'Magilio';
   font-size: 3rem;
   text-align: center;
   margin-bottom: 3rem;
   font-weight: 400;
 }
-.section-title span { font-style: italic; color: var(--accent-gold); }
+.section-title span { 
+  color: rgb(252, 198, 188);
+}
 </style>
