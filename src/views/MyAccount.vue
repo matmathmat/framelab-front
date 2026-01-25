@@ -1,19 +1,19 @@
 <script setup>
-import { onBeforeMount } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 
 function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
+    const name = cname + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
 
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
 
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) === ' ') {
             c = c.substring(1);
         }
 
-        if (c.indexOf(name) == 0) {
+        if (c.indexOf(name) === 0) {
             return c.substring(name.length, c.length);
         }
     }
@@ -21,32 +21,31 @@ function getCookie(cname) {
     return "";
 }
 
+const firstname = ref('');
+const lastname = ref('');
+
 async function loadProfile() {
     const userResponse = await fetch('api/users/me', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
-        },
+        }
     })
 
     const result = await userResponse.json();
 
-    const firstname = result.result.firstname;
-    const lastname = result.result.lastname;
-    const email = result.result.email;
-    const userId = result.result.userId;
-    const isAdmin = result.result === 1;
+    firstname.value = result.result.firstname;
+    lastname.value = result.result.lastname;
 
     console.log(result);
 }
 
 onBeforeMount(() => {
     const token = getCookie('token');
-    console.log(token);
 
     if (!token) {
         window.location.href = '/login';
-        return;
+        return
     }
 
     loadProfile();
@@ -56,13 +55,14 @@ onBeforeMount(() => {
 <template>
     <div>
         <h1>Mon compte</h1>
+        <h2>Bonjour {{ firstname }} {{ lastname }}</h2>
         <p>Bienvenue sur la page mon compte de FrameLab.</p>
     </div>
 </template>
 
 <style scoped>
-h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
+ h1 {
+     font-size: 2rem;
+     margin-bottom: 1rem;
+ }
 </style>
