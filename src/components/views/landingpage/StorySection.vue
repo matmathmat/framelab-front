@@ -1,76 +1,149 @@
+<script setup>
+import card1 from '@/assets/images/landingpage/storysection/card1.png'
+import card2 from '@/assets/images/landingpage/storysection/card2.png'
+import card3 from '@/assets/images/landingpage/storysection/card3.png'
+</script>
+
 <template>
     <section id="story">
-        <h2 class="section-title">L'Histoire de <span>FrameLab</span></h2>
+        <h2 class="section-title">Qui sommes-nous ?</h2>
+        
+        <div class="story-container">
+            <div class="story-row">
+                <div class="story-image">
+                    <img :src="card1" alt="La Passion">
+                </div>
+                <div class="story-content">
+                    <h3 class="story-subtitle">La Passion</h3>
+                    <p>
+                        Chez FrameLab, nous croyons que la photographie est bien plus qu'un art : c'est une expérience,
+                        une émotion capturée dans chaque image. Depuis notre création, nous nous consacrons à offrir aux
+                        passionnés de photographie le meilleur du matériel haut de gamme et des événements exclusifs où
+                        créativité et inspiration se rencontrent.
+                    </p>
+                </div>
+            </div>
 
-        <div class="story-grid">
-            <div class="story-card">
-                <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=2000&auto=format&fit=crop"
-                    alt="Camera Lens">
-                <div class="story-text">La Passion</div>
+            <div class="story-row">
+                <div class="story-image">
+                    <img :src="card2" alt="La Technique">
+                </div>
+                <div class="story-content">
+                    <h3 class="story-subtitle">La Technique</h3>
+                    <p>
+                        Pour nourrir cette passion et renforcer les liens de notre communauté, nous proposons un
+                        <strong>challenge photo hebdomadaire</strong>. Chaque semaine, un thème et une photo imposée sont
+                        partagés, invitant nos membres à laisser libre cours à leur créativité. Les retouches et interprétations
+                        sont ensuite mises en lumière sur notre plateforme web communautaire.
+                    </p>
+                </div>
             </div>
-            <div class="story-card">
-                <img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=2574&auto=format&fit=crop"
-                    alt="Editing Process">
-                <div class="story-text">La Technique</div>
-            </div>
-            <div class="story-card">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2670&auto=format&fit=crop"
-                    alt="Community">
-                <div class="story-text">La Communauté</div>
+
+            <div class="story-row">
+                <div class="story-image">
+                    <img :src="card3" alt="La Communauté">
+                </div>
+                <div class="story-content">
+                    <h3 class="story-subtitle">La Communauté</h3>
+                    <p>
+                        FrameLab, c'est donc plus qu'une entreprise : c'est un espace où la technique rencontre l'esthétique,
+                        où chaque image raconte une histoire, et où chaque photographe trouve sa place au sein d'une communauté
+                        passionnée et engagée.
+                    </p>
+                </div>
             </div>
         </div>
-
-        <p class="story-description">
-            Chez FrameLab, la photographie est une expérience émotionnelle. Nous offrons le meilleur du matériel et des
-            événements exclusifs où créativité et inspiration se rencontrent.
-            <br><br>
-            Notre cœur bat au rythme du <strong>challenge hebdomadaire</strong> : une photo imposée, votre vision, et
-            une communauté pour la sublimer. FrameLab est l'espace où la technique rencontre l'esthétique.
-        </p>
     </section>
 </template>
 
 <style scoped>
+@font-face {
+  font-family: 'Magilio';
+  src: url('../fonts/Magilio.ttf') format('truetype'),
+    url('../fonts/MagilioDEMO.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 #story {
     padding: 6rem 5%;
+    background-color: #fff;
+}
+
+.section-title {
     text-align: center;
+    margin-bottom: 4rem;
+    font-size: 2.5rem;
 }
 
-.story-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-top: 3rem;
+.story-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.story-card img {
+.story-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+}
+
+.story-row:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.story-image {
+    flex: 1;
+    width: 100%;
+}
+
+.story-image img {
     width: 100%;
     height: 400px;
     object-fit: cover;
-    border-radius: 4px;
-    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     filter: sepia(0.1);
+    display: block;
 }
 
-.story-text {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    color: var(--text-dark);
+
+.story-content {
+    flex: 1;
+    text-align: left;
 }
 
-.story-description {
-    margin-top: 3rem;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.8;
+.story-subtitle {
+    font-family: 'Magilio', serif;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-dark, #333);
+}
+
+.story-content p {
     font-size: 1.1rem;
-    color: var(--text-muted);
+    line-height: 1.8;
+    color: var(--text-muted, #666);
+    margin-bottom: 1rem;
 }
 
-@media (max-width: 768px) {
-    .story-grid {
-        grid-template-columns: 1fr;
+@media (max-width: 900px) {
+    .story-row, 
+    .story-row:nth-child(even) {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .story-content {
+        text-align: center;
+    }
+    
+    .story-image img {
+        height: 300px;
     }
 }
 </style>
