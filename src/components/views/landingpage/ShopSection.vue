@@ -3,8 +3,8 @@
         <div class="boutique-overlay"></div>
         <div class="boutique-box">
             <h2 class="section-title shop-title">La <span>Boutique</span></h2>
-            <p class="shop-desc">Presets, Textures, et Tirages d'art.</p>
-            <a href="/framelab.shop" class="btn-pill btn-light">Visiter le Shop</a>
+            <p class="shop-desc">Découvrez les appareils photo, accessoires et tirages d'art Framelab.</p>
+            <a href="https://framelab.shop" class="btn-pill btn-light">Visiter le Shop</a>
         </div>
     </section>
 </template>
@@ -12,7 +12,7 @@
 <style scoped>
 #boutique {
     padding: 8rem 5%;
-    background-image: url('https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=2670&auto=format&fit=crop');
+    background-image: url('@/assets/images/landingpage/shopsection/overlay.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
