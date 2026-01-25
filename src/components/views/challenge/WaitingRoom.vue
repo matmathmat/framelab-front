@@ -1,19 +1,43 @@
+<script setup>
+// On configure la communication entre composant enfant et parent
+const emit = defineEmits(['back']);
+
+// Props reçues depuis le composant parent
+const props = defineProps({
+    mode: {
+        type: String,
+        default: 'no-challenge'
+    }
+});
+</script>
+
 <template>
     <div class="white-card">
         <div class="card-header">
-            <span class="subtitle">PROCHAINEMENT</span>
+            <span class="subtitle">{{ mode === 'no-votes' ? 'TERMINÉ' : 'PROCHAINEMENT' }}</span>
             <div class="line-deco"></div>
         </div>
 
-        <h1 class="title">Un nouveau défi.</h1>
+        <h1 class="title">
+            {{ mode === 'no-votes' ? 'Tout est noté.' : 'Un nouveau défi.' }}
+        </h1>
         
         <p class="description">
-            Le jury délibère sur les créations précédentes ou le prochain thème est en cours de préparation. 
-            <br>Revenez vite pour découvrir votre prochain défi.
+            <span v-if="mode === 'no-votes'">
+                Il n'y a plus de participations disponibles pour le vote pour le moment.
+                <br>Revenez prochainement pour voir si de nouvelles photos ont été soumises.
+            </span>
+            <span v-else>
+                Le jury délibère sur les créations précédentes ou le prochain thème est en cours de préparation. 
+                <br>Revenez vite pour découvrir votre prochain défi.
+            </span>
         </p>
 
         <div class="actions">
-            <a href="/archives" class="btn-primary">Voir les anciens challenges</a>
+            <button v-if="mode === 'no-votes'" @click="$emit('back')" class="btn-primary">
+                Retour au Challenge
+            </button>
+            <a v-else href="/archives" class="btn-primary">Voir les anciens challenges</a>
         </div>
     </div>
 </template>
@@ -85,6 +109,7 @@
     letter-spacing: 1px;
     text-decoration: none;
     display: inline-block;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 

@@ -3,10 +3,12 @@ import { ref, onMounted, computed } from 'vue';
 import waitingBg from '@/assets/images/challenge/waitingbackground.png';
 import ActiveChallenge from './ActiveChallenge.vue';
 import WaitingRoom from './WaitingRoom.vue';
+import VoteInterface from './VoteInterface.vue';
 
 const currentChallenge = ref(null);
 const isLoading = ref(true);
 const hasChallenge = ref(false);
+const isVoting = ref(false);
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -62,7 +64,11 @@ const handleParticipate = () => {
 };
 
 const handleVote = () => {
-  // To do
+  isVoting.value = true;
+};
+
+const handleBackFromVote = () => {
+  isVoting.value = false;
 };
 </script>
 
@@ -72,9 +78,16 @@ const handleVote = () => {
 
     <div v-if="!isLoading" class="content-wrapper">
       <!-- On délègue la tache aux composants enfants -->
-      <ActiveChallenge v-if="hasChallenge" :challenge="currentChallenge" @participate="handleParticipate"
-        @vote="handleVote" />
-      <WaitingRoom v-else />
+
+      <!-- Il n'y a pas de challenge en cours -->
+      <WaitingRoom v-if="!hasChallenge" />
+
+      <!-- Il y a un challenge actif et on est en mode vote -->
+      <VoteInterface v-else-if="isVoting" :challengeId="currentChallenge.id" @back="handleBackFromVote" />
+
+      <!-- Il a un challenge actif et on n'est pas en mode vote -->
+      <ActiveChallenge v-else :challenge="currentChallenge" @participate="handleParticipate" @vote="handleVote" />
+
     </div>
   </main>
 </template>
