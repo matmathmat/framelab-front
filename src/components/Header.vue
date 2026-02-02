@@ -84,7 +84,7 @@ const handleLogout = async () => {
         <a href="https://framelab.shop" class="nav-item">Boutique</a>
         <RouterLink to="/contact" class="nav-item">Contact</RouterLink>
         <RouterLink to="/me" class="cta-header">Mon Espace</RouterLink>
-        <div class="cta-header" @click="handleLogout">Se déconnecter</div>
+        <div class="cta-header" style="cursor: pointer;" @click="handleLogout">Se déconnecter</div>
       </template>
 
     </nav>
