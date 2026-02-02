@@ -52,6 +52,7 @@ onUnmounted(() => {
         <a href="https://framelab.shop" class="nav-item">Boutique</a>
         <RouterLink to="/contact" class="nav-item">Contact</RouterLink>
         <RouterLink to="/me" class="cta-header">Mon Espace</RouterLink>
+         <RouterLink to="/logout" class="cta-header">Se déconnecter</RouterLink>
       </template>
 
     </nav>
