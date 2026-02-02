@@ -3,11 +3,13 @@ import Home from './components/views/home/Home.vue'
 import Login from './components/views/login/Login.vue'
 import ChallengePage from './components/views/challenge/ChallengePage.vue' 
 //import MyAccount from './components/views/MyAccount.vue'
+import HallOfFramesPage from './components/views/hallofframes/HallOfFramesPage.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/login', name: 'Login', component: Login },
   { path: '/challenges', name: 'Challenge', component: ChallengePage },
+  { path: '/hall-of-frames', name: 'Hall Of Frames', component: HallOfFramesPage },
 ]
 
 const router = createRouter({
