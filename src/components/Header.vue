@@ -12,13 +12,17 @@ const getCookie = (name) => {
   return null;
 }
 
+function eraseCookie(name) {
+  document.cookie = name + '=; Max-Age=-99999999;';
+}
+
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 50
 }
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
-  
+
   const token = getCookie('token')
   if (token) {
     isLoggedIn.value = true
@@ -28,14 +32,42 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
+
+const handleLogout = async () => {
+  try {
+    // On envoie une requete pour se déconnecter
+    const response = await fetch('/api/auth/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+
+    console.log(response);
+
+    if (response.ok) {
+      // Déconnexion réussit, on supprime le cookie
+      eraseCookie("token");
+
+      alert("Vous allez être déconnecté");
+
+      // On redirige maintenant vers l'accueil
+      window.location.href = '/';
+    } else {
+      alert("Une erreur est survenue lors de la déconnexion.");
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
 </script>
 
 <template>
   <header :class="{ scrolled: isScrolled }">
     <RouterLink to="/" class="logo" style="text-decoration:none;">FrameLab</RouterLink>
-    
+
     <nav class="nav-links">
-      
+
       <!-- Non connecté -->
       <template v-if="!isLoggedIn">
         <a href="/#challenges" class="nav-item">Challenges</a>
@@ -52,7 +84,7 @@ onUnmounted(() => {
         <a href="https://framelab.shop" class="nav-item">Boutique</a>
         <RouterLink to="/contact" class="nav-item">Contact</RouterLink>
         <RouterLink to="/me" class="cta-header">Mon Espace</RouterLink>
-         <RouterLink to="/logout" class="cta-header">Se déconnecter</RouterLink>
+        <div class="cta-header" @click="handleLogout">Se déconnecter</div>
       </template>
 
     </nav>
