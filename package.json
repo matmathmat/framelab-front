@@ -9,13 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.5.24",
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "svelte": "^5.50.1",
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
+    "@tsconfig/svelte": "^5.0.7",
     "@types/node": "^24.10.1",
-    "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
+    "svelte-check": "^4.3.6",
     "typescript": "~5.9.3",
     "vite": "^7.2.4",
     "vue-tsc": "^3.1.4"
