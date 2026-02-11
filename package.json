@@ -4,22 +4,23 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
   "dependencies": {
-    "@sveltejs/vite-plugin-svelte": "^6.2.4",
-    "svelte": "^5.50.1",
-    "vue-router": "^4.6.4"
+    "svelte": "^5.50.1"
   },
   "devDependencies": {
+    "@sveltejs/adapter-auto": "^7.0.0",
+    "@sveltejs/kit": "^2.50.2",
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
     "@tsconfig/svelte": "^5.0.7",
     "@types/node": "^24.10.1",
-    "@vue/tsconfig": "^0.8.1",
     "svelte-check": "^4.3.6",
     "typescript": "~5.9.3",
-    "vite": "^7.2.4",
-    "vue-tsc": "^3.1.4"
+    "vite": "^7.2.4"
   }
 }
