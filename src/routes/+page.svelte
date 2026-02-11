@@ -27,7 +27,7 @@
         <span class="highlight-text">Vraie Beauté.</span>
       </h1>
       <p class="subtitle">
-        Rejoignez le collectif FrameLab. Sublimez vos clichés bruts et révélez votre signature artistique.
+        Rejoignez le collectif FrameLab. Sublimez vos clichés<br>et révélez votre signature artistique.
       </p>
 
       <div class="cta-group">
