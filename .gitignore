@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 
 src/assets/fonts/Magilio.ttf
+/.svelte-kit
