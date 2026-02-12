@@ -1,9 +1,3 @@
-<svelte:head>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Sora:wght@400;600;800&display=swap" rel="stylesheet">
-</svelte:head>
-
 <script>
   // Import images
   import heroMain from '$lib/assets/images/landingpage/herosection/cardmain.png';
@@ -16,138 +10,189 @@
   import imgPolaroidEdit from '$lib/assets/images/landingpage/challengesection/card2.png';   
 </script>
 
-<main class="neo-wrapper">
+<main class="pt-16">
   
   <!-- Section Hero -->
-  <section class="container section-hero">
-    <div class="hero-content">
-      <span class="eyebrow">CREATEUR D'INSPIRATION</span>
-      <h1>
+  <section class="max-w-7xl mx-auto px-8 mb-12 flex items-center gap-12 mt-12">
+    <div class="flex-1">
+      <span class="inline-block bg-custom-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+        CREATEUR D'INSPIRATION
+      </span>
+      <h1 class="font-sora font-extrabold text-6xl leading-tight uppercase tracking-tight mb-6">
         Capturez la <br>
-        <span class="highlight-text">Vraie Beauté.</span>
+        <span class="italic inline-block px-1 bg-gradient-to-b from-transparent from-60% to-custom-pink to-60%">
+          Vraie Beauté.
+        </span>
       </h1>
-      <p class="subtitle">
+      <p class="text-xl font-medium leading-relaxed mb-10 border-l-4 border-black pl-4">
         Rejoignez le collectif FrameLab. Sublimez vos clichés<br>et révélez votre signature artistique.
       </p>
 
-      <div class="cta-group">
-        <a href="#join" class="btn-primary">Découvrir</a>
-        <a href="#challenges" class="btn-outline">Le Challenge</a>
+      <div class="flex gap-6">
+        <a href="#join" 
+           class="inline-block bg-black text-white font-sora font-bold uppercase px-8 py-4 border-[3px] border-black shadow-neo-md transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_rgba(0,0,0,0.3)]">
+          Découvrir
+        </a>
+        <a href="#challenges" 
+           class="inline-block bg-white text-black font-sora font-bold uppercase px-8 py-4 border-[3px] border-black shadow-neo-md transition-all duration-200 hover:bg-custom-pink hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_#000]">
+          Le Challenge
+        </a>
       </div>
     </div>
 
-    <div class="hero-visuals">
-       <div class="img-stack">
-          <img src={heroMain} class="img-hero main-img" alt="Main Visual">
-          <img src={heroFloat1} class="img-hero float-1" alt="Detail 1">
-          <img src={heroFloat2} class="img-hero float-2" alt="Detail 2">
-       </div>
+    <div class="flex-1 h-[500px] relative flex items-center justify-center mt-10">
+      <div class="relative w-full h-full">
+        <img src={heroMain} 
+             class="absolute w-[65%] left-[15%] top-[15%] z-10 border-4 border-[rgb(112,176,250)] shadow-neo object-cover -rotate-2" 
+             alt="Main Visual">
+        <img src={heroFloat1} 
+             class="absolute w-[40%] top-[55%] left-0 z-20 border-4 border-[rgb(255,62,78)] shadow-neo object-cover rotate-[5deg]" 
+             alt="Detail 1">
+        <img src={heroFloat2} 
+             class="absolute w-[35%] top-[5%] right-[5%] z-0 border-4 border-[rgb(142,252,69)] shadow-neo object-cover rotate-[8deg]" 
+             alt="Detail 2">
+      </div>
     </div>
   </section>
 
   <!-- Section Qui sommes nous -->
-  <section class="container section-values">
+  <section class="max-w-7xl mx-auto px-8 mb-24 mt-12 grid grid-cols-3 gap-8">
     <!-- La passion -->
-    <div class="card card-pink">
-      <div class="card-img-top">
-        <img src={imgPassion} alt="Passion">
+    <div class="border-[3px] border-black bg-white flex flex-col shadow-neo transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-neo-hover overflow-hidden">
+      <div class="h-[200px] border-b-[3px] border-black">
+        <img src={imgPassion} 
+             alt="Passion" 
+             class="w-full h-full object-cover grayscale transition-all duration-300 hover:grayscale-0">
       </div>
-      <div class="card-content">
-        <span class="card-label">NOTRE ADN</span>
-        <h3>La Passion</h3>
-        <p>La photographie est une expérience. Nous offrons le meilleur du matériel et des événements exclusifs.</p>
+      <div class="p-6">
+        <span class="inline-block bg-custom-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+          NOTRE ADN
+        </span>
+        <h3 class="font-sora font-extrabold text-2xl uppercase tracking-tight mb-2">La Passion</h3>
+        <p class="leading-relaxed font-medium mt-2">
+          La photographie est une expérience. Nous offrons le meilleur du matériel et des événements exclusifs.
+        </p>
       </div>
     </div>
 
     <!-- La technique -->
-    <div class="card card-green">
-      <div class="card-img-top">
-        <img src={imgTech} alt="Technique">
+    <div class="border-[3px] border-black bg-white flex flex-col shadow-neo transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-neo-hover overflow-hidden">
+      <div class="h-[200px] border-b-[3px] border-black">
+        <img src={imgTech} 
+             alt="Technique" 
+             class="w-full h-full object-cover grayscale transition-all duration-300 hover:grayscale-0">
       </div>
-      <div class="card-content">
-        <span class="card-label">COMPÉTITION</span>
-        <h3>La Technique</h3>
-        <p>Challenge photo hebdomadaire : un thème, une photo brute imposée. Vos retouches mises en lumière.</p>
+      <div class="p-6">
+        <span class="inline-block bg-custom-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+          COMPÉTITION
+        </span>
+        <h3 class="font-sora font-extrabold text-2xl uppercase tracking-tight mb-2">La Technique</h3>
+        <p class="leading-relaxed font-medium mt-2">
+          Challenge photo hebdomadaire : un thème, une photo brute imposée. Vos retouches mises en lumière.
+        </p>
       </div>
     </div>
 
     <!-- La communauté -->
-    <div class="card card-yellow">
-      <div class="card-img-top">
-        <img src={imgCommunity} alt="Communauté">
+    <div class="border-[3px] border-black bg-white flex flex-col shadow-neo transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-neo-hover overflow-hidden">
+      <div class="h-[200px] border-b-[3px] border-black">
+        <img src={imgCommunity} 
+             alt="Communauté" 
+             class="w-full h-full object-cover grayscale transition-all duration-300 hover:grayscale-0">
       </div>
-      <div class="card-content">
-        <span class="card-label">RÉSEAU</span>
-        <h3>La Communauté</h3>
-        <p>Un espace où la technique rencontre l'esthétique. Chaque photographe trouve sa place ici.</p>
+      <div class="p-6">
+        <span class="inline-block bg-custom-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+          RÉSEAU
+        </span>
+        <h3 class="font-sora font-extrabold text-2xl uppercase tracking-tight mb-2">La Communauté</h3>
+        <p class="leading-relaxed font-medium mt-2">
+          Un espace où la technique rencontre l'esthétique. Chaque photographe trouve sa place ici.
+        </p>
       </div>
     </div>
   </section>
 
   <!-- Section engagement -->
-  <section class="container section-engagement">   
+  <section class="max-w-7xl mx-auto px-8 mb-24 grid grid-cols-2 gap-8">   
     <!-- Challenge hebdomadaire -->
-    <div class="card large-card challenge-card">
-      <div class="challenge-text">
-        <span class="card-label">CHALLENGE HEBDOMADAIRE</span>
-        <h3>Le défi</h3>
+    <div class="p-10 bg-neo-lilac border-[3px] border-black shadow-neo flex items-center gap-4 overflow-visible">
+      <div class="flex-1 z-10">
+        <span class="inline-block bg-custom-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+          CHALLENGE HEBDOMADAIRE
+        </span>
+        <h3 class="font-sora font-extrabold text-3xl uppercase tracking-tight mb-6">Le défi</h3>
         
-        <div class="rules-block">
-          <div class="step">1. Téléchargez l'app FrameLab</div>
-          <div class="step">2. Récupérez le fichier RAW</div>
-          <div class="step">3. Postez votre EDIT</div>
+        <div class="my-6 bg-white border-[3px] border-black p-6 shadow-neo-lg">
+          <div class="font-bold mb-3 text-sm">1. Téléchargez l'app FrameLab</div>
+          <div class="font-bold mb-3 text-sm">2. Récupérez le fichier RAW</div>
+          <div class="font-bold text-sm">3. Postez votre EDIT</div>
         </div>
         
-        <a href="/" class="btn-primary btn-small">Participer</a>
+        <a href="/" 
+           class="inline-block bg-black text-white font-sora font-bold uppercase px-6 py-3 text-sm border-[3px] border-black shadow-neo-md transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_rgba(0,0,0,0.3)]">
+          Participer
+        </a>
       </div>
       
-      <div class="challenge-duo-visual">
-        <!-- RAW IMAGE-->
-         <div class="polaroid-wrapper raw-pos">
-            <span class="tag-label tag-raw">RAW</span>
-            <img src={imgPolaroidRaw} alt="Photo brute" class="square-img">
-         </div>
+      <div class="flex-1 relative h-[300px] flex items-center justify-center">
+        <!-- RAW IMAGE -->
+        <div class="absolute w-[160px] bg-white border-[3px] border-black p-2.5 pb-6 shadow-neo-md -rotate-[10deg] translate-x-[-20px] translate-y-2.5 z-0 transition-transform duration-300 hover:z-50 hover:scale-105">
+          <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gray-300 text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2.5 py-0.5 z-20">
+            RAW
+          </span>
+          <img src={imgPolaroidRaw} alt="Photo brute" class="w-full h-auto block border border-black">
+        </div>
 
-         <!-- EDIT IMAGE -->
-         <div class="polaroid-wrapper edit-pos">
-            <span class="tag-label tag-edit">EDIT</span>
-            <img src={imgPolaroidEdit} alt="Photo éditée" class="square-img">
-         </div>
+        <!-- EDIT IMAGE -->
+        <div class="absolute w-[160px] bg-white border-[3px] border-black p-2.5 pb-6 shadow-neo-md rotate-[8deg] translate-x-5 -translate-y-2.5 z-10 transition-transform duration-300 hover:z-50 hover:scale-105">
+          <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-neo-green text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2.5 py-0.5 z-20">
+            EDIT
+          </span>
+          <img src={imgPolaroidEdit} alt="Photo éditée" class="w-full h-auto block border border-black">
+        </div>
       </div>
     </div>
 
     <!-- Hall of frames -->
-    <div class="card large-card hof-card">
-      <div class="hof-header">
-        <span class="eyebrow">HALL OF FRAMES</span>
-        <h3 class="text-black">Les Champions</h3>
+    <div class="p-10 bg-electric-yellow border-[3px] border-black shadow-neo">
+      <div class="mb-6">
+        <span class="inline-block bg-custom-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+          HALL OF FRAMES
+        </span>
+        <h3 class="font-sora font-extrabold text-3xl uppercase tracking-tight text-black">Les Champions</h3>
       </div>
 
-      <div class="list-content">
+      <div class="flex flex-col gap-4">
         <!-- #1 Gold -->
-        <div class="winner-item">
-          <span class="rank-square gold-bg">1</span> 
-          <div class="name-wrapper">
-             <span class="name underline-gold">@Sarah_Vision</span>
-             <span class="points">980 pts</span>
+        <div class="flex items-center bg-white border-[3px] border-black p-4 shadow-neo-md">
+          <span class="w-[30px] h-[30px] bg-gold border-2 border-black text-black flex items-center justify-center font-extrabold mr-4">
+            1
+          </span> 
+          <div class="flex-1 flex justify-between items-center">
+            <span class="font-bold text-lg border-b-4 border-gold">@Sarah_Vision</span>
+            <span class="text-sm font-semibold text-gray-600">980 pts</span>
           </div>
         </div>
 
         <!-- #2 Silver -->
-        <div class="winner-item">
-          <span class="rank-square silver-bg">2</span> 
-          <div class="name-wrapper">
-            <span class="name underline-silver">@Julie_Art</span>
-            <span class="points">850 pts</span>
+        <div class="flex items-center bg-white border-[3px] border-black p-4 shadow-neo-md">
+          <span class="w-[30px] h-[30px] bg-silver border-2 border-black text-black flex items-center justify-center font-extrabold mr-4">
+            2
+          </span> 
+          <div class="flex-1 flex justify-between items-center">
+            <span class="font-bold text-lg border-b-4 border-silver">@Julie_Art</span>
+            <span class="text-sm font-semibold text-gray-600">850 pts</span>
           </div>
         </div>
 
         <!-- #3 Bronze -->
-        <div class="winner-item">
-          <span class="rank-square bronze-bg">3</span> 
-          <div class="name-wrapper">
-            <span class="name underline-bronze">@Marc_Edit</span>
-            <span class="points">720 pts</span>
+        <div class="flex items-center bg-white border-[3px] border-black p-4 shadow-neo-md">
+          <span class="w-[30px] h-[30px] bg-bronze border-2 border-black text-black flex items-center justify-center font-extrabold mr-4">
+            3
+          </span> 
+          <div class="flex-1 flex justify-between items-center">
+            <span class="font-bold text-lg border-b-4 border-bronze">@Marc_Edit</span>
+            <span class="text-sm font-semibold text-gray-600">720 pts</span>
           </div>
         </div>
       </div>
@@ -155,421 +200,34 @@
   </section>
 
   <!-- Section Boutique -->
-  <section class="section-shop">
-    <div class="bg-pattern"></div>
-    <div class="shop-card">
-      <h2>La Boutique</h2>
-      <p>Découvre nos Appareils, accessoires et tirages d'art.</p>
+  <section class="relative py-24 px-8 flex items-center justify-center overflow-hidden bg-neo-green border-t-[3px] border-black">
+    <div class="absolute top-0 left-0 w-full h-full bg-cover opacity-15 z-0"></div>
+    
+    <div class="relative z-10 bg-neo-green p-16 px-24 border-[3px] border-black shadow-neo-xl text-center max-w-[600px] w-full">
+      <h2 class="font-sora font-extrabold text-4xl uppercase tracking-tight mb-4">La Boutique</h2>
+      <p class="mb-8 text-xl font-medium">Découvre nos Appareils, accessoires et tirages d'art.</p>
 
-      <!-- On redirige vers google car on n'a pas de boutique -->
-      <a href="https://google.com" class="btn-white">Visiter la boutique</a>
+      <a href="https://google.com" 
+         class="inline-block bg-white text-black font-sora font-bold uppercase px-8 py-4 border-[3px] border-black shadow-neo-lg transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5">
+        Visiter la boutique
+      </a>
     </div>
   </section>
 
   <!-- Section Contact -->
-  <section class="section-contact" id="contact">
-    <div class="container contact-wrapper">
-      <h2 class="big-text text-white">Let's Talk.</h2>
-      <div class="contact-action">
-        <p>Une question ou une collab ?</p>
-        <a href="mailto:hello@framelab.com" class="btn-primary">Envoyer un message</a>
+  <section class="py-24 bg-[#121212] text-white" id="contact">
+    <div class="max-w-7xl mx-auto px-8 flex justify-between items-center">
+      <h2 class="font-sora font-extrabold text-8xl leading-none uppercase tracking-tight text-white">
+        Let's Talk.
+      </h2>
+      <div>
+        <p class="text-2xl mb-8 text-cream font-medium">Une question ou une collab ?</p>
+        <a href="mailto:hello@framelab.com" 
+           class="inline-block bg-black text-white font-sora font-bold uppercase px-8 py-4 border-[3px] border-white shadow-[4px_4px_0_rgba(255,255,255,0.3)] transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_rgba(255,255,255,0.3)]">
+          Envoyer un message
+        </a>
       </div>
     </div>
   </section>
 
 </main>
-
-<style>
-  :global(:root) {
-    --bg-cream: #FFFDF5;
-    --text-black: #121212;
-    --color-pink: #FF90E8;
-    --color-green: #23C55E;
-    --color-custom-pink: rgb(250, 112, 215);
-    --color-electric-yellow: #fae469;
-    --color-lilac: #C4A1FF;
-    --color-gold: #FFD700;
-    --color-silver: #C0C0C0;
-    --color-bronze: #CD7F32;
-    --border-thick: 3px solid #121212;
-    --shadow-hard: 6px 6px 0px 0px #121212;
-  }
-
-  :global(body) {
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-cream);
-    color: var(--text-black);
-    font-family: 'Inter', sans-serif;
-    border-radius: 0;
-    background-image: radial-gradient(#121212 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-
-  h1, h2, h3, .big-text {
-    font-family: 'Sora', sans-serif;
-    font-weight: 800;
-    margin: 0;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-  }
-
-  p {
-    line-height: 1.6;
-    font-weight: 500;
-    margin-top: 0.5rem;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-  }
-
-  .neo-wrapper {
-    padding-top: 4rem;
-  }
-
-  .eyebrow, .card-label, .tag-label {
-    font-size: 0.8rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    color: #000;
-    display: inline-block;
-    border: 2px solid #000;
-    box-shadow: 3px 3px 0 #000;
-    border-radius: 0;
-  }
-
-  .eyebrow { 
-    background-color: var(--color-custom-pink); 
-    padding: 4px 8px; 
-    margin-bottom: 1rem; 
-  }
-
-  .card-label {
-    background-color: var(--color-custom-pink);
-    padding: 4px 8px;
-    margin-bottom: 1rem;
-  }
-
-  .btn-primary, .btn-outline, .btn-white {
-    text-decoration: none;
-    font-weight: 700;
-    padding: 1rem 2rem;
-    border: 3px solid #000;
-    font-family: 'Sora', sans-serif;
-    text-transform: uppercase;
-    display: inline-block;
-    transition: all 0.2s;
-    border-radius: 0;
-  }
-
-  .btn-primary {
-    background-color: #000;
-    color: #FFF;
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
-  }
-  .btn-primary:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 rgba(0,0,0,0.3);
-  }
-
-  .btn-outline {
-    background-color: #FFF;
-    color: #000;
-    box-shadow: 4px 4px 0 #000;
-  }
-  .btn-outline:hover {
-    background-color: var(--color-custom-pink);
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 #000;
-  }
-
-  .btn-white {
-    background-color: white;
-    color: #121212;
-    box-shadow: 5px 5px 0 #000;
-  }
-
-  .section-hero {
-    margin-bottom: 3rem;
-    
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-  }
-
-  .hero-content { flex: 1; }
-  
-  .hero-visuals { 
-    flex: 1; 
-    height: 500px; 
-    position: relative; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    margin-top: 40px; 
-  }
-
-  .section-hero h1 {
-    font-size: 4rem;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-  }
-
-  .section-hero .highlight-text {
-    font-style: italic;
-    background: linear-gradient(180deg, transparent 60%, var(--color-custom-pink) 60%);
-    display: inline-block;
-    padding: 0 5px;
-  }
-
-  .subtitle {
-    font-size: 1.25rem;
-    margin-bottom: 2.5rem;
-    border-left: 5px solid #000;
-    padding-left: 1rem;
-  }
-
-  .cta-group { display: flex; gap: 1.5rem; }
-
-  .img-stack { position: relative; width: 100%; height: 100%; }
-  
-  .img-hero {
-    position: absolute;
-    border: 3px solid #000; 
-    box-shadow: var(--shadow-hard);
-    object-fit: cover;
-    border-radius: 0;
-  }
-  
-  .main-img { 
-    width: 65%; 
-    z-index: 2; 
-    left: 15%; 
-    top: 15%; 
-    transform: rotate(-2deg); 
-    border: 4px solid rgb(112, 176, 250);
-  }
-  
-  .float-1 { 
-    width: 40%; 
-    top: 55%; 
-    left: 0; 
-    z-index: 3; 
-    transform: rotate(5deg); 
-    border: 4px solid rgb(255, 62, 78);
-  }
-  
-  .float-2 { 
-    width: 35%; 
-    top: 5%; 
-    right: 5%; 
-    z-index: 1; 
-    transform: rotate(8deg); 
-    border: 4px solid rgb(142, 252, 69);
-  }
-
-  .card {
-    border: var(--border-thick);
-    background-color: #FFF;
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--shadow-hard);
-    transition: transform 0.2s;
-    overflow: hidden;
-    border-radius: 0;
-  }
-  .card:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 #000; }
-
-  .section-values {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-bottom: 6rem;
-  }
-  
-  .card-img-top { height: 200px; border-bottom: var(--border-thick); }
-  .card-img-top img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.3s; }
-  .card:hover .card-img-top img { filter: grayscale(0%); }
-  .card-content { padding: 1.5rem; }
-
-  .section-engagement {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-bottom: 6rem;
-  }
-  
-  .large-card { padding: 2.5rem; background-color: #FFF; }
-  .large-card h3 { font-size: 2rem; margin-bottom: 1.5rem; }
-
-  .challenge-card {
-    background-color: var(--color-lilac);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1rem;
-    overflow: visible;
-  }
-  .challenge-text { flex: 1; z-index: 2; }
-  
-  .rules-block {
-    margin: 1.5rem 0;
-    background-color: #FFF;
-    border: var(--border-thick);
-    padding: 1.5rem;
-    box-shadow: 5px 5px 0 #000;
-  }
-  .step { font-weight: 700; margin-bottom: 0.8rem; font-size: 0.95rem; }
-  .btn-small { padding: 0.8rem 1.5rem; font-size: 0.9rem; }
-
-  .challenge-duo-visual {
-    flex: 1;
-    position: relative;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .polaroid-wrapper {
-    position: absolute;
-    width: 160px;
-    background: white;
-    border: 3px solid #000;
-    padding: 10px 10px 25px 10px;
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
-    transition: transform 0.3s;
-  }
-  .polaroid-wrapper:hover { z-index: 10; transform: scale(1.05); }
-
-  .square-img { width: 100%; height: auto; display: block; border: 1px solid #000; }
-
-  .raw-pos { 
-    transform: rotate(-10deg) translate(-20px, 10px); 
-    z-index: 1; 
-  }
-  .edit-pos { 
-    transform: rotate(8deg) translate(20px, -10px); 
-    z-index: 2; 
-  }
-
-  .tag-label {
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.75rem;
-    padding: 3px 10px;
-    z-index: 5;
-    background: #FFF;
-  }
-  .tag-raw { background-color: #ccc; }
-  .tag-edit { background-color: var(--color-green); }
-
-  .hof-card {
-    background-color: var(--color-electric-yellow);
-    border: var(--border-thick);
-  }
-  
-  .hof-header { margin-bottom: 1.5rem; }
-  .text-white { color: #FFF; text-shadow: 2px 2px 0 #000; }
-  .white-label { background: #FFF; color: #000; }
-
-  .list-content { display: flex; flex-direction: column; gap: 1rem; }
-  
-  .winner-item {
-    display: flex;
-    align-items: center;
-    background: #FFF;
-    border: var(--border-thick);
-    padding: 1rem;
-    box-shadow: 4px 4px 0 #000;
-    border-radius: 0;
-  }
-  
-  .rank-square {
-    width: 30px; height: 30px; 
-    border: 2px solid #000; color: #000;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; margin-right: 15px;
-    border-radius: 0;
-  }
-  .gold-bg { background: var(--color-gold); }
-  .silver-bg { background: var(--color-silver); }
-  .bronze-bg { background: var(--color-bronze); }
-  
-  .name-wrapper { flex: 1; display: flex; justify-content: space-between; align-items: center; }
-  .name { font-weight: 700; font-size: 1.1rem; }
-  .points { font-size: 0.9rem; font-weight: 600; color: #555; }
-
-  .underline-gold { border-bottom: 4px solid var(--color-gold); }
-  .underline-silver { border-bottom: 4px solid var(--color-silver); }
-  .underline-bronze { border-bottom: 4px solid var(--color-bronze); }
-
-  .section-shop {
-    position: relative;
-    padding: 6rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background-color: var(--color-green);
-    border-top: var(--border-thick);
-  }
-
-  .bg-pattern {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-size: cover;
-    opacity: 0.15;
-    z-index: 1;
-  }
-
-  .shop-card {
-    position: relative;
-    z-index: 2;
-    background: var(--color-green);
-    padding: 4rem 6rem;
-    border: var(--border-thick);
-    box-shadow: 10px 10px 0 #121212;
-    text-align: center;
-    max-width: 600px;
-    width: 100%;
-    border-radius: 0;
-  }
-
-  .shop-card h2 { margin-bottom: 1rem; font-size: 2.5rem; }
-  .shop-card p { margin-bottom: 2rem; font-size: 1.2rem; }
-
-  .section-contact {
-    padding: 6rem 0;
-    background: #121212;
-    color: white;
-  }
-
-  .contact-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .big-text {
-    font-size: 6rem;
-    line-height: 1;
-  }
-  
-  .text-pink {
-    color: var(--color-custom-pink);
-  }
-
-  .contact-action p {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    color: var(--bg-cream);
-  }
-</style>
