@@ -213,23 +213,5 @@
         </a>
       </div>
     </div>
-
   </section>
-
-  <!-- Section Contact -->
-  <section class="py-24 bg-neo-green text-black border-t-[3px] border-black" id="contact">
-    <div class="max-w-7xl mx-auto px-8 flex justify-between items-center">
-      <h2 class="font-sora font-extrabold text-8xl leading-none uppercase tracking-tight text-black">
-        Let's Talk.
-      </h2>
-      <div>
-        <p class="text-2xl mb-8 text-black font-semibold">Une question ou une collab ?</p>
-        <a href="mailto:hello@framelab.com" 
-           class="inline-block bg-white text-black font-sora font-bold uppercase px-8 py-4 border-[3px] border-black shadow-[4px_4px_0_#000] transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_#000]">
-          Envoyer un message
-        </a>
-      </div>
-    </div>
-  </section>
-
 </main>
