@@ -43,13 +43,13 @@
     <div class="flex-1 h-[500px] relative flex items-center justify-center mt-10">
       <div class="relative w-full h-full">
         <img src={heroMain} 
-             class="absolute w-[65%] left-[15%] top-[15%] z-10 border-4 border-[rgb(112,176,250)] shadow-neo object-cover -rotate-2" 
+             class="absolute w-[65%] left-[15%] top-[15%] z-10 border-4 border-[rgb(142,252,69)] shadow-neo object-cover -rotate-2" 
              alt="Main Visual">
         <img src={heroFloat1} 
              class="absolute w-[40%] top-[55%] left-0 z-20 border-4 border-[rgb(255,62,78)] shadow-neo object-cover rotate-[5deg]" 
              alt="Detail 1">
         <img src={heroFloat2} 
-             class="absolute w-[35%] top-[5%] right-[5%] z-0 border-4 border-[rgb(142,252,69)] shadow-neo object-cover rotate-[8deg]" 
+             class="absolute w-[35%] top-[5%] right-[5%] z-0 border-4 border-[rgb(112,176,250)] shadow-neo object-cover rotate-[8deg]" 
              alt="Detail 2">
       </div>
     </div>
@@ -200,10 +200,10 @@
   </section>
 
   <!-- Section Boutique -->
-  <section class="relative py-24 px-8 flex items-center justify-center overflow-hidden bg-neo-green border-t-[3px] border-black">
+  <section class="relative py-24 px-8 flex items-center justify-center overflow-hidden bg-neo-pink border-t-[3px] border-black">
     <div class="absolute top-0 left-0 w-full h-full bg-cover opacity-15 z-0"></div>
     
-    <div class="relative z-10 bg-neo-green p-16 px-24 border-[3px] border-black shadow-neo-xl text-center max-w-[600px] w-full">
+    <div class="relative z-10 bg-neo-pink p-16 px-24 border-[3px] border-black shadow-neo-xl text-center max-w-[600px] w-full">
       <h2 class="font-sora font-extrabold text-4xl uppercase tracking-tight mb-4">La Boutique</h2>
       <p class="mb-8 text-xl font-medium">Découvre nos appareils, accessoires et tirages d'art.</p>
 
