@@ -55,7 +55,7 @@
     </div>
 
     <!-- Section marque -->
-    <div class="p-12 flex flex-col justify-between bg-electric-yellow border-l-[3px] border-black">
+    <div class="p-12 flex flex-col justify-between bg-neo-pink border-l-[3px] border-black">
       <div>
         <div class="text-5xl font-extrabold -tracking-[2px] leading-none mb-4">
           FRAMELAB<span class="text-base align-top">©</span>
