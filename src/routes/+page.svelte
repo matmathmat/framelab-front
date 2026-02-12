@@ -205,7 +205,7 @@
     
     <div class="relative z-10 bg-neo-green p-16 px-24 border-[3px] border-black shadow-neo-xl text-center max-w-[600px] w-full">
       <h2 class="font-sora font-extrabold text-4xl uppercase tracking-tight mb-4">La Boutique</h2>
-      <p class="mb-8 text-xl font-medium">Découvre nos Appareils, accessoires et tirages d'art.</p>
+      <p class="mb-8 text-xl font-medium">Découvre nos appareils, accessoires et tirages d'art.</p>
 
       <a href="https://google.com" 
          class="inline-block bg-white text-black font-sora font-bold uppercase px-8 py-4 border-[3px] border-black shadow-neo-lg transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5">
