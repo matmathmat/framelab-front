@@ -46,29 +46,40 @@
   };
 </script>
 
-<header class:scrolled={isScrolled}>
-  <div class="header-container">
-    <a href="/" class="logo">
-      FrameLab<span class="dot">.</span>
+<header 
+  class="fixed top-0 left-0 right-0 z-[1000] bg-cream border-b-[3px] border-black transition-all duration-300 {isScrolled ? 'shadow-[0_10px_0_rgba(0,0,0,0.1)]' : ''}">
+  <div class="max-w-[1400px] mx-auto py-5 px-8 flex justify-between items-center">
+    <a 
+      href="/" 
+      class="font-sora text-3xl font-extrabold uppercase text-black no-underline -tracking-wider relative py-1.5 px-2.5 border-[3px] border-transparent transition-all duration-200 hover:bg-neo-pink hover:border-black hover:shadow-neo-md hover:-translate-x-0.5 hover:-translate-y-0.5 group">
+      FrameLab<span class="text-neo-pink text-[2.5rem] leading-[0] group-hover:text-black">.</span>
     </a>
 
-    <nav class="nav-links">
+    <nav class="flex gap-8 items-center">
       {#if !isLoggedIn}
         <!-- Non connecté -->
-        <a href="/#challenges" class="nav-item">Challenges</a>
-        <a href="/#hall-of-frames" class="nav-item">Hall of Frames</a>
-        <a href="/#boutique" class="nav-item">Boutique</a>
-        <a href="/#contact" class="nav-item">Contact</a>
-        <a href="/login" class="cta-neo">Mon Compte</a>
+        <a href="/#challenges" class="nav-link">Challenges</a>
+        <a href="/#hall-of-frames" class="nav-link">Hall of Frames</a>
+        <a href="/#boutique" class="nav-link">Boutique</a>
+        <a href="/#contact" class="nav-link">Contact</a>
+        <a 
+          href="/login" 
+          class="bg-black text-white font-sora font-bold uppercase no-underline py-3 px-6 border-2 border-black shadow-[4px_4px_0_rgba(0,0,0,0.2)] transition-all duration-200 text-xs ml-4 inline-block hover:bg-neo-pink hover:text-black hover:shadow-[2px_2px_0_#121212] hover:translate-x-0.5 hover:translate-y-0.5">
+          Mon Compte
+        </a>
       {:else}
         <!-- Est connecté -->
-        <a href="/challenges" class="nav-item">Challenges</a>
-        <a href="/hall-of-frames" class="nav-item">Hall of Frames</a>
-        <a href="https://framelab.shop" class="nav-item">Boutique</a>
-        <a href="/contact" class="nav-item">Contact</a>
-        <div class="user-actions">
-          <a href="/me" class="nav-item user-link">Mon Espace</a>
-          <button class="cta-neo logout" on:click={handleLogout}>Sortir</button>
+        <a href="/challenges" class="nav-link">Challenges</a>
+        <a href="/hall-of-frames" class="nav-link">Hall of Frames</a>
+        <a href="https://framelab.shop" class="nav-link">Boutique</a>
+        <a href="/contact" class="nav-link">Contact</a>
+        <div class="flex items-center gap-6">
+          <a href="/me" class="nav-link">Mon Espace</a>
+          <button 
+            class="bg-white text-black font-sora font-bold uppercase py-3 px-6 border-2 border-black shadow-neo-md transition-all duration-200 cursor-pointer text-xs ml-4 inline-block hover:bg-red-500 hover:text-white hover:shadow-[2px_2px_0_#121212] hover:translate-x-0.5 hover:translate-y-0.5"
+            on:click={handleLogout}>
+            Sortir
+          </button>
         </div>
       {/if}
     </nav>
@@ -76,142 +87,27 @@
 </header>
 
 <style>
-  :global(:root) {
-    --bg-cream: #FFFDF5;
-    --border-thick: 3px solid #121212;
-    --shadow-hard: 4px 4px 0px 0px #121212;
-    --color-pink: #FF90E8;
-    --font-head: 'Sora', sans-serif;
-    --font-body: 'Inter', sans-serif;
+  .nav-link {
+    @apply no-underline text-black font-inter font-bold text-sm uppercase relative py-1.5 px-0;
+    z-index: 1;
   }
 
-  header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: var(--bg-cream);
-    border-bottom: var(--border-thick);
-    transition: all 0.3s ease;
-    padding: 0;
-  }
-
-  header.scrolled {
-    box-shadow: 0 10px 0 rgba(0,0,0,0.1);
-  }
-
-  .header-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 1.2rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .logo {
-    font-family: var(--font-head);
-    font-size: 1.8rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    color: #121212;
-    text-decoration: none;
-    letter-spacing: -1px;
-    position: relative;
-    padding: 5px 10px;
-    border: 3px solid transparent;
-    transition: 0.2s;
-  }
-
-  .logo:hover {
-    background: var(--color-pink);
-    border: var(--border-thick);
-    box-shadow: var(--shadow-hard);
-    transform: translate(-2px, -2px);
-  }
-
-  .dot {
-    color: var(--color-pink);
-    font-size: 2.5rem;
-    line-height: 0;
-  }
-
-  .logo:hover .dot { color: #121212; }
-
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-  }
-
-  .nav-item {
-    text-decoration: none;
-    color: #121212;
-    font-family: var(--font-body);
-    font-weight: 700;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    position: relative;
-    padding: 5px 0;
-  }
-
-  .nav-item::before {
+  .nav-link::before {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--color-pink);
+    background-color: rgb(250, 112, 215);
     z-index: -1;
     transform: scaleX(0);
     transform-origin: right;
     transition: transform 0.3s ease;
   }
 
-  .nav-item:hover::before {
+  .nav-link:hover::before {
     transform: scaleX(1);
     transform-origin: left;
-  }
-
-  .cta-neo {
-    background-color: #121212;
-    color: #fff;
-    font-family: var(--font-head);
-    font-weight: 700;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 0.8rem 1.5rem;
-    border: 2px solid #121212;
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
-    transition: all 0.2s ease;
-    cursor: pointer;
-    font-size: 0.8rem;
-    margin-left: 1rem;
-    display: inline-block;
-  }
-
-  .cta-neo:hover {
-    background-color: var(--color-pink);
-    color: #121212;
-    box-shadow: 2px 2px 0 #121212;
-    transform: translate(2px, 2px);
-  }
-
-  .cta-neo.logout {
-    background-color: #fff;
-    color: #121212;
-    box-shadow: 4px 4px 0 #121212;
-  }
-  .cta-neo.logout:hover {
-    background-color: #ff4d4d;
-    color: #fff;
-  }
-
-  .user-actions {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
   }
 </style>

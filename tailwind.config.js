@@ -26,6 +26,16 @@ export default {
         'neo-lg': '5px 5px 0px 0px #000',
         'neo-xl': '10px 10px 0px 0px #121212',
       },
+      zIndex: {
+        '1000': '1000',
+      },
+      letterSpacing: {
+        'tighter': '-0.05em',
+        'wider': '-0.025em',
+      },
+      maxWidth: {
+        '8xl': '1400px',
+      },
     },
   },
   plugins: [],
