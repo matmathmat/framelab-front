@@ -112,8 +112,8 @@
     </div>
   </section>
 
-  <!-- Section engagement -->
-  <section class="max-w-7xl mx-auto px-8 mb-24 grid grid-cols-2 gap-8">   
+  <!-- Section Engagement -->
+  <section class="max-w-7xl mx-auto px-8 mb-24 grid grid-cols-2 gap-8">      
     <!-- Challenge hebdomadaire -->
     <div class="p-10 bg-neo-lilac border-[3px] border-black shadow-neo flex items-center gap-4 overflow-visible">
       <div class="flex-1 z-10">
@@ -197,33 +197,35 @@
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- Section Boutique -->
-  <section class="relative py-24 px-8 flex items-center justify-center overflow-hidden bg-neo-pink border-t-[3px] border-black">
-    <div class="absolute top-0 left-0 w-full h-full bg-cover opacity-15 z-0"></div>
-    
-    <div class="relative z-10 bg-neo-pink p-16 px-24 border-[3px] border-black shadow-neo-xl text-center max-w-[600px] w-full">
-      <h2 class="font-sora font-extrabold text-4xl uppercase tracking-tight mb-4">La Boutique</h2>
-      <p class="mb-8 text-xl font-medium">Découvre nos appareils, accessoires et tirages d'art.</p>
+    <!-- Boutique -->
+    <div class="col-span-2 mt-14 bg-[#bfffff] p-12 border-[3px] border-black shadow-neo relative overflow-hidden">     
+      <div class="relative z-10">
+        <span class="inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+          SHOPPING
+        </span>
+        <h2 class="font-sora font-extrabold text-4xl uppercase tracking-tight mb-4">La Boutique</h2>
+        <p class="mb-8 text-xl font-medium max-w-2xl">Découvre nos appareils, accessoires et tirages d'art exclusifs FrameLab.</p>
 
-      <a href="https://google.com" 
-         class="inline-block bg-white text-black font-sora font-bold uppercase px-8 py-4 border-[3px] border-black shadow-neo-lg transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5">
-        Visiter la boutique
-      </a>
+        <a href="https://google.com" 
+           class="inline-block bg-white text-black font-sora font-bold uppercase px-8 py-4 border-[3px] border-black shadow-neo-lg transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_#000]">
+          Visiter la boutique
+        </a>
+      </div>
     </div>
+
   </section>
 
   <!-- Section Contact -->
-  <section class="py-24 bg-[#121212] text-white" id="contact">
+  <section class="py-24 bg-neo-green text-black border-t-[3px] border-black" id="contact">
     <div class="max-w-7xl mx-auto px-8 flex justify-between items-center">
-      <h2 class="font-sora font-extrabold text-8xl leading-none uppercase tracking-tight text-white">
+      <h2 class="font-sora font-extrabold text-8xl leading-none uppercase tracking-tight text-black">
         Let's Talk.
       </h2>
       <div>
-        <p class="text-2xl mb-8 text-cream font-medium">Une question ou une collab ?</p>
+        <p class="text-2xl mb-8 text-black font-semibold">Une question ou une collab ?</p>
         <a href="mailto:hello@framelab.com" 
-           class="inline-block bg-black text-white font-sora font-bold uppercase px-8 py-4 border-[3px] border-white shadow-[4px_4px_0_rgba(255,255,255,0.3)] transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_rgba(255,255,255,0.3)]">
+           class="inline-block bg-white text-black font-sora font-bold uppercase px-8 py-4 border-[3px] border-black shadow-[4px_4px_0_#000] transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_#000]">
           Envoyer un message
         </a>
       </div>
