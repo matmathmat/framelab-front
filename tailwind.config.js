@@ -7,7 +7,6 @@ export default {
         'cream': '#FFFDF5',
         'neo-pink': '#FF90E8',
         'neo-green': '#23C55E',
-        'custom-pink': 'rgb(250, 112, 215)',
         'electric-yellow': '#fae469',
         'neo-lilac': '#C4A1FF',
         'gold': '#FFD700',

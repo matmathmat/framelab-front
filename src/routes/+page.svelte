@@ -15,12 +15,12 @@
   <!-- Section Hero -->
   <section class="max-w-7xl mx-auto px-8 mb-12 flex items-center gap-12 mt-12">
     <div class="flex-1">
-      <span class="inline-block bg-custom-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+      <span class="inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
         CREATEUR D'INSPIRATION
       </span>
       <h1 class="font-sora font-extrabold text-6xl leading-tight uppercase tracking-tight mb-6">
         Capturez la <br>
-        <span class="italic inline-block px-1 bg-gradient-to-b from-transparent from-60% to-custom-pink to-60%">
+        <span class="italic inline-block px-1 bg-gradient-to-b from-transparent from-60% to-neo-pink to-60%">
           Vraie Beauté.
         </span>
       </h1>
@@ -34,7 +34,7 @@
           Découvrir
         </a>
         <a href="#challenges" 
-           class="inline-block bg-white text-black font-sora font-bold uppercase px-8 py-4 border-[3px] border-black shadow-neo-md transition-all duration-200 hover:bg-custom-pink hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_#000]">
+           class="inline-block bg-white text-black font-sora font-bold uppercase px-8 py-4 border-[3px] border-black shadow-neo-md transition-all duration-200 hover:bg-neo-pink hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_#000]">
           Le Challenge
         </a>
       </div>
@@ -65,7 +65,7 @@
              class="w-full h-full object-cover grayscale transition-all duration-300 hover:grayscale-0">
       </div>
       <div class="p-6">
-        <span class="inline-block bg-custom-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+        <span class="inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
           NOTRE ADN
         </span>
         <h3 class="font-sora font-extrabold text-2xl uppercase tracking-tight mb-2">La Passion</h3>
@@ -83,7 +83,7 @@
              class="w-full h-full object-cover grayscale transition-all duration-300 hover:grayscale-0">
       </div>
       <div class="p-6">
-        <span class="inline-block bg-custom-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+        <span class="inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
           COMPÉTITION
         </span>
         <h3 class="font-sora font-extrabold text-2xl uppercase tracking-tight mb-2">La Technique</h3>
@@ -101,7 +101,7 @@
              class="w-full h-full object-cover grayscale transition-all duration-300 hover:grayscale-0">
       </div>
       <div class="p-6">
-        <span class="inline-block bg-custom-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+        <span class="inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
           RÉSEAU
         </span>
         <h3 class="font-sora font-extrabold text-2xl uppercase tracking-tight mb-2">La Communauté</h3>
@@ -117,7 +117,7 @@
     <!-- Challenge hebdomadaire -->
     <div class="p-10 bg-neo-lilac border-[3px] border-black shadow-neo flex items-center gap-4 overflow-visible">
       <div class="flex-1 z-10">
-        <span class="inline-block bg-custom-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+        <span class="inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
           CHALLENGE HEBDOMADAIRE
         </span>
         <h3 class="font-sora font-extrabold text-3xl uppercase tracking-tight mb-6">Le défi</h3>
@@ -156,7 +156,7 @@
     <!-- Hall of frames -->
     <div class="p-10 bg-electric-yellow border-[3px] border-black shadow-neo">
       <div class="mb-6">
-        <span class="inline-block bg-custom-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+        <span class="inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
           HALL OF FRAMES
         </span>
         <h3 class="font-sora font-extrabold text-3xl uppercase tracking-tight text-black">Les Champions</h3>
