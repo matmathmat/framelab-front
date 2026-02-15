@@ -67,7 +67,7 @@
         <a 
           href="/login" 
           class="bg-black text-white font-sora font-bold uppercase no-underline py-3 px-6 border-2 border-black shadow-[4px_4px_0_rgba(0,0,0,0.2)] transition-all duration-200 text-xs ml-4 inline-block hover:bg-neo-pink hover:text-black hover:shadow-[2px_2px_0_#121212] hover:translate-x-0.5 hover:translate-y-0.5">
-          Mon Compte
+          Se connecter
         </a>
       {:else}
         <!-- Est connecté -->
