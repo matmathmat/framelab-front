@@ -4,6 +4,8 @@ export interface MyUser {
 	lastname: string;
 	isAdmin: number;
 	email: string;
+	score: number;
+	registrationDate: string;
 }
 
 export interface OtherUser {
@@ -11,4 +13,6 @@ export interface OtherUser {
 	firstname: string;
 	lastname: string;
 	isAdmin: number;
+	score: number;
+	registrationDate: string;
 }
