@@ -88,7 +88,7 @@
 </script>
 
 <section class="min-h-screen flex items-center justify-center p-6 font-sora overflow-hidden relative">
-    <!-- Zone décorative -->
+	<!-- Zone décorative -->
     <!-- Cercle-->
     <div class="absolute top-10 left-10 hidden md:block">
         <div class="w-32 h-32 bg-green-400 border-4 border-black rounded-full shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"></div>
