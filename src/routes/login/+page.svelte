@@ -1,6 +1,5 @@
 <script>
 	import { fade } from 'svelte/transition';
-    import { goto } from '$app/navigation';
 
     // Import images
     import background from '$lib/assets/images/login/background.png';
@@ -49,7 +48,8 @@
         isLoading = false;
 
         // Si on a réussit on redirige vers la page de l'utilisateur
-        goto('/me');    
+		// on utilise window.location.href pour forcer le raffraichissement car goto ne le fait pas
+		window.location.href = '/me';  
 	}
 
     // @ts-ignore

@@ -1,10 +1,10 @@
 <script>
-  import { onMount, onDestroy } from 'svelte';
-  import { goto } from '$app/navigation';
   import { browser } from '$app/environment';
+  import { onMount, onDestroy } from 'svelte';
+
+  export let isLoggedIn = false;
 
   let isScrolled = false;
-  let isLoggedIn = false;
 
   const handleScroll = () => {
     if (browser) {
@@ -15,7 +15,6 @@
   onMount(() => {
     if (browser) {
       window.addEventListener('scroll', handleScroll);
-      // Vérifier l'authentification ici
     }
   });
 
@@ -33,13 +32,16 @@
           'Content-Type': 'application/json'
         }
       });
+
       if (response.ok) {
         alert("Vous allez être déconnecté");
-        isLoggedIn = false;
-        goto('/');
+        
+        // Forcer le rechargement pour mettre à jour la page
+        window.location.href = '/';
       } else {
         alert("Une erreur est survenue lors de la déconnexion.");
       }
+
     } catch (e) {
       console.error(e);
     }
@@ -71,14 +73,14 @@
         <!-- Est connecté -->
         <a href="/challenges" class="nav-link">Challenges</a>
         <a href="/hall-of-frames" class="nav-link">Hall of Frames</a>
-        <a href="https://framelab.shop" class="nav-link">Boutique</a>
+        <a href="/#boutique" class="nav-link">Boutique</a>
         <a href="/contact" class="nav-link">Contact</a>
         <div class="flex items-center gap-6">
           <a href="/me" class="nav-link">Mon Espace</a>
           <button 
             class="bg-white text-black font-sora font-bold uppercase py-3 px-6 border-2 border-black shadow-neo-md transition-all duration-200 cursor-pointer text-xs ml-4 inline-block hover:bg-red-500 hover:text-white hover:shadow-[2px_2px_0_#121212] hover:translate-x-0.5 hover:translate-y-0.5"
             on:click={handleLogout}>
-            Sortir
+            Se déconnecter
           </button>
         </div>
       {/if}
