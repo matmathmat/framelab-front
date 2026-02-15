@@ -138,7 +138,7 @@
                                     </a>
                                 {/if}
 
-                                <a href="/challenges/{currentChallenge.id}/vote" 
+                                <a href="/challenges/{currentChallenge.id}/participations" 
                                    class="group w-full relative">
                                     <div class="absolute inset-0 bg-black translate-x-1 translate-y-1"></div>
                                     <div class="relative w-full bg-white border-4 border-black py-3 px-6 text-center text-sm font-black uppercase transition-transform duration-200 group-hover:translate-x-1 group-hover:translate-y-1 group-hover:bg-electric-yellow">
