@@ -57,7 +57,7 @@
     });
 </script>
 
-<div class="min-h-screen bg-cream font-sora selection:bg-black selection:text-white pb-20" style="padding-top: var(--header-height, 40px);">
+<div class="min-h-screen font-sora selection:bg-black selection:text-white pb-20" style="padding-top: var(--header-height, 40px);">
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-12 flex flex-col gap-16">     
         <!-- Section espace créatif -->
         <header class="relative group">
