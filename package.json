@@ -11,6 +11,7 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
   "dependencies": {
+    "@marko19907/string-to-color": "^1.0.2",
     "@tailwindcss/postcss": "^4.0.0",
     "svelte": "^5.50.1"
   },
