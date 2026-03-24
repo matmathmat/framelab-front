@@ -38,14 +38,14 @@
         // On lit le résultat
         const result = await response.json();
 
+		// Fin du chargement
+        isLoading = false;
+
         // Si erreur on affiche un message d'erreur et on quitte
         if (!result.success) {
-            alert("Email ou mot de passe incorrect");
+            alert(result.message != undefined ? result.message : 'Une erreur est survenue');
             return;
         }
-
-        // Fin du chargement
-        isLoading = false;
 
         // Si on a réussit on redirige vers la page de l'utilisateur
 		// on utilise window.location.href pour forcer le raffraichissement car goto ne le fait pas
@@ -76,7 +76,17 @@
             // on supprime la confirmation mdp des data
 			delete data.confirmPassword;
             
-            // To do : faire la requete
+            // on fait une requete api pour s'inscrire
+			const response = await fetch('/api/auth/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			})
+
+			// On lit le résultat
+			const result = await response.json();			
 		} catch (error) {
 			alert(error);
 		} finally {

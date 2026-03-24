@@ -111,7 +111,7 @@
 
         try {
             const url = challenge.isNew ? `/api/challenges` : `/api/challenges/${challenge.id}`;
-            const method = challenge.isNew ? 'POST' : 'PUT';
+            const method = challenge.isNew ? 'POST' : 'PATCH';
 
             const res = await fetch(url, { method, body: formData });
 
