@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [sveltekit()],
   
   server: {
-    allowedHosts: ['framelab-front.onrender.com'],
+    allowedHosts: ['framelab-jbey.onrender.com', 'framelab-front.onrender.com'],
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
