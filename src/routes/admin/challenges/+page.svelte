@@ -13,6 +13,10 @@
     // Gestion de l'image agrandie
     let fullScreenImage: string | null = null;
 
+    // Gestion barre de recherche et tri
+    let searchQuery = "";
+    let sortOrder: 'asc' | 'desc' = 'desc';
+
     async function loadChallenges() {
         if (loading || allLoaded) return;
 
@@ -31,8 +35,8 @@
                     endDate: formatDate(challenge.endDate)
                 }));
                 
-                if (json.pagination.hasPrevious) {
-                    allLoaded = false;
+                if (!json.pagination.hasNext) {
+                    allLoaded = true;
                 }
 
                 // Si offset 0, on remplace, sinon on ajoute
@@ -48,16 +52,17 @@
     }
 
     onMount(() => {
-        loadChallenges(); // Chargement initial
+        // Chargement initial
+        loadChallenges();
 
-        // Infinite Scroll Observer
+        // Scroll infini
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
                 loadChallenges();
             }
         }, { threshold: 0.1 });
 
-        //if (observerElement) observer.observe(observerElement);
+        // if (observerElement) observer.observe(observerElement);
 
         return () => observer.disconnect();
     });
@@ -163,7 +168,7 @@
         }
     }
 
-    function triggerFileInput(id: number) {
+    function triggerFileInput(id: any) {
         document.getElementById(`file-${id}`)?.click();
     }
 
@@ -213,32 +218,47 @@
         challenges = challenges.filter(c => !selectedIds.has(c.id));
         selectedIds = new Set();
     }
-    
-    
 
+    $: filteredChallenges = challenges
+        .filter(c => {
+            const term = searchQuery.toLowerCase();
+            return (c.titleTheme?.toLowerCase().includes(term) || 
+                    c.descriptionTheme?.toLowerCase().includes(term));
+        })
+        .sort((a, b) => {
+            const idA = typeof a.id === 'string' ? 999999 : a.id;
+            const idB = typeof b.id === 'string' ? 999999 : b.id;
+            return sortOrder === 'desc' ? idB - idA : idA - idB;
+        });
+
+    function toggleSort() {
+        sortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
+    }
+    
 </script>
 
-<div class="min-h-screen font-sora pb-20 pt-24 px-4 md:px-8">
-    <div class="max-w-7xl mx-auto">     
-        <!-- Header -->
-        <div class="mb-12 border-b-4 border-black pb-6 flex justify-between items-end">
+<div class="h-screen flex flex-col font-sora pb-10 pt-24 px-[20px] overflow-hidden">
+    <div class="w-full flex flex-col h-full">
+         <!-- Entête -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8 border-b-4 border-black pb-6">
             <div>
-                <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none mb-2">
-                    Panneau <span class="text-neo-pink bg-black px-2">Administration</span>
+                <a href="/challenges" class="inline-block text-sm font-bold uppercase hover:bg-black hover:text-white px-2 py-1 transition-colors mb-2">
+                    ← Retour aux challenges
+                </a>
+                <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">
+                    Panneau <span class="text-neo-pink">Administration</span>
                 </h1>
-                <p class="font-bold text-xl bg-electric-yellow inline-block px-2 border-2 border-black transform -rotate-1">
+                <p class="mt-2 font-medium text-gray-600 bg-electric-yellow inline-block px-2 border-2 border-black">
                     Gestion des Challenges
-                </p>
-            </div>
-            <div class="hidden md:block">
-                <span class="font-mono text-xs font-bold border-2 border-black p-2 bg-gray-100 shadow-neo-sm">
-                    Total: {challenges.length} chargé(s)
-                </span>
-            </div>
+                </p>                
+            </div>          
+        </div>
 
+        <!-- Barre de contrôles -->
+        <div class="flex flex-wrap items-stretch gap-4 mb-8">
             <button
                 on:click={addNewChallenge}
-                class="bg-black text-white font-black px-4 py-2 rounded hover:bg-gray-800 border-2 border-black"
+                class="bg-neo-green text-black font-black px-6 py-4 text-base border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all uppercase"
             >
                 + Nouveau challenge
             </button>
@@ -246,69 +266,94 @@
             {#if selectedIds.size > 0}
                 <button
                     on:click={deleteSelected}
-                    class="bg-red-600 text-white font-bold px-4 py-2 rounded hover:bg-red-700 border-2 border-black"
+                    class="bg-red-500 text-white font-black px-6 py-4 text-base border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all uppercase"
                 >
                     Supprimer ({selectedIds.size})
                 </button>
-            {/if}            
+            {/if}
+
+            <div class="flex-1 relative min-w-[250px]">
+                <input 
+                    type="text" 
+                    bind:value={searchQuery}
+                    placeholder="Rechercher un titre ou une description..."
+                    class="w-full h-full bg-white border-4 border-black px-4 py-3 font-bold text-lg shadow-[4px_4px_0_0_rgba(0,0,0,1)] focus:outline-none focus:ring-0 focus:translate-x-1 focus:translate-y-1 focus:shadow-none transition-all"
+                />
+            </div>
+
+            <button 
+                on:click={toggleSort}
+                class="bg-neo-lilac border-4 border-black px-6 py-4 font-black uppercase shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all flex items-center gap-2"
+            >
+                Tri ID {sortOrder === 'desc' ? '▼' : '▲'}
+            </button>
+
+            <div class="flex items-center bg-white border-4 border-black px-6 font-black uppercase shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
+                Total: {challenges.length}
+            </div>            
         </div>
 
-        <div class="shadow-lg rounded-lg overflow-hidden mx-4 md:mx-10">
-            <table class="w-full table-fixed">
-                <thead>
-                    <tr class="bg-gray-100">
-                        <th class="w-10 py-4 px-3"></th>
-                        <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Id</th>
-                        <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Titre</th>
-                        <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Description</th>
-                        <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Date de début</th>
-                        <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Date de fin</th>
-                        <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Image</th>
-                        <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Archivé</th>
-                        <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Actions</th>
+        <!-- Datagrid -->
+        <div class="bg-white border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)] overflow-y-auto flex-1 min-h-0">
+            <table class="w-full border-collapse table-fixed">
+                <thead class="sticky top-0 z-10 bg-black text-white">
+                    <tr>
+                        <th class="w-16 p-4 border-r-2 border-white"></th>
+                        <th class="w-24 p-4 text-left font-black uppercase border-r-2 border-white">Id</th>
+                        <th class="w-[20%] p-4 text-left font-black uppercase border-r-2 border-white">Titre</th>
+                        <th class="w-[30%] p-4 text-left font-black uppercase border-r-2 border-white">Description</th>
+                        <th class="w-40 p-4 text-left font-black uppercase border-r-2 border-white">Début</th>
+                        <th class="w-40 p-4 text-left font-black uppercase border-r-2 border-white">Fin</th>
+                        <th class="w-32 p-4 text-left font-black uppercase border-r-2 border-white">Image</th>
+                        <th class="w-24 p-4 text-center font-black uppercase border-r-2 border-white">Archivé</th>
+                        <th class="w-32 p-4 text-center font-black uppercase">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white">
-                    {#each challenges as challenge (challenge.id)}
-                        <tr>
-                            <td class="py-4 px-3 border-b border-gray-200">
+                <tbody>
+                    {#each filteredChallenges as challenge (challenge.id)}
+                        <tr class="border-b-4 border-black hover:bg-gray-50 transition-colors">
+                            <td class="p-4 border-r-4 border-black text-center">
                                 <input
                                     type="checkbox"
                                     checked={selectedIds.has(challenge.id)}
                                     on:change={() => toggleSelect(challenge.id)}
-                                    class="w-4 h-4 cursor-pointer accent-black"
+                                    class="w-6 h-6 cursor-pointer accent-neo-pink border-4 border-black rounded-none appearance-none checked:bg-neo-pink bg-white border-2 inline-block relative"
+                                    style="border-style: solid;"
                                 />
                             </td>
-                            <td class="py-4 px-6 border-b border-gray-200">{challenge.id}</td>
-                            <td class="py-4 px-6 border-b border-gray-200">
+
+                            <td class="p-4 border-r-4 border-black font-mono font-normal text-lg">
+                                #{challenge.id}
+                            </td>
+                            <td class="p-4 border-r-4 border-black">
                                 <input
                                     type="text"
                                     bind:value={challenge.titleTheme}
-                                    class="w-full border border-transparent hover:border-gray-300 focus:border-black rounded px-1 py-0.5 bg-transparent focus:bg-white outline-none"
+                                    class="w-full bg-neo-green/10 border-2 border-transparent focus:border-black p-2 font-normal outline-none transition-all"
                                 />
                             </td>
-                            <td class="py-4 px-6 border-b border-gray-200">
+                            <td class="p-4 border-r-4 border-black">
                                 <textarea
                                     bind:value={challenge.descriptionTheme}
                                     rows="2"
-                                    class="w-full border border-transparent hover:border-gray-300 focus:border-black rounded px-1 py-0.5 bg-transparent focus:bg-white outline-none resize-none"
+                                    class="w-full bg-neo-lilac/10 border-2 border-transparent focus:border-black p-2 font-normal outline-none resize-none transition-all"
                                 />
                             </td>
-                            <td class="py-4 px-6 border-b border-gray-200">
+                            <td class="p-4 border-r-4 border-black">
                                 <input
                                     type="date"
                                     bind:value={challenge.startDate}
-                                    class="border border-gray-300 rounded px-2 py-1 focus:border-black outline-none"
+                                    class="w-full border-2 border-black p-1 font-normal focus:bg-electric-yellow transition-colors outline-none"
                                 />
                             </td>
-                            <td class="py-4 px-6 border-b border-gray-200">
+                            <td class="p-4 border-r-4 border-black">
                                 <input
                                     type="date"
                                     bind:value={challenge.endDate}
-                                    class="border border-gray-300 rounded px-2 py-1 focus:border-black outline-none"
+                                    class="w-full border-2 border-black p-1 font-normal focus:bg-electric-yellow transition-colors outline-none"
                                 />
                             </td>
-                            <td class="py-4 px-6 border-b border-gray-200">
+                            <td class="p-4 border-r-4 border-black text-center">
                                 <input
                                     type="file"
                                     id="file-{challenge.id}"
@@ -318,37 +363,39 @@
                                 />
 
                                 {#if challenge.previewUrl || (challenge.photoUrl && !challenge.deleteImageFlag)}
-                                    <img
-                                        src={challenge.previewUrl || challenge.photoUrl}
-                                        alt="Preview"
-                                        class="w-16 h-16 object-cover cursor-pointer rounded border border-gray-200 hover:opacity-80"
-                                        on:click={() => fullScreenImage = challenge.previewUrl || challenge.photoUrl}
-                                    />
+                                    <div class="relative group inline-block">
+                                        <img
+                                            src={challenge.previewUrl || challenge.photoUrl}
+                                            alt="Preview"
+                                            class="w-20 h-20 object-cover border-4 border-black cursor-pointer hover:rotate-2 transition-transform shadow-[2px_2px_0_0_rgba(0,0,0,1)]"
+                                            on:click={() => fullScreenImage = challenge.previewUrl || challenge.photoUrl}
+                                        />
+                                    </div>
                                 {:else}
                                     <button
                                         on:click={() => triggerFileInput(challenge.id)}
-                                        class="text-sm border-2 border-dashed border-gray-400 rounded px-3 py-2 hover:border-black hover:bg-gray-50 transition"
+                                        class="text-xs font-black uppercase border-2 border-black p-2 bg-gray-200 hover:bg-black hover:text-white transition-all"
                                     >
-                                        Charger une image
+                                        Ajouter
                                     </button>
                                 {/if}
                             </td>
-                            <td class="py-4 px-6 border-b border-gray-200 text-center">
-                                <input
-                                    type="checkbox"
-                                    checked={challenge.isArchived == 1}
-                                    on:change={(e) => {
-                                        challenge.isArchived = e.target.checked ? 1 : 0;
+                            <td class="p-4 border-r-4 border-black text-center">
+                                <button 
+                                    on:click={() => {
+                                        challenge.isArchived = challenge.isArchived == 1 ? 0 : 1;
                                         challenges = [...challenges];
                                     }}
-                                    class="w-5 h-5 cursor-pointer accent-black"
-                                />
+                                    class="w-10 h-10 border-4 border-black transition-colors {challenge.isArchived == 1 ? 'bg-black text-white' : 'bg-white'}"
+                                >
+                                    {challenge.isArchived == 1 ? '✓' : ''}
+                                </button>
                             </td>
-                            <td class="py-4 px-6 border-b border-gray-200">
+                            <td class="p-4 text-center">
                                 <button
                                     on:click={() => handleSave(challenge)}
                                     disabled={challenge.isSaving}
-                                    class="bg-black text-white font-bold px-4 py-2 rounded hover:bg-gray-800 disabled:opacity-50 transition"
+                                    class="w-full bg-black text-white font-black py-2 border-2 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 disabled:opacity-50 transition-all uppercase text-sm"
                                 >
                                     {challenge.isSaving ? '...' : 'Valider'}
                                 </button>
@@ -357,41 +404,93 @@
                     {/each}
                 </tbody>
             </table>
-        </div>
+        </div>        
     </div>
 
+    <!-- Modal image preview -->
     {#if fullScreenImage}
         <div
-            class="fixed inset-0 bg-black/80 z-50 flex flex-col items-center justify-center gap-4"
+            class="fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center p-4"
             on:click|self={() => fullScreenImage = null}
         >
-            <img src={fullScreenImage} alt="Plein écran" class="max-h-[75vh] max-w-[90vw] rounded shadow-2xl" />
-            <div class="flex gap-4">
-                <button
-                    class="bg-white text-black font-bold px-4 py-2 rounded hover:bg-gray-100 border-2 border-black"
-                    on:click={() => {
-                        const challenge = challenges.find(c =>
-                            (c.previewUrl || c.photoUrl) === fullScreenImage
-                        );
-                        if (challenge) markImageForDeletion(challenge);
-                        fullScreenImage = null;
-                    }}
-                >
-                    Supprimer
-                </button>
-                <button
-                    class="bg-black text-white font-bold px-4 py-2 rounded hover:bg-gray-800 border-2 border-black"
-                    on:click={() => {
-                        const challenge = challenges.find(c =>
-                            (c.previewUrl || c.photoUrl) === fullScreenImage
-                        );
-                        if (challenge) triggerFileInput(challenge.id);
-                        fullScreenImage = null;
-                    }}
-                >
-                    Remplacer
-                </button>
+            <div class="bg-white border-8 border-black p-4 shadow-[15px_15px_0_0_rgba(255,255,255,0.2)]">
+                <img src={fullScreenImage} alt="Plein écran" class="max-h-[70vh] max-w-full border-4 border-black" />
+                <div class="flex gap-6 mt-8">
+                    <button
+                        class="flex-1 bg-red-500 text-white font-black px-6 py-4 border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all uppercase"
+                        on:click={() => {
+                            const challenge = challenges.find(c =>
+                                (c.previewUrl || c.photoUrl) === fullScreenImage
+                            );
+                            if (challenge) markImageForDeletion(challenge);
+                            fullScreenImage = null;
+                        }}
+                    >
+                        Supprimer l'image
+                    </button>
+                    <button
+                        class="flex-1 bg-neo-green text-black font-black px-6 py-4 border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all uppercase"
+                        on:click={() => {
+                            const challenge = challenges.find(c =>
+                                (c.previewUrl || c.photoUrl) === fullScreenImage
+                            );
+                            if (challenge) triggerFileInput(challenge.id);
+                            fullScreenImage = null;
+                        }}
+                    >
+                        Remplacer
+                    </button>
+                    <button 
+                        class="bg-black text-white px-4 border-4 border-black font-black shadow-[4px_4px_0_0_rgba(255,255,255,0.3)]"
+                        on:click={() => fullScreenImage = null}
+                    >
+                        X
+                    </button>
+                </div>
             </div>
         </div>
     {/if}    
 </div>
+
+<style>
+    input[type="checkbox"] {
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: #fff;
+        margin: 0;
+        font: inherit;
+        color: currentColor;
+        width: 1.5em;
+        height: 1.5em;
+        border: 4px solid black;
+        display: grid;
+        place-content: center;
+        transition: 0.1s transform ease-in-out;
+    }
+
+    input[type="checkbox"]::before {
+        content: "";
+        width: 0.65em;
+        height: 0.65em;
+        transform: scale(0);
+        transition: 120ms transform ease-in-out;
+        box-shadow: inset 1em 1em black;
+        background-color: CanvasText;
+    }
+
+    input[type="checkbox"]:checked::before {
+        transform: scale(1);
+    }
+
+    div::-webkit-scrollbar {
+        width: 16px;
+    }
+    div::-webkit-scrollbar-track {
+        background: white;
+        border-left: 4px solid black;
+    }
+    div::-webkit-scrollbar-thumb {
+        background: black;
+        border: 4px solid white;
+    }
+</style>

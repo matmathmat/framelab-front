@@ -19,8 +19,6 @@ export const load: PageServerLoad = async ({ url, fetch }) => {
 
         const result = await response.json();
 
-        console.log(result);
-
         if (!result.success) {
             return { success: false, message: result.message ?? 'Token invalide ou expiré.' };
         }

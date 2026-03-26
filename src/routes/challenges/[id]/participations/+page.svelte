@@ -84,8 +84,8 @@
 </script>
 
 <div class="min-h-screen font-sora pb-20 pt-24 px-4 md:px-8">   
-    <!-- Entête -->
     <div class="max-w-4xl mx-auto mb-12">
+        <!-- Entête -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8 border-b-4 border-black pb-6">
             <div>
                 <a href="/challenges" class="inline-block text-sm font-bold uppercase hover:bg-black hover:text-white px-2 py-1 transition-colors mb-2">
