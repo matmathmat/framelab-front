@@ -9,10 +9,12 @@ export const load: PageServerLoad = async ({ url, fetch }) => {
     }
 
     try {
-        const response = await fetch('/api/auth/validate', {
-            method: 'POST',
+        const params = new URLSearchParams();
+        params.set('validationToken', token);
+        
+        const response = await fetch(`/api/auth/validate?${params.toString()}`, {
+            method: 'GET',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ validationToken: token })
         });
 
         const result = await response.json();
