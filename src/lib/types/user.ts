@@ -3,9 +3,10 @@ export interface MyUser {
 	firstname: string;
 	lastname: string;
 	isAdmin: number;
-	email: string;
+	isActive: number;
 	score: number;
 	registrationDate: string;
+	email: string;
 }
 
 export interface OtherUser {
