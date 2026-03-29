@@ -10,6 +10,13 @@
   import imgPolaroidEdit from '$lib/assets/images/landingpage/challengesection/card2.png';   
 </script>
 
+<style>
+  /* pour le défilement */
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+</style>
+
 <main class="pt-16">
   
   <!-- Section Hero -->
@@ -56,7 +63,7 @@
   </section>
 
   <!-- Section Qui sommes nous -->
-  <section class="max-w-7xl mx-auto px-8 mb-24 mt-12 grid grid-cols-3 gap-8">
+  <section id="join" class="max-w-7xl mx-auto px-8 mb-24 mt-12 grid grid-cols-3 gap-8">
     <!-- La passion -->
     <div class="border-[3px] border-black bg-white flex flex-col shadow-neo transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-neo-hover overflow-hidden">
       <div class="h-[200px] border-b-[3px] border-black">
@@ -113,7 +120,7 @@
   </section>
 
   <!-- Section Engagement -->
-  <section class="max-w-7xl mx-auto px-8 mb-24 grid grid-cols-2 gap-8">      
+  <section id="challenges" class="max-w-7xl mx-auto px-8 mb-24 grid grid-cols-2 gap-8">      
     <!-- Challenge hebdomadaire -->
     <div class="p-10 bg-neo-lilac border-[3px] border-black shadow-neo flex items-center gap-4 overflow-visible">
       <div class="flex-1 z-10">
@@ -199,7 +206,7 @@
     </div>
 
     <!-- Boutique -->
-    <div class="col-span-2 mt-14 bg-[#bfffff] p-12 border-[3px] border-black shadow-neo relative overflow-hidden">     
+    <div id="boutique" class="col-span-2 mt-14 bg-[#bfffff] p-12 border-[3px] border-black shadow-neo relative overflow-hidden">     
       <div class="relative z-10">
         <span class="inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
           SHOPPING
