@@ -12,3 +12,12 @@ export interface Participation {
 	isVisible: number;
 	user: OtherUser;
 }
+
+export interface UserParticipation {
+    id: number;
+    photoUrl: string | null;
+    submissionDate: string;
+    isVisible: boolean;
+    challenge: ChallengeInfo;
+    averageScore: number | null;
+};
