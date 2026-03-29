@@ -63,7 +63,6 @@
         <a href="/#challenges" class="nav-link">Challenges</a>
         <a href="/#hall-of-frames" class="nav-link">Hall of Frames</a>
         <a href="/#boutique" class="nav-link">Boutique</a>
-        <a href="/#contact" class="nav-link">Contact</a>
         <a 
           href="/login" 
           class="bg-black text-white font-sora font-bold uppercase no-underline py-3 px-6 border-2 border-black shadow-[4px_4px_0_rgba(0,0,0,0.2)] transition-all duration-200 text-xs ml-4 inline-block hover:bg-neo-pink hover:text-black hover:shadow-[2px_2px_0_#121212] hover:translate-x-0.5 hover:translate-y-0.5">
@@ -74,7 +73,6 @@
         <a href="/challenges" class="nav-link">Challenges</a>
         <a href="/hall-of-frames" class="nav-link">Hall of Frames</a>
         <a href="/#boutique" class="nav-link">Boutique</a>
-        <a href="/contact" class="nav-link">Contact</a>
         <div class="flex items-center gap-6">
           <a href="/me" class="nav-link">Mon Espace</a>
           <button 
