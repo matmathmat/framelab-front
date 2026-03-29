@@ -1,19 +1,22 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+    import type { PageData } from './$types';
     import { fade } from 'svelte/transition';
     import { generateUserColor } from '$lib/utils/colors';
 
-	export let data: PageData;
+    export let data: PageData;
 
     // On récupère les données chargées par le serveur
-	$: ({ profileUser, isOwner } = data);
-    
+    $: ({ profileUser, isOwner, participations, votes } = data);
+
     // Mode édition
     let isEditMode = false;
 
     // Pour notifier qu'on est en attente d'une réponse
     let isLoading = false;
-    
+
+    // Tab actif sur la section inférieure du profil
+    let activeTab: 'participations' | 'votes' = 'participations';
+
     // Données du formulaire
     let formData = {
         firstname: '',
@@ -23,25 +26,37 @@
         newPassword: '',
         confirmPassword: ''
     };
-    
+
     // On génère une couleur aléatoire pour le fond de l'utilisateur
     $: headerColor = generateUserColor(profileUser.id, profileUser.registrationDate);
-    
+
     // On formate la date pour l'affichage
     $: joinDate = new Date(profileUser.registrationDate).toLocaleDateString('fr-FR', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
     });
-    
+
+    function formatChallengeDate(dateStr: string): string {
+        return new Date(dateStr).toLocaleDateString('fr-FR', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    }
+
+    function getAverageVoteScore(vote: { creativityNote: number; technicNote: number; respectNote: number }): string {
+        return ((vote.creativityNote + vote.technicNote + vote.respectNote) / 3).toFixed(1);
+    }
+
     function handleSettingsClick(e: MouseEvent) {
         e.preventDefault();
         alert('Non disponible pour le moment');
     }
-    
+
     function handleEditClick(e: MouseEvent) {
         e.preventDefault();
-        
+
         // On initialise le formulaire avec les données actuelles
         formData = {
             firstname: profileUser.firstname,
@@ -54,7 +69,7 @@
 
         isEditMode = true;
     }
-    
+
     function handleCancel() {
         isEditMode = false;
 
@@ -68,57 +83,57 @@
             confirmPassword: ''
         };
     }
-    
+
     async function handleSubmit(event: Event) {
         event.preventDefault();
-        
+
         // Vérifier si le mot de passe et la confirmation correspondent
         if (formData.newPassword && formData.newPassword !== formData.confirmPassword) {
             alert('Les mots de passe ne correspondent pas');
             return;
         }
-        
+
         // Vérifier si on essaie de modifier l'email ou le mot de passe sans l'ancien mot de passe
         const emailChanged = formData.email !== profileUser.email;
         const passwordChanged = formData.newPassword.trim() !== '';
-        
+
         if ((emailChanged || passwordChanged) && !formData.currentPassword) {
             alert('Vous devez fournir votre mot de passe actuel pour modifier l\'email ou le mot de passe');
             return;
         }
-        
+
         // Préparer les données à envoyer
         const updateData: any = {};
-        
+
         if (formData.firstname !== profileUser.firstname) {
             updateData.firstname = formData.firstname;
         }
-        
+
         if (formData.lastname !== profileUser.lastname) {
             updateData.lastname = formData.lastname;
         }
-        
+
         if (emailChanged) {
             updateData.email = formData.email;
         }
-        
+
         if (passwordChanged) {
             updateData.password = formData.newPassword;
         }
-        
+
         // Vérifier qu'il y a au moins un champ modifié
         if (Object.keys(updateData).length === 0) {
             alert('Aucune modification détectée');
             return;
         }
-        
+
         // On ajoute le mot de passe actuel si nécessaire
         if (formData.currentPassword) {
             updateData.currentPassword = formData.currentPassword;
         }
-        
+
         isLoading = true;
-        
+
         try {
             const response = await fetch('/api/users/me', {
                 method: 'PATCH',
@@ -127,9 +142,9 @@
                 },
                 body: JSON.stringify(updateData)
             });
-            
+
             const result = await response.json();
-            
+
             if (response.ok) {
                 // On raffraichit la page si y'a eu un succès
                 window.location.reload();
@@ -151,24 +166,24 @@
     <div class="absolute bottom-20 right-10 w-16 h-16 bg-neo-pink border-4 border-black rotate-12 hidden md:block"></div>
 
     <!-- Carte de profil -->
-    <div class="w-full max-w-4xl bg-white border-[4px] border-black shadow-neo-xl relative z-10" in:fade={{ duration: 300 }}>    
-        <!-- En tête -->
-        <div 
+    <div class="w-full max-w-4xl bg-white border-[4px] border-black shadow-neo-xl relative z-10" in:fade={{ duration: 300 }}>
+        <!-- En-tête -->
+        <div
             class="h-48 w-full border-b-[4px] border-black relative overflow-hidden"
             style="background-color: {headerColor};"
         >
         </div>
 
         <!-- Corps du profil -->
-        <div class="px-8 pb-12 relative">
-            
+        <div class="px-8 pb-8 relative">
+
             {#if !isEditMode}
                 <!-- Quand on n'est pas en mode édition -->
-                
+
                 <!-- Avatar -->
                 <div class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
                     <div class="w-32 h-32 rounded-full border-[4px] border-black bg-white flex items-center justify-center text-3xl font-extrabold shadow-neo-md overflow-hidden z-20">
-                         {`${profileUser.firstname.charAt(0)}${profileUser.lastname.charAt(0)}`.toUpperCase()}
+                        {`${profileUser.firstname.charAt(0)}${profileUser.lastname.charAt(0)}`.toUpperCase()}
                     </div>
                 </div>
 
@@ -206,15 +221,15 @@
                     <h1 class="text-4xl font-extrabold uppercase tracking-tight mb-2">
                         {profileUser.firstname} {profileUser.lastname}
                     </h1>
-                    
-                     <!-- Si l'utilisateur est administrateur on affiche son badge -->
+
+                    <!-- Si l'utilisateur est administrateur on affiche son badge -->
                     {#if profileUser.isAdmin}
                         <div class="inline-block bg-black text-white px-3 py-1 font-bold text-xs uppercase border-2 border-black shadow-[4px_4px_0px_#C4A1FF] mb-6">
                             Administrateur
                         </div>
                     {/if}
 
-                    <div class="flex flex-col items-center gap-6 mt-6 max-w-lg mx-auto">                    
+                    <div class="flex flex-col items-center gap-6 mt-6 max-w-lg mx-auto">
                         <!-- Date d'inscription -->
                         <div class="text-gray-600 font-medium bg-gray-50 px-4 py-2 border-2 border-black border-dashed">
                             Membre depuis le <span class="font-bold text-black">{joinDate}</span>
@@ -238,7 +253,7 @@
                 <!-- Quand on est en mode édition -->
                 <div class="mt-8" in:fade={{ duration: 200 }}>
                     <h2 class="text-3xl font-extrabold uppercase tracking-tight mb-6 text-center">Modifier mon profil</h2>
-                    
+
                     <form on:submit={handleSubmit} class="max-w-2xl mx-auto space-y-6">
                         <!-- Section pour les informations personnelles -->
                         <div class="space-y-4">
@@ -361,5 +376,143 @@
                 </div>
             {/if}
         </div>
+
+        <!-- Section tabs (masquée en mode édition) -->
+        {#if !isEditMode}
+            <div in:fade={{ duration: 200 }}>
+                <!-- Boutons de navigation des tabs -->
+                <div class="flex border-t-[4px] border-black">
+                    <button
+                        on:click={() => activeTab = 'participations'}
+                        class="flex-1 py-4 px-6 font-extrabold uppercase text-sm tracking-wider border-r-[2px] border-black transition-all
+                            {activeTab === 'participations'
+                                ? 'bg-black text-white'
+                                : 'bg-gray-50 text-black hover:bg-gray-100'}"
+                    >
+                        Participations ({participations.length})
+                    </button>
+                    <button
+                        on:click={() => activeTab = 'votes'}
+                        class="flex-1 py-4 px-6 font-extrabold uppercase text-sm tracking-wider transition-all
+                            {activeTab === 'votes'
+                                ? 'bg-black text-white'
+                                : 'bg-gray-50 text-black hover:bg-gray-100'}"
+                    >
+                        Votes ({votes.length})
+                    </button>
+                </div>
+
+                <!-- Contenu du tab actif -->
+                <div class="p-6 min-h-[200px]">
+                    {#if activeTab === 'participations'}
+                        {#if participations.length === 0}
+                            <div class="flex items-center justify-center h-32 border-2 border-dashed border-black">
+                                <p class="font-bold uppercase text-gray-400 text-sm tracking-wider">Aucune participation</p>
+                            </div>
+                        {:else}
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {#each participations as participation}
+                                    <a href="/challenges/{participation.challenge.id}" class="group block">
+                                        <div class="bg-white border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 transition-all group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
+                                            <div class="flex gap-3">
+                                                <!-- Miniature de la participation si disponible -->
+                                                {#if participation.photoUrl}
+                                                    <div class="w-16 h-16 border-[2px] border-black overflow-hidden flex-shrink-0">
+                                                        <img src={participation.photoUrl} alt="Participation" class="w-full h-full object-cover" />
+                                                    </div>
+                                                {:else}
+                                                    <div class="w-16 h-16 border-[2px] border-black bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                        </svg>
+                                                    </div>
+                                                {/if}
+
+                                                <div class="flex-1 min-w-0">
+                                                    <h3 class="font-extrabold uppercase text-sm leading-tight truncate mb-1">
+                                                        {participation.challenge.titleTheme}
+                                                    </h3>
+                                                    <p class="text-xs text-gray-500 mb-2">
+                                                        {formatChallengeDate(participation.challenge.startDate)} → {formatChallengeDate(participation.challenge.endDate)}
+                                                    </p>
+
+                                                    <!-- Badge de score selon l'état du challenge -->
+                                                    {#if participation.challenge.isOngoing && participation.averageScore === null}
+                                                        <span class="inline-block bg-neo-lilac border-[2px] border-black px-2 py-0.5 text-xs font-bold uppercase">
+                                                            En cours
+                                                        </span>
+                                                    {:else if participation.averageScore === null}
+                                                        <span class="inline-block bg-gray-100 border-[2px] border-black px-2 py-0.5 text-xs font-bold uppercase text-gray-500">
+                                                            Sans vote
+                                                        </span>
+                                                    {:else}
+                                                        <span class="inline-block bg-electric-yellow border-[2px] border-black px-2 py-0.5 text-xs font-bold uppercase">
+                                                            Moy. {participation.averageScore}/10
+                                                        </span>
+                                                    {/if}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                {/each}
+                            </div>
+                        {/if}
+
+                    {:else}
+                        {#if votes.length === 0}
+                            <div class="flex items-center justify-center h-32 border-2 border-dashed border-black">
+                                <p class="font-bold uppercase text-gray-400 text-sm tracking-wider">Aucun vote</p>
+                            </div>
+                        {:else}
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {#each votes as vote}
+                                    <div class="bg-white border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4">
+                                        <div class="flex gap-3">
+                                            <!-- Miniature de la participation votée si disponible -->
+                                            {#if vote.participation.photoUrl}
+                                                <div class="w-16 h-16 border-[2px] border-black overflow-hidden flex-shrink-0">
+                                                    <img src={vote.participation.photoUrl} alt="Participation votée" class="w-full h-full object-cover" />
+                                                </div>
+                                            {:else}
+                                                <div class="w-16 h-16 border-[2px] border-black bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                    </svg>
+                                                </div>
+                                            {/if}
+
+                                            <div class="flex-1 min-w-0">
+                                                <h3 class="font-extrabold uppercase text-sm leading-tight truncate mb-1">
+                                                    {vote.challenge.titleTheme}
+                                                </h3>
+                                                <p class="text-xs text-gray-500 mb-2 truncate">
+                                                    {vote.participation.user.firstname} {vote.participation.user.lastname}
+                                                </p>
+
+                                                <!-- Les trois notes données avec la moyenne -->
+                                                <div class="flex gap-1 flex-wrap">
+                                                    <span class="bg-neo-pink border-[2px] border-black px-1.5 py-0.5 text-xs font-bold" title="Créativité">
+                                                        C&nbsp;{vote.creativityNote}
+                                                    </span>
+                                                    <span class="bg-neo-green border-[2px] border-black px-1.5 py-0.5 text-xs font-bold" title="Technique">
+                                                        T&nbsp;{vote.technicNote}
+                                                    </span>
+                                                    <span class="bg-neo-lilac border-[2px] border-black px-1.5 py-0.5 text-xs font-bold" title="Respect du thème">
+                                                        R&nbsp;{vote.respectNote}
+                                                    </span>
+                                                    <span class="bg-electric-yellow border-[2px] border-black px-1.5 py-0.5 text-xs font-bold">
+                                                        Moy.&nbsp;{getAverageVoteScore(vote)}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {/each}
+                            </div>
+                        {/if}
+                    {/if}
+                </div>
+            </div>
+        {/if}
     </div>
 </div>
