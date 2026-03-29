@@ -49,9 +49,9 @@
             return;
         }
 
-        // Si on a réussit on redirige vers la page de l'utilisateur
+        // Si on a réussit on redirige vers la page d'accueil
 		// on utilise window.location.href pour forcer le raffraichissement car goto ne le fait pas
-		window.location.href = '/me';  
+		window.location.href = '/';  
 	}
 
     // @ts-ignore
