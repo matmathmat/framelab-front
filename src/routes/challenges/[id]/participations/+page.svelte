@@ -10,7 +10,10 @@
     export let data: PageData;
     
     // Récupérer les données chargées par le serveur
-    $: ({ challenge, participations: rawParticipations, total, offset, limit, currentUser } = data);
+    $: ({ challenge, participations: rawParticipations, total, offset, limit, currentUser, isActive } = data);
+    const isAdmin = currentUser?.isAdmin ?? false;
+    const canComment = isActive || isAdmin;
+    const canVote = isActive;    
 
     // On synchronise les participations avec les données du serveur pour permettre une mise à jour instantanée
     let participations = rawParticipations;
@@ -213,6 +216,10 @@
                                                 <div class="mt-4 text-center text-xs font-bold uppercase text-gray-500">
                                                     Vote enregistré le {formatDate(p.currentUserVote.voteDate)}
                                                 </div>
+                                            {:else if !canVote}
+                                                <div class="bg-gray-200 border-2 border-black p-4 text-center font-bold font-mono text-sm opacity-70">
+                                                    // Les votes sont fermés pour ce challenge //
+                                                </div>
                                             {:else}
                                                 <!-- Si l'utilisateur n'a pas voté on affiche le formulaire de vote -->
                                                 <form method="POST" action="?/vote" use:enhance={() => {
@@ -313,44 +320,50 @@
                                             {/if}
                                         </div>
 
-                                        <!-- Formulaire pour ajouter un commentaire -->
-                                        <div class="p-4 border-t-4 border-black bg-white shrink-0">
-                                            <form method="POST" action="?/comment" use:enhance={() => {
-                                                isCommenting[p.id] = true;
-                                                return async ({ result, update }) => {
-                                                    if (result.type === 'success') {
-                                                        await loadComments(p.id, 0);
-                                                        await update({ reset: true, invalidateAll: false });
-                                                    } else {
-                                                        await update();
-                                                    }
-                                                    isCommenting[p.id] = false;
-                                                };
-                                            }}>
-                                                <input type="hidden" name="participationId" value={p.id}>
-                                                <div class="relative">
-                                                    <textarea 
-                                                        name="content"
-                                                        rows="2" 
-                                                        required
-                                                        placeholder="Ton avis constructif..." 
-                                                        class="w-full bg-gray-100 border-2 border-black p-2 text-sm font-medium focus:outline-none focus:bg-white focus:shadow-neo-sm resize-none disabled:bg-gray-200"
-                                                        disabled={isCommenting[p.id]}
-                                                    ></textarea>
-                                                    <button 
-                                                        type="submit" 
-                                                        disabled={isCommenting[p.id]}
-                                                        class="absolute bottom-2 right-2 bg-black text-white p-1 hover:bg-neo-green hover:text-black border border-black transition-colors disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:hover:text-white"
-                                                    >
-                                                        {#if isCommenting[p.id]}
-                                                            <div class="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
-                                                        {:else}
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                                                        {/if}
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
+                                        {#if canComment}
+                                            <!-- Formulaire pour ajouter un commentaire -->
+                                            <div class="p-4 border-t-4 border-black bg-white shrink-0">
+                                                <form method="POST" action="?/comment" use:enhance={() => {
+                                                    isCommenting[p.id] = true;
+                                                    return async ({ result, update }) => {
+                                                        if (result.type === 'success') {
+                                                            await loadComments(p.id, 0);
+                                                            await update({ reset: true, invalidateAll: false });
+                                                        } else {
+                                                            await update();
+                                                        }
+                                                        isCommenting[p.id] = false;
+                                                    };
+                                                }}>
+                                                    <input type="hidden" name="participationId" value={p.id}>
+                                                    <div class="relative">
+                                                        <textarea 
+                                                            name="content"
+                                                            rows="2" 
+                                                            required
+                                                            placeholder="Ton avis constructif..." 
+                                                            class="w-full bg-gray-100 border-2 border-black p-2 text-sm font-medium focus:outline-none focus:bg-white focus:shadow-neo-sm resize-none disabled:bg-gray-200"
+                                                            disabled={isCommenting[p.id]}
+                                                        ></textarea>
+                                                        <button 
+                                                            type="submit" 
+                                                            disabled={isCommenting[p.id]}
+                                                            class="absolute bottom-2 right-2 bg-black text-white p-1 hover:bg-neo-green hover:text-black border border-black transition-colors disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:hover:text-white"
+                                                        >
+                                                            {#if isCommenting[p.id]}
+                                                                <div class="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
+                                                            {:else}
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                                            {/if}
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        {:else}
+                                            <div class="p-4 border-t-4 border-black bg-gray-100 text-center">
+                                                <p class="text-xs font-bold uppercase text-gray-400">Commentaires fermés</p>
+                                            </div>
+                                        {/if}
                                     </div>
                                 </div>
                             </div>

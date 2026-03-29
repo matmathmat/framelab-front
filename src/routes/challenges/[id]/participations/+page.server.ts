@@ -58,13 +58,19 @@ export const load: PageServerLoad = async ({ fetch, params, url, parent }) => {
         };
     }));
 
+    const now = new Date();
+    const isActive = challenge
+        ? now >= new Date(challenge.startDate) && now <= new Date(challenge.endDate)
+        : false;
+
     return {
         challenge,
         participations: participationsWithVotes,
         total: totalParticipations,
         offset,
         limit,
-        currentUser
+        currentUser,
+        isActive,
     };
 };
 
