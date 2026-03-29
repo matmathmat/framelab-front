@@ -168,7 +168,7 @@
                             Retrouvez l'historique de tous nos défis précédents et
                             admirez les créations de la communauté FrameLab.
                         </p>
-                        <a href="/challenges/archives" class="inline-block bg-black text-white font-bold text-sm uppercase px-4 py-2 hover:bg-neo-lilac hover:text-black transition-colors">
+                        <a href="/archives" class="inline-block bg-black text-white font-bold text-sm uppercase px-4 py-2 hover:bg-neo-lilac hover:text-black transition-colors">
                             Ouvrir les archives ->
                         </a>
                     </div>
