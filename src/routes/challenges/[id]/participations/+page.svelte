@@ -31,6 +31,10 @@
     let commentsLoading: Record<number, boolean> = {};
     let commentsPage: Record<number, number> = {};
 
+    let editingCommentId: number | null = null;
+    let editContent: string = '';
+    let isDeletingComment: Record<number, boolean> = {};
+
     // On filtre les participations selon le filtre actif
     $: filteredParticipations = showOnlyNotVoted 
         ? participations.filter(p => !p.currentUserVote && !p.isMyParticipation)
@@ -81,6 +85,50 @@
             commentsLoading[participationId] = false;
         }
     }
+
+    async function deleteComment(commentId: number, participationId: number) {
+        isDeletingComment[commentId] = true;
+        try {
+            const res = await fetch(`/api/comments/${commentId}`, { method: 'DELETE' });
+            if (res.ok) {
+                commentsCache[participationId] = commentsCache[participationId].filter(c => c.id !== commentId);
+                commentsCache = { ...commentsCache };
+            }
+        } finally {
+            isDeletingComment[commentId] = false;
+        }
+    }
+
+    function startEdit(comment: Comment) {
+        editingCommentId = comment.id;
+        editContent = comment.textContent;
+    }
+
+    function cancelEdit() {
+        editingCommentId = null;
+        editContent = '';
+    }
+
+    async function submitEdit(commentId: number, participationId: number) {
+        if (!editContent.trim()) return;
+        try {
+            const res = await fetch(`/api/comments/${commentId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ textContent: editContent })
+            });
+            if (res.ok) {
+                const data = await res.json();
+                commentsCache[participationId] = commentsCache[participationId].map(c =>
+                    c.id === commentId ? { ...c, textContent: data.result.textContent } : c
+                );
+                commentsCache = { ...commentsCache };
+                cancelEdit();
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }    
 
     function formatDate(dateStr: string) {
         if (!dateStr) return '';
@@ -352,12 +400,63 @@
                                                 </div>
                                             {:else if commentsCache[p.id]?.length > 0}
                                                 {#each commentsCache[p.id] as comment}
+                                                    {@const isCommentOwner = String(comment.user?.id) === String(currentUser?.id)}
+                                                    {@const canDelete = isCommentOwner || isAdmin}
+                                                    {@const canEdit = isCommentOwner}
+                                                    {@const isEditing = editingCommentId === comment.id}
+
                                                     <div class="bg-white border-2 border-black p-3 shadow-[2px_2px_0_0_rgba(0,0,0,1)] text-sm">
-                                                        <div class="flex justify-between items-baseline mb-1">
-                                                            <span class="font-bold uppercase text-xs">{comment.user?.firstname ?? 'Utilisateur'}</span>
-                                                            <span class="text-[10px] text-gray-500">{formatDate(comment.commentDate)}</span>
+                                                        <div class="flex justify-between items-start mb-1 gap-2">
+                                                            <div class="flex flex-col">
+                                                                <span class="font-bold uppercase text-xs">{comment.user?.firstname ?? 'Utilisateur'}</span>
+                                                                <span class="text-[10px] text-gray-500">{formatDate(comment.commentDate)}</span>
+                                                            </div>
+                                                            <div class="flex items-center gap-1 shrink-0">
+                                                                {#if canEdit}
+                                                                    <button
+                                                                        on:click={() => isEditing ? cancelEdit() : startEdit(comment)}
+                                                                        class="text-[10px] font-bold uppercase px-1 py-0.5 border border-black hover:bg-electric-yellow transition-colors"
+                                                                    >
+                                                                        {isEditing ? '✕' : 'Édit'}
+                                                                    </button>
+                                                                {/if}
+                                                                {#if canDelete}
+                                                                    <button
+                                                                        on:click={() => deleteComment(comment.id, p.id)}
+                                                                        disabled={isDeletingComment[comment.id]}
+                                                                        class="text-[10px] font-bold uppercase px-1 py-0.5 border border-black hover:bg-neo-pink transition-colors disabled:opacity-40"
+                                                                    >
+                                                                        Sup.
+                                                                    </button>
+                                                                {/if}
+                                                            </div>
                                                         </div>
-                                                        <p class="leading-snug break-words">{comment.textContent}</p>
+
+                                                        {#if isEditing}
+                                                            <div class="mt-2">
+                                                                <textarea
+                                                                    bind:value={editContent}
+                                                                    rows="2"
+                                                                    class="w-full bg-gray-100 border-2 border-black p-1 text-sm font-medium focus:outline-none focus:bg-white resize-none"
+                                                                ></textarea>
+                                                                <div class="flex gap-1 mt-1">
+                                                                    <button
+                                                                        on:click={() => submitEdit(comment.id, p.id)}
+                                                                        class="flex-1 text-[10px] font-bold uppercase py-1 border border-black bg-neo-green hover:bg-black hover:text-white transition-colors"
+                                                                    >
+                                                                        Valider
+                                                                    </button>
+                                                                    <button
+                                                                        on:click={cancelEdit}
+                                                                        class="flex-1 text-[10px] font-bold uppercase py-1 border border-black bg-gray-200 hover:bg-black hover:text-white transition-colors"
+                                                                    >
+                                                                        Annuler
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        {:else}
+                                                            <p class="leading-snug break-words mt-1">{comment.textContent}</p>
+                                                        {/if}
                                                     </div>
                                                 {/each}
                                                 

@@ -1,3 +1,4 @@
+import type { ChallengeInfo } from "./Challenge";
 import type { OtherUser } from "./user";
 
 export interface HasParticipated {
