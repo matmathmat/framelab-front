@@ -61,7 +61,7 @@
       {#if !isLoggedIn}
         <!-- Non connecté -->
         <a href="/#challenges" class="nav-link">Challenges</a>
-        <a href="/#hall-of-frames" class="nav-link">Hall of Frames</a>
+        <a href="/hall-of-frames" class="nav-link">Hall of Frames</a>
         <a href="/#boutique" class="nav-link">Boutique</a>
         <a 
           href="/login" 

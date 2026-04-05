@@ -7,7 +7,17 @@
   import imgTech from '$lib/assets/images/landingpage/storysection/card2.png';
   import imgCommunity from '$lib/assets/images/landingpage/storysection/card3.png';
   import imgPolaroidRaw from '$lib/assets/images/landingpage/challengesection/card1.png';
-  import imgPolaroidEdit from '$lib/assets/images/landingpage/challengesection/card2.png';   
+  import imgPolaroidEdit from '$lib/assets/images/landingpage/challengesection/card2.png';
+  
+  export let data;
+
+  $: topUsers = data?.topUsers ?? [];
+
+  const championStyles = [
+      { bg: 'bg-electric-yellow', border: 'border-b-4 border-electric-yellow', rankBg: 'bg-electric-yellow', label: '1' },
+      { bg: 'bg-[#C0C0C0]',       border: 'border-b-4 border-[#C0C0C0]',       rankBg: 'bg-[#C0C0C0]',       label: '2' },
+      { bg: 'bg-[#CD7F32]',       border: 'border-b-4 border-[#CD7F32]',       rankBg: 'bg-[#CD7F32]',       label: '3' },
+  ];  
 </script>
 
 <style>
@@ -162,47 +172,53 @@
 
     <!-- Hall of frames -->
     <div class="p-10 bg-electric-yellow border-[3px] border-black shadow-neo">
-      <div class="mb-6">
-        <span class="inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
-          HALL OF FRAMES
-        </span>
-        <h3 class="font-sora font-extrabold text-3xl uppercase tracking-tight text-black">Les Champions</h3>
-      </div>
-
-      <div class="flex flex-col gap-4">
-        <!-- #1 Gold -->
-        <div class="flex items-center bg-white border-[3px] border-black p-4 shadow-neo-md">
-          <span class="w-[30px] h-[30px] bg-gold border-2 border-black text-black flex items-center justify-center font-extrabold mr-4">
-            1
-          </span> 
-          <div class="flex-1 flex justify-between items-center">
-            <span class="font-bold text-lg border-b-4 border-gold">@Sarah_Vision</span>
-            <span class="text-sm font-semibold text-gray-600">980 pts</span>
-          </div>
+        <div class="mb-6 flex items-start justify-between">
+            <div>
+                <span class="inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+                    HALL OF FRAMES
+                </span>
+                <h3 class="font-sora font-extrabold text-3xl uppercase tracking-tight text-black">Les Champions</h3>
+            </div>
+            
+            <a 
+                href="/hall-of-frames"
+                class="text-xs font-black uppercase border-2 border-black px-3 py-2 bg-white hover:bg-black hover:text-white transition-colors shadow-neo-sm shrink-0"
+            >
+                Voir tout →
+            </a>
         </div>
 
-        <!-- #2 Silver -->
-        <div class="flex items-center bg-white border-[3px] border-black p-4 shadow-neo-md">
-          <span class="w-[30px] h-[30px] bg-silver border-2 border-black text-black flex items-center justify-center font-extrabold mr-4">
-            2
-          </span> 
-          <div class="flex-1 flex justify-between items-center">
-            <span class="font-bold text-lg border-b-4 border-silver">@Julie_Art</span>
-            <span class="text-sm font-semibold text-gray-600">850 pts</span>
-          </div>
+        <div class="flex flex-col gap-3">
+            {#if topUsers.filter(u => u.score > 0).length === 0}
+                {#each [1, 2, 3] as rank}
+                    <div class="flex items-center bg-white border-[3px] border-black p-4 shadow-neo-md opacity-40">
+                        <span class="w-[30px] h-[30px] bg-gray-300 border-2 border-black text-black flex items-center justify-center font-extrabold mr-4">
+                            {rank}
+                        </span>
+                        <span class="font-bold text-gray-400 text-sm uppercase">—</span>
+                    </div>
+                {/each}
+            {:else}
+                {#each topUsers.filter(u => u.score > 0) as user, i}
+                    {@const s = championStyles[i]}
+                    
+                    <a 
+                        href="/users/{user.id}"
+                        class="flex items-center bg-white border-[3px] border-black p-4 shadow-neo-md hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all"
+                    >
+                        <span class="w-[30px] h-[30px] {s.rankBg} border-2 border-black text-black flex items-center justify-center font-extrabold mr-4 shrink-0">
+                            {s.label}
+                        </span>
+                        <div class="flex-1 flex justify-between items-center min-w-0">
+                            <span class="font-bold text-lg {s.border} truncate">
+                                {user.firstname} {user.lastname}
+                            </span>
+                            <span class="text-sm font-semibold text-gray-600 shrink-0 ml-2">{user.score} pts</span>
+                        </div>
+                    </a>
+                {/each}
+            {/if}
         </div>
-
-        <!-- #3 Bronze -->
-        <div class="flex items-center bg-white border-[3px] border-black p-4 shadow-neo-md">
-          <span class="w-[30px] h-[30px] bg-bronze border-2 border-black text-black flex items-center justify-center font-extrabold mr-4">
-            3
-          </span> 
-          <div class="flex-1 flex justify-between items-center">
-            <span class="font-bold text-lg border-b-4 border-bronze">@Marc_Edit</span>
-            <span class="text-sm font-semibold text-gray-600">720 pts</span>
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- Boutique -->

@@ -22,7 +22,7 @@
           Hall of Frames
         </a>
         <a 
-          href="https://framelab.shop" 
+          href="https://google.com" 
           class="no-underline text-black font-semibold text-base uppercase transition-all duration-200 w-fit hover:bg-white hover:text-black hover:shadow-neo-sm hover:border hover:border-black hover:-translate-x-0.5 hover:-translate-y-0.5">
           Shop
         </a>
