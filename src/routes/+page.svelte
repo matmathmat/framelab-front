@@ -145,7 +145,7 @@
           <div class="font-bold text-sm">3. Postez votre EDIT</div>
         </div>
         
-        <a href="/" 
+        <a href="https://github.com/matmathmat/framelab-desktop/releases/latest/" 
            class="inline-block bg-black text-white font-sora font-bold uppercase px-6 py-3 text-sm border-[3px] border-black shadow-neo-md transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_rgba(0,0,0,0.3)]">
           Participer
         </a>
