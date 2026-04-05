@@ -30,8 +30,18 @@ export const load: PageServerLoad = async ({ fetch, params, url, parent }) => {
     const challengeData = await challengeRes.json() as ApiResponse<Challenge>;
     const challenge = challengeData.result;
 
+    const now = new Date();
+    const isActive = challenge
+        ? now >= new Date(challenge.startDate) && now <= new Date(challenge.endDate)
+        : false;
+    const isPast = challenge
+        ? now > new Date(challenge.endDate)
+        : false;    
+
     // On récupère les participations + données de la pagination
-    const participationsRes = await fetch(`/api/participations?challengeId=${challengeId}&offset=${offset}`);
+    const participationsRes = await fetch(
+        `/api/participations?challengeId=${challengeId}&offset=${offset}${isPast ? '&sortByScore=true' : ''}`
+    );
 
     // On caste la réponse JSON en ApiResponseWithPagination<Participation> puis on extrait les participations et la pagination
     const participationsData = await participationsRes.json() as ApiResponseWithPagination<Participation[]>;
@@ -58,11 +68,6 @@ export const load: PageServerLoad = async ({ fetch, params, url, parent }) => {
         };
     }));
 
-    const now = new Date();
-    const isActive = challenge
-        ? now >= new Date(challenge.startDate) && now <= new Date(challenge.endDate)
-        : false;
-
     return {
         challenge,
         participations: participationsWithVotes,
@@ -71,6 +76,7 @@ export const load: PageServerLoad = async ({ fetch, params, url, parent }) => {
         limit,
         currentUser,
         isActive,
+        isPast,
     };
 };
 
@@ -137,5 +143,20 @@ export const actions: Actions = {
         }
 
         return { success: true, message: "Commentaire posté !" };
-    }
+    },
+
+    archive: async ({ fetch, params }) => {
+        // Requête pour archiver un challenge, l'utilisateur doit être admin
+        const res = await fetch(`/api/challenges/${params.id}/archive`, {
+            method: 'POST'
+        });
+
+        // Si l'API retourne une erreur on la transmet au client
+        if (!res.ok) {
+            const err = await res.json();
+            return fail(res.status, { error: true, message: err.message || "Erreur lors de la validation" });
+        }
+
+        return { success: true };
+    }    
 };

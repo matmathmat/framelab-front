@@ -10,10 +10,10 @@
     export let data: PageData;
     
     // Récupérer les données chargées par le serveur
-    $: ({ challenge, participations: rawParticipations, total, offset, limit, currentUser, isActive } = data);
-    const isAdmin = currentUser?.isAdmin ?? false;
-    const canComment = isActive || isAdmin;
-    const canVote = isActive;    
+    $: ({ challenge, participations: rawParticipations, total, offset, limit, currentUser, isActive, isPast } = data);
+    $: isAdmin = currentUser?.isAdmin ?? false;
+    $: canComment = isActive || isAdmin;
+    $: canVote = isActive; 
 
     // On synchronise les participations avec les données du serveur pour permettre une mise à jour instantanée
     let participations = rawParticipations;
@@ -35,6 +35,16 @@
     $: filteredParticipations = showOnlyNotVoted 
         ? participations.filter(p => !p.currentUserVote && !p.isMyParticipation)
         : participations;
+
+    const medals = [
+        { label: '1er', borderColor: '#FFD700', shadowColor: '#B8860B', bgColor: '#FFD700', textColor: '#000' },
+        { label: '2e',  borderColor: '#C0C0C0', shadowColor: '#707070', bgColor: '#C0C0C0', textColor: '#000' },
+        { label: '3e',  borderColor: '#CD7F32', shadowColor: '#8B4513', bgColor: '#CD7F32', textColor: '#fff' },
+    ];
+
+    function getMedal(rank: number) {
+        return rank < 3 ? medals[rank] : null;
+    }
 
     function toggleExpand(id: number) {
         if (expandedId === id) {
@@ -103,15 +113,35 @@
             </div>
 
             <!-- switch pour le filtre -->
-            <label class="relative inline-flex items-center cursor-pointer group">
-                <input type="checkbox" bind:checked={showOnlyNotVoted} class="sr-only peer">
-                <div class="w-14 h-8 bg-gray-200 peer-focus:outline-none border-4 border-black peer-checked:bg-neo-green transition-colors shadow-neo-sm peer-checked:shadow-none peer-checked:translate-x-[2px] peer-checked:translate-y-[2px]"></div>
-                <div class="absolute left-1 top-1 bg-white border-2 border-black h-4 w-4 transition-all peer-checked:left-7"></div>
-                <span class="ml-3 text-sm font-black uppercase select-none">
-                    {showOnlyNotVoted ? 'À voter uniquement' : 'Tout afficher'}
-                </span>
-            </label>
+            {#if isActive}
+                <label class="relative inline-flex items-center cursor-pointer group">
+                    <input type="checkbox" bind:checked={showOnlyNotVoted} class="sr-only peer">
+                    <div class="w-14 h-8 bg-gray-200 peer-focus:outline-none border-4 border-black peer-checked:bg-neo-green transition-colors shadow-neo-sm peer-checked:shadow-none peer-checked:translate-x-[2px] peer-checked:translate-y-[2px]"></div>
+                    <div class="absolute left-1 top-1 bg-white border-2 border-black h-4 w-4 transition-all peer-checked:left-7"></div>
+                    <span class="ml-3 text-sm font-black uppercase select-none">
+                        {showOnlyNotVoted ? 'À voter uniquement' : 'Tout afficher'}
+                    </span>
+                </label>
+            {/if}
         </div>
+
+         <!-- Bouton pour valider le challenge -->
+        {#if isPast && isAdmin && !challenge?.isArchived}
+            <div class="mb-8 border-4 border-black bg-electric-yellow p-4 flex items-center justify-between shadow-neo">
+                <div>
+                    <p class="font-black uppercase">Valider la fin du challenge</p>
+                    <p class="text-sm font-medium mt-1">Les points seront distribués selon le classement et le challenge sera archivé.</p>
+                </div>
+                <form method="POST" action="?/archive">
+                    <button
+                        type="submit"
+                        class="bg-black text-white border-4 border-black py-2 px-6 font-black uppercase text-sm hover:bg-neo-pink hover:text-black transition-colors shrink-0"
+                    >
+                        Valider et archiver
+                    </button>
+                </form>
+            </div>
+        {/if}
 
         <!-- Liste des participations -->
         <div class="flex flex-col gap-6 relative">        
@@ -125,11 +155,35 @@
             {/if}
 
             <!-- Pour chaque participation -->
-            {#each filteredParticipations as p (p.id)}
+            {#each filteredParticipations as p, i (p.id)}
+                {@const rank = isPast ? offset + i : -1}
+                {@const medal = getMedal(rank)}
+                
+                {@const borderColor = medal ? medal.borderColor : 'black'}
+                {@const shadowBg = medal ? medal.shadowColor : 'black'}
+                {@const isExpanded = expandedId === p.id}
+
                 <!-- On a une carte participation -->
                 <article class="relative group transition-all duration-300">
-                    <div class="absolute inset-0 bg-black translate-x-2 translate-y-2 {expandedId === p.id ? 'translate-x-0 translate-y-0' : ''} transition-transform"></div>
-                    <div class="relative bg-white border-4 border-black transition-transform {expandedId === p.id ? 'translate-x-0 translate-y-0' : '-translate-x-2 -translate-y-2 hover:-translate-y-3 hover:-translate-x-3'}">                    
+                    <div
+                        class="absolute inset-0 translate-x-2 translate-y-2 {isExpanded ? 'translate-x-0 translate-y-0' : ''} transition-transform"
+                        style="background-color: {shadowBg};"
+                    ></div>
+
+                    <div
+                        class="relative bg-white border-4 transition-transform {isExpanded ? 'translate-x-0 translate-y-0' : '-translate-x-2 -translate-y-2 hover:-translate-y-3 hover:-translate-x-3'}"
+                        style="border-color: {borderColor};"
+                    >
+                        <!-- On affiche un badge si la participation a une médaille -->
+                        {#if medal}
+                            <div
+                                class="absolute -top-4 -right-4 z-20 w-12 h-12 border-4 border-black flex items-center justify-center font-black text-sm"
+                                style="background-color: {medal.bgColor}; color: {medal.textColor};"
+                            >
+                                {medal.label}
+                            </div>
+                        {/if}
+
                         <!-- Entête dépliante -->
                         <button 
                             on:click={() => toggleExpand(p.id)}

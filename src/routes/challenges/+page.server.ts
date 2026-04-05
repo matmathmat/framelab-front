@@ -18,7 +18,7 @@ export const load: PageServerLoad = async ({ fetch, parent }) => {
     
     let currentChallenge = null;
     let hasParticipated = false;
-    let userParticipation = null;
+    let lastChallenge = null;
     
     if (challengeRes.ok) {
         // On caste la réponse JSON en ApiResponse<Challenge> puis on extrait le challenge
@@ -35,14 +35,24 @@ export const load: PageServerLoad = async ({ fetch, parent }) => {
                 // On caste la réponse JSON en ApiResponse<HasParticipated> puis on extrait les données
                 const participationJson = await participationRes.json() as ApiResponse<HasParticipated>;
                 hasParticipated = participationJson.result.hasParticipated;
-                userParticipation = participationJson.result.participation;
             }
-        }
+        }      
     }
+
+    if (!currentChallenge) {
+        // Faire une requete pour obtenir le dernier challenge
+        const lastRes = await fetch('/api/challenges/last');
+
+        if (lastRes.ok) {
+            // On caste la réponse JSON en ApiResponse<Challenge> puis on extrait le challenge
+            const lastJson = await lastRes.json() as ApiResponse<Challenge>;
+            lastChallenge = lastJson.result;
+        }
+     }      
     
     return {
         currentChallenge,
-        hasParticipated
-        //userParticipation
+        hasParticipated,
+        lastChallenge
     };
 };
