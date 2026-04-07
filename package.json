@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@marko19907/string-to-color": "^1.0.2",
+    "@sveltejs/adapter-vercel": "^6.3.3",
     "@tailwindcss/postcss": "^4.0.0",
     "svelte": "^5.50.1"
   },
