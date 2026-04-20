@@ -5,6 +5,7 @@
   export let isLoggedIn = false;
 
   let isScrolled = false;
+  let menuOpen = false;
 
   const handleScroll = () => {
     if (browser) {
@@ -57,7 +58,18 @@
       FrameLab<span class="text-neo-pink text-[2.5rem] leading-[0] group-hover:text-black">.</span>
     </a>
 
-    <nav class="flex gap-8 items-center">
+    <!-- Burger -->
+    <button 
+      class="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8 cursor-pointer bg-transparent border-none p-0"
+      on:click={() => menuOpen = !menuOpen}
+      aria-label="Menu">
+      <span class="block w-full h-[3px] bg-black transition-all duration-300 {menuOpen ? 'translate-y-2 rotate-45' : ''}"></span>
+      <span class="block w-full h-[3px] bg-black transition-all duration-300 {menuOpen ? 'opacity-0' : ''}"></span>
+      <span class="block w-full h-[3px] bg-black transition-all duration-300 {menuOpen ? '-translate-y-2 -rotate-45' : ''}"></span>
+    </button>
+
+    <!-- Nav desktop -->
+    <nav class="hidden md:flex gap-8 items-center">
       {#if !isLoggedIn}
         <!-- Non connecté -->
         <a href="/#challenges" class="nav-link">Challenges</a>
@@ -84,6 +96,35 @@
       {/if}
     </nav>
   </div>
+
+  <!-- Nav mobile -->
+  {#if menuOpen}
+    <nav class="md:hidden bg-cream border-t-[3px] border-black flex flex-col items-center gap-6 py-10 px-8">
+      {#if !isLoggedIn}
+        <!-- Non connecté -->
+        <a href="/#challenges" class="nav-link" on:click={() => menuOpen = false}>Challenges</a>
+        <a href="/hall-of-frames" class="nav-link" on:click={() => menuOpen = false}>Hall of Frames</a>
+        <a href="/#boutique" class="nav-link" on:click={() => menuOpen = false}>Boutique</a>
+        <a 
+          href="/login" 
+          class="bg-black text-white font-sora font-bold uppercase no-underline py-3 px-6 border-2 border-black shadow-[4px_4px_0_rgba(0,0,0,0.2)] transition-all duration-200 text-xs inline-block hover:bg-neo-pink hover:text-black hover:shadow-[2px_2px_0_#121212] hover:translate-x-0.5 hover:translate-y-0.5"
+          on:click={() => menuOpen = false}>
+          Se connecter
+        </a>
+      {:else}
+        <!-- Est connecté -->
+        <a href="/challenges" class="nav-link" on:click={() => menuOpen = false}>Challenges</a>
+        <a href="/hall-of-frames" class="nav-link" on:click={() => menuOpen = false}>Hall of Frames</a>
+        <a href="/#boutique" class="nav-link" on:click={() => menuOpen = false}>Boutique</a>
+        <a href="/me" class="nav-link" on:click={() => menuOpen = false}>Mon Espace</a>
+        <button 
+          class="bg-white text-black font-sora font-bold uppercase py-3 px-6 border-2 border-black shadow-neo-md transition-all duration-200 cursor-pointer text-xs inline-block hover:bg-red-500 hover:text-white hover:shadow-[2px_2px_0_#121212] hover:translate-x-0.5 hover:translate-y-0.5"
+          on:click={handleLogout}>
+          Se déconnecter
+        </button>
+      {/if}
+    </nav>
+  {/if}
 </header>
 
 <style>
