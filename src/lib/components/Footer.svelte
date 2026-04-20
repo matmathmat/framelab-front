@@ -1,7 +1,7 @@
 <footer class="bg-cream text-black border-t-[3px] border-black font-sora">
-  <div class="grid grid-cols-3 w-full h-[300px]">
+  <div class="grid grid-cols-1 sm:grid-cols-3 w-full sm:h-[300px]">
     <!-- Section explorer -->
-    <div class="p-8 border-r-[3px] border-black bg-[rgb(255,62,78)] h-full flex flex-col justify-center">
+    <div class="p-8 border-b-[3px] sm:border-b-0 sm:border-r-[3px] border-black bg-[rgb(255,62,78)] sm:h-full flex flex-col justify-center">
       <span class="font-extrabold uppercase mb-4 text-xs bg-black text-white inline-block py-1 px-2 self-start">
         Explorer
       </span>
@@ -30,7 +30,7 @@
     </div>
 
     <!-- Section légal -->
-    <div class="p-8 border-r-[3px] border-black bg-[rgb(142,252,69)] h-full flex flex-col justify-center">
+    <div class="p-8 border-b-[3px] sm:border-b-0 sm:border-r-[3px] border-black bg-[rgb(142,252,69)] sm:h-full flex flex-col justify-center">
       <span class="font-extrabold uppercase mb-4 text-xs bg-black text-white inline-block py-1 px-2 self-start">
         Légal
       </span>
@@ -54,10 +54,10 @@
     </div>
 
     <!-- Section Logo & Contact -->
-    <div class="flex flex-col h-full border-l-[3px] border-black bg-[rgb(112,176,250)]">
+    <div class="flex flex-col sm:h-full border-t-[3px] sm:border-t-0 sm:border-l-[3px] border-black bg-[rgb(112,176,250)]">
       <!-- Contact -->
       <div class="flex-1 p-6 flex flex-col justify-center">
-        <div class="flex gap-4 items-end">
+        <div class="flex flex-wrap gap-4 items-end">
           <div>
             <h2 class="font-sora font-extrabold text-2xl uppercase tracking-tight mb-1">
               Let's Talk.
