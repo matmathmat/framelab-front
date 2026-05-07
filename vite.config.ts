@@ -4,19 +4,26 @@ import { defineConfig, loadEnv } from 'vite';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
-  const proxyTarget = mode === 'production' 
-    ? 'https://framelab-back.onrender.com/' 
+  const isProd = mode === 'production';
+
+  const proxyTarget = isProd
+    ? env.PRIVATE_BACKEND_URL
     : 'http://localhost:3000';
+
+  const port = Number(env.PORT) || 5173;
 
   return {
     plugins: [sveltekit()],
+
     server: {
-      allowedHosts: ['framelab-jbey.onrender.com', 'framelab-front.onrender.com'],
+      port,
+      strictPort: true,
+
       proxy: {
         '/api': {
           target: proxyTarget,
           changeOrigin: true,
-          secure: false,
+          secure: false
         },
         '/uploads': {
           target: proxyTarget,
