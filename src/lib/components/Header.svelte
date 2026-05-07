@@ -5,6 +5,7 @@
   export let isLoggedIn = false;
 
   let isScrolled = false;
+  let menuOpen = false;
 
   const handleScroll = () => {
     if (browser) {
@@ -50,14 +51,37 @@
 
 <header 
   class="fixed top-0 left-0 right-0 z-[1000] bg-cream border-b-[3px] border-black transition-all duration-300 {isScrolled ? 'shadow-[0_10px_0_rgba(0,0,0,0.1)]' : ''}">
-  <div class="max-w-[1400px] mx-auto py-5 px-8 flex justify-between items-center">
+  <div class="max-w-[1400px] mx-auto py-5 px-8 flex items-center relative md:justify-between justify-center">
+
+    <!-- Mobile : FrameLab + textes en dessous -->
+    <div class="flex flex-col md:hidden items-center">
+      <a 
+        href="/" 
+        class="font-sora text-3xl font-extrabold uppercase text-black no-underline -tracking-wider relative py-1.5 px-2.5 border-[3px] border-transparent group">
+        FrameLab<span class="text-neo-pink text-[2.5rem] leading-[0] hidden md:inline">.</span>
+      </a>
+      <div class="flex gap-3 items-center px-2.5">
+        {#if !isLoggedIn}
+          <!-- Non connecté -->
+          <a href="/login" class="text-black font-sora font-bold text-xs uppercase">Se connecter</a>
+          <button on:click={() => menuOpen = !menuOpen} class="w-4 h-4 bg-neo-pink cursor-pointer border-none shrink-0"></button>
+        {:else}
+          <!-- Est connecté -->
+          <a href="/me" class="text-black font-sora font-bold text-xs uppercase">Mon Espace</a>
+          <button on:click={handleLogout} class="text-black font-sora font-bold text-xs uppercase cursor-pointer bg-transparent border-none p-0">Se déconnecter</button>
+          <button on:click={() => menuOpen = !menuOpen} class="w-4 h-4 bg-neo-pink cursor-pointer border-none shrink-0"></button>
+        {/if}
+      </div>
+    </div>
+
+    <!-- Desktop : FrameLab seul -->
     <a 
       href="/" 
-      class="font-sora text-3xl font-extrabold uppercase text-black no-underline -tracking-wider relative py-1.5 px-2.5 border-[3px] border-transparent transition-all duration-200 hover:bg-neo-pink hover:border-black hover:shadow-neo-md hover:-translate-x-0.5 hover:-translate-y-0.5 group">
+      class="hidden md:inline-block font-sora text-3xl font-extrabold uppercase text-black no-underline -tracking-wider relative py-1.5 px-2.5 border-[3px] border-transparent transition-all duration-200 hover:bg-neo-pink hover:border-black hover:shadow-neo-md hover:-translate-x-0.5 hover:-translate-y-0.5 group">
       FrameLab<span class="text-neo-pink text-[2.5rem] leading-[0] group-hover:text-black">.</span>
     </a>
 
-    <nav class="flex gap-8 items-center">
+    <nav class="hidden md:flex gap-8 items-center">
       {#if !isLoggedIn}
         <!-- Non connecté -->
         <a href="/#challenges" class="nav-link">Challenges</a>
@@ -84,6 +108,38 @@
       {/if}
     </nav>
   </div>
+
+  {#if menuOpen}
+    <div class="md:hidden fixed inset-0 bg-black z-[999] flex flex-col items-center justify-center gap-8">
+      <button 
+        class="absolute top-6 right-8 text-neo-pink text-5xl font-extrabold leading-none"
+        on:click={() => menuOpen = false}>×</button>
+
+      {#if !isLoggedIn}
+        <!-- Non connecté -->
+        <a href="/#challenges" class="text-white font-sora font-extrabold text-2xl uppercase" on:click={() => menuOpen = false}>Challenges</a>
+        <a href="/hall-of-frames" class="text-white font-sora font-extrabold text-2xl uppercase" on:click={() => menuOpen = false}>Hall of Frames</a>
+        <a href="/#boutique" class="text-white font-sora font-extrabold text-2xl uppercase" on:click={() => menuOpen = false}>Boutique</a>
+        <a 
+          href="/login" 
+          class="bg-neo-pink text-black font-sora font-bold uppercase py-3 px-8 border-2 border-neo-pink text-lg"
+          on:click={() => menuOpen = false}>
+          Se connecter
+        </a>
+      {:else}
+        <!-- Est connecté -->
+        <a href="/challenges" class="text-white font-sora font-extrabold text-2xl uppercase" on:click={() => menuOpen = false}>Challenges</a>
+        <a href="/hall-of-frames" class="text-white font-sora font-extrabold text-2xl uppercase" on:click={() => menuOpen = false}>Hall of Frames</a>
+        <a href="/#boutique" class="text-white font-sora font-extrabold text-2xl uppercase" on:click={() => menuOpen = false}>Boutique</a>
+        <a href="/me" class="text-white font-sora font-extrabold text-2xl uppercase" on:click={() => menuOpen = false}>Mon Espace</a>
+        <button 
+          class="bg-red-500 text-white font-sora font-bold uppercase py-3 px-8 border-2 border-red-500 text-lg cursor-pointer"
+          on:click={handleLogout}>
+          Se déconnecter
+        </button>
+      {/if}
+    </div>
+  {/if}
 </header>
 
 <style>
