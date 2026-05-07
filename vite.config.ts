@@ -12,6 +12,10 @@ export default defineConfig(({ mode }) => {
 
   const port = Number(env.PORT) || 5173;
 
+  const allowedHosts = env.ALLOWED_HOSTS
+    ? env.ALLOWED_HOSTS.split(',')
+    : [];
+
   return {
     plugins: [sveltekit()],
 
@@ -31,6 +35,12 @@ export default defineConfig(({ mode }) => {
           secure: false
         }
       }
+    },
+
+    preview: {
+      port,
+      strictPort: true,
+      allowedHosts
     }
   };
 });
