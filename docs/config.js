@@ -11,7 +11,6 @@ const SITE_CONFIG = {
   title: "DocProject",
   subtitle: "FrameLab Web Documentation",
   tagline: "Tout ce qu'il faut savoir sur le projet de l'application web FrameLab.",
-  logo_text: "◼︎",
 
   // Liens header
   github_url:  "https://github.com/matmathmat/framelab-front",

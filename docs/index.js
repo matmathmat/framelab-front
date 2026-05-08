@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Met à jour les infos du site depuis config.js
-  document.getElementById('logo-badge').textContent = SITE_CONFIG.logo_text;
   document.getElementById('hero-title').textContent = SITE_CONFIG.subtitle;
   document.getElementById('hero-tagline').textContent = SITE_CONFIG.tagline;
   document.getElementById('github-link').href = SITE_CONFIG.github_url;
