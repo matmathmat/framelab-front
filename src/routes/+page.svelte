@@ -30,34 +30,34 @@
 <main class="pt-16">
   
   <!-- Section Hero -->
-  <section class="max-w-7xl mx-auto px-8 mb-12 flex items-center gap-12 mt-12">
-    <div class="flex-1">
-      <span class="inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
+  <section class="max-w-7xl mx-auto px-4 sm:px-8 mb-12 flex flex-col lg:flex-row items-center gap-8 lg:gap-12 mt-8 lg:mt-12">
+    <div class="flex-1 w-full">
+      <span class="hidden sm:inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
         CREATEUR D'INSPIRATION
       </span>
-      <h1 class="font-sora font-extrabold text-6xl leading-tight uppercase tracking-tight mb-6">
+      <h1 class="font-sora font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-tight uppercase tracking-tight mb-6 sm:mt-0 mt-8">
         Capturez la <br>
         <span class="italic inline-block px-1 bg-gradient-to-b from-transparent from-60% to-neo-pink to-60%">
           Vraie Beauté.
         </span>
       </h1>
-      <p class="text-xl font-medium leading-relaxed mb-10 border-l-4 border-black pl-4">
-        Rejoignez le collectif FrameLab. Sublimez vos clichés<br>et révélez votre signature artistique.
+      <p class="text-base sm:text-xl font-medium leading-relaxed mb-8 lg:mb-10 border-l-4 border-black pl-4">
+        Rejoignez le collectif FrameLab. Sublimez vos clichés<br class="hidden sm:block">et révélez votre signature artistique.
       </p>
 
-      <div class="flex gap-6">
+      <div class="flex flex-wrap gap-4 sm:gap-6">
         <a href="#join" 
-           class="inline-block bg-black text-white font-sora font-bold uppercase px-8 py-4 border-[3px] border-black shadow-neo-md transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_rgba(0,0,0,0.3)]">
+           class="inline-block bg-black text-white font-sora font-bold uppercase px-6 sm:px-8 py-3 sm:py-4 border-[3px] border-black shadow-neo-md transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_rgba(0,0,0,0.3)]">
           Découvrir
         </a>
         <a href="#challenges" 
-           class="inline-block bg-white text-black font-sora font-bold uppercase px-8 py-4 border-[3px] border-black shadow-neo-md transition-all duration-200 hover:bg-neo-pink hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_#000]">
+           class="inline-block bg-white text-black font-sora font-bold uppercase px-6 sm:px-8 py-3 sm:py-4 border-[3px] border-black shadow-neo-md transition-all duration-200 hover:bg-neo-pink hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_#000]">
           Le Challenge
         </a>
       </div>
     </div>
 
-    <div class="flex-1 h-[500px] relative flex items-center justify-center mt-10">
+    <div class="hidden lg:flex flex-1 w-full h-[320px] sm:h-[420px] lg:h-[500px] relative flex items-center justify-center mt-6 lg:mt-10">
       <div class="relative w-full h-full">
         <img src={heroMain} 
              class="absolute w-[65%] left-[15%] top-[15%] z-10 border-4 border-[rgb(142,252,69)] shadow-neo object-cover -rotate-2" 
@@ -73,7 +73,7 @@
   </section>
 
   <!-- Section Qui sommes nous -->
-  <section id="join" class="max-w-7xl mx-auto px-8 mb-24 mt-12 grid grid-cols-3 gap-8">
+  <section id="join" class="max-w-7xl mx-auto px-4 sm:px-8 mb-6 sm:mb-24 mt-8 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
     <!-- La passion -->
     <div class="border-[3px] border-black bg-white flex flex-col shadow-neo transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-neo-hover overflow-hidden">
       <div class="h-[200px] border-b-[3px] border-black">
@@ -111,7 +111,7 @@
     </div>
 
     <!-- La communauté -->
-    <div class="border-[3px] border-black bg-white flex flex-col shadow-neo transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-neo-hover overflow-hidden">
+    <div class="border-[3px] border-black bg-white flex flex-col shadow-neo transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-neo-hover overflow-hidden sm:col-span-2 lg:col-span-1">
       <div class="h-[200px] border-b-[3px] border-black">
         <img src={imgCommunity} 
              alt="Communauté" 
@@ -130,14 +130,14 @@
   </section>
 
   <!-- Section Engagement -->
-  <section id="challenges" class="max-w-7xl mx-auto px-8 mb-24 grid grid-cols-2 gap-8">      
+  <section id="challenges" class="max-w-7xl mx-auto px-4 sm:px-8 mb-16 sm:mb-24 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">      
     <!-- Challenge hebdomadaire -->
-    <div class="p-10 bg-neo-lilac border-[3px] border-black shadow-neo flex items-center gap-4 overflow-visible">
-      <div class="flex-1 z-10">
+    <div class="p-6 sm:p-10 bg-neo-lilac border-[3px] border-black shadow-neo flex flex-col sm:flex-row items-center gap-4 overflow-visible">
+      <div class="flex-1 z-10 w-full">
         <span class="inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
           CHALLENGE HEBDOMADAIRE
         </span>
-        <h3 class="font-sora font-extrabold text-3xl uppercase tracking-tight mb-6">Le défi</h3>
+        <h3 class="font-sora font-extrabold text-2xl sm:text-3xl uppercase tracking-tight mb-6">Le défi</h3>
         
         <div class="my-6 bg-white border-[3px] border-black p-6 shadow-neo-lg">
           <div class="font-bold mb-3 text-sm">1. Téléchargez l'app FrameLab</div>
@@ -151,9 +151,9 @@
         </a>
       </div>
       
-      <div class="flex-1 relative h-[300px] flex items-center justify-center">
+      <div class="hidden sm:block flex-1 relative h-[240px] sm:h-[300px] w-full flex items-center justify-center">
         <!-- RAW IMAGE -->
-        <div class="absolute w-[160px] bg-white border-[3px] border-black p-2.5 pb-6 shadow-neo-md -rotate-[10deg] translate-x-[-20px] translate-y-2.5 z-0 transition-transform duration-300 hover:z-50 hover:scale-105">
+        <div class="absolute w-[140px] sm:w-[160px] bg-white border-[3px] border-black p-2.5 pb-6 shadow-neo-md -rotate-[10deg] translate-x-[-20px] translate-y-2.5 z-0 transition-transform duration-300 hover:z-50 hover:scale-105">
           <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gray-300 text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2.5 py-0.5 z-20">
             RAW
           </span>
@@ -161,7 +161,7 @@
         </div>
 
         <!-- EDIT IMAGE -->
-        <div class="absolute w-[160px] bg-white border-[3px] border-black p-2.5 pb-6 shadow-neo-md rotate-[8deg] translate-x-5 -translate-y-2.5 z-10 transition-transform duration-300 hover:z-50 hover:scale-105">
+        <div class="absolute w-[140px] sm:w-[160px] bg-white border-[3px] border-black p-2.5 pb-6 shadow-neo-md rotate-[8deg] translate-x-5 -translate-y-2.5 z-10 transition-transform duration-300 hover:z-50 hover:scale-105">
           <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-neo-green text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2.5 py-0.5 z-20">
             EDIT
           </span>
@@ -171,13 +171,13 @@
     </div>
 
     <!-- Hall of frames -->
-    <div class="p-10 bg-electric-yellow border-[3px] border-black shadow-neo">
+    <div class="p-6 sm:p-10 bg-electric-yellow border-[3px] border-black shadow-neo">
         <div class="mb-6 flex items-start justify-between">
             <div>
                 <span class="inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
                     HALL OF FRAMES
                 </span>
-                <h3 class="font-sora font-extrabold text-3xl uppercase tracking-tight text-black">Les Champions</h3>
+                <h3 class="font-sora font-extrabold text-2xl sm:text-3xl uppercase tracking-tight text-black">Les Champions</h3>
             </div>
             
             <a 
@@ -222,16 +222,16 @@
     </div>
 
     <!-- Boutique -->
-    <div id="boutique" class="col-span-2 mt-14 bg-[#bfffff] p-12 border-[3px] border-black shadow-neo relative overflow-hidden">     
+    <div id="boutique" class="col-span-1 lg:col-span-2 mt-0 sm:mt-14 bg-[#bfffff] p-8 sm:p-12 border-[3px] border-black shadow-neo relative overflow-hidden">     
       <div class="relative z-10">
         <span class="inline-block bg-neo-pink text-black text-xs font-extrabold uppercase border-2 border-black shadow-neo-sm px-2 py-1 mb-4">
           SHOPPING
         </span>
-        <h2 class="font-sora font-extrabold text-4xl uppercase tracking-tight mb-4">La Boutique</h2>
-        <p class="mb-8 text-xl font-medium max-w-2xl">Découvre nos appareils, accessoires et tirages d'art exclusifs FrameLab.</p>
+        <h2 class="font-sora font-extrabold text-3xl sm:text-4xl uppercase tracking-tight mb-4">La Boutique</h2>
+        <p class="mb-8 text-base sm:text-xl font-medium max-w-2xl">Découvre nos appareils, accessoires et tirages d'art exclusifs FrameLab.</p>
 
         <a href="https://google.com" 
-           class="inline-block bg-white text-black font-sora font-bold uppercase px-8 py-4 border-[3px] border-black shadow-neo-lg transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_#000]">
+           class="inline-block bg-white text-black font-sora font-bold uppercase px-6 sm:px-8 py-3 sm:py-4 border-[3px] border-black shadow-neo-lg transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_#000]">
           Visiter la boutique
         </a>
       </div>
