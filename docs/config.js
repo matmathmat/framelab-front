@@ -1,6 +1,10 @@
-const BASE_PATH = window.location.pathname.startsWith('/docs/')
-  ? '../'
-  : './';
+const pathParts = window.location.pathname.split('/').filter(Boolean);
+
+// Détecte automatiquement le sous-dossier GitHub Pages
+const BASE_PATH =
+  window.location.hostname.includes('github.io')
+    ? `/${pathParts[0]}/`
+    : '/';
 
 const SITE_CONFIG = {
   // Identité du site
