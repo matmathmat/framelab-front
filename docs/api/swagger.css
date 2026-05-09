@@ -1,0 +1,38 @@
+.swagger-ui .topbar {
+  display: none;
+}
+
+#swagger-ui {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px 80px;
+}
+
+.swagger-ui,
+.swagger-ui .opblock-summary-description,
+.swagger-ui .opblock-description-wrapper p {
+  font-family: inherit;
+}
+
+.swagger-ui .opblock {
+  border-radius: 8px;
+  box-shadow: none;
+  border: 1px solid var(--border, #e5e7eb);
+  margin-bottom: 8px;
+}
+
+.swagger-ui .opblock.opblock-get .opblock-summary {
+  border-color: #3b82f6;
+}
+.swagger-ui .opblock.opblock-post .opblock-summary {
+  border-color: #22c55e;
+}
+.swagger-ui .opblock.opblock-put .opblock-summary {
+  border-color: #f59e0b;
+}
+.swagger-ui .opblock.opblock-delete .opblock-summary {
+  border-color: #ef4444;
+}
+.swagger-ui .opblock.opblock-patch .opblock-summary {
+  border-color: #8b5cf6;
+}

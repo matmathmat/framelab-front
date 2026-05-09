@@ -1,3 +1,19 @@
+// Initialiser mermaid
+mermaid.initialize({ startOnLoad: false, theme: 'default' });
+
+// Renderer compatible marked v5+
+const renderer = {
+  code({ text, lang }) {
+    if (lang === 'mermaid') {
+      return `<div class="mermaid">${text}</div>`;
+    }
+    // Rendu par défaut pour les autres blocs de code
+    return `<pre><code class="language-${lang ?? ''}">${text}</code></pre>`;
+  }
+};
+
+marked.use({ renderer });
+
 document.addEventListener("DOMContentLoaded", async () => {
   // Récupérer la section dans l'URL (ex: doc.html?section=guide)
   const urlParams = new URLSearchParams(window.location.search);
@@ -26,6 +42,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     contentDiv.innerHTML = '<div class="doc-error"><h3>Erreur 404</h3><p>Section introuvable ou fichier vide.</p></div>';
   } else {
     contentDiv.innerHTML = marked.parse(activeSectionData.md);
+	
+	// Déclencher mermaid sur les nouveaux éléments
+	await mermaid.run({ nodes: contentDiv.querySelectorAll('.mermaid') });
 
     // Ajouter des IDs aux titres pour que les liens d'ancre (scroll) fonctionnent
     contentDiv.querySelectorAll('h2, h3').forEach(heading => {

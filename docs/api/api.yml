@@ -1,0 +1,1081 @@
+openapi: 3.0.0
+servers:
+  - description: URL FrameLab
+    url: 'https://framelab.mathmonportfolio.be/api/'
+info:
+  description: Documentation technique des endpoints de l'API FrameLab
+  version: 1.0.0
+  title: FrameLab API
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: authentication
+    description: Gère l'authentification et l'accès utilisateur
+  - name: challenges
+    description: Opérations disponibles liées aux challenges
+  - name: participations
+    description: Opérations disponibles liées aux participations
+  - name: comments
+    description: Opérations disponibles liées aux commentaires
+  - name: votes
+    description: Opérations disponibles liées aux votes
+  - name: users
+    description: Opérations disponibles liées aux utilisateurs
+paths:
+  /auth/login:
+    post:
+      tags:
+        - authentication
+      summary: Connexion utilisateur avec email et mot de passe
+      description: Authentifie un utilisateur en utilisant son email et son mot de passe.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  format: password
+                  example: password123
+      responses:
+        '200':
+          description: Connexion réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /auth/logout:
+    post:
+      tags:
+        - authentication
+      summary: Déconnexion utilisateur
+      description: Déconnecte l'utilisateur authentifié.
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Déconnexion réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Déconnecté avec succès
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /challenges:
+    get:
+      tags:
+        - challenges
+      summary: Récupérer tous les challenges
+      description: "Récupère une liste de tous les challenges. \r\nAvec possibilité de filtrer par date et de saisir une limite\r\nsur le nombre de challenges récupérés"
+      parameters:
+        - schema:
+            type: integer
+            minimum: 1
+            default: 20
+          in: query
+          name: limit
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: start_date
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: end_date
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Récupération réussie des challenges
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  challenges:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Challenge'
+                  total:
+                    type: integer
+                    example: 50
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - challenges
+      summary: Créer un nouveau challenge
+      description: Permet à un administrateur de créer un nouveau challenge.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - title_theme
+                - start_date
+                - end_date
+                - photo
+              properties:
+                title_theme:
+                  type: string
+                  example: Challenge hebdomadaire du samedi
+                description_theme:
+                  type: string
+                  example: Ceci est le challenge hebdomadaire du samedi. Le dieu soleil Helios attend vos offrandes pour cette semaine.
+                photo:
+                  type: string
+                  format: binary
+                start_date:
+                  type: string
+                  format: date-time
+                  example: '2024-11-29T12:00:00Z'
+                end_date:
+                  type: string
+                  format: date-time
+                  example: '2024-12-06T12:00:00Z'
+      responses:
+        '201':
+          description: Challenge créé avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  challenge:
+                    $ref: '#/components/schemas/Challenge'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /challenges/current:
+    get:
+      tags:
+        - challenges
+      summary: Récupérer le challenge hebdomadaire actif
+      description: Récupère les informations sur le challenge hebdomadaire actif.
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Récupération réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  challenge:
+                    $ref: '#/components/schemas/Challenge'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Aucun challenge actif trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                message: Aucun challenge actif pour le moment
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/challenges/{challenge_id}':
+    get:
+      tags:
+        - challenges
+      summary: Récupérer un challenge spécifique par ID
+      parameters:
+        - schema:
+            type: integer
+          in: path
+          name: challenge_id
+          required: true
+          example: 42
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Récupération réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  challenge:
+                    $ref: '#/components/schemas/Challenge'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      description: Récupère les informations d'un challenge via son identifiant.
+  /participations:
+    post:
+      tags:
+        - participations
+      summary: Soumettre une participation à un challenge
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: challenge_id
+          required: true
+          example: 42
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - photo
+              properties:
+                photo:
+                  type: string
+                  format: binary
+                  description: Max 10 Mo
+      responses:
+        '201':
+          description: Participation enregistrée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Participation enregistrée avec succès
+                  participation:
+                    $ref: '#/components/schemas/Participation'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Challenge non trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                message: Challenge introuvable ou fermé
+        '409':
+          description: Conflit - L'utilisateur a déjà soumis
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                message: Vous avez déjà soumis une participation pour ce challenge
+        '422':
+          description: 'Erreur de validation (ex: fichier trop volumineux)'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                message: Fichier trop volumineux (max 10 Mo)
+        '500':
+          $ref: '#/components/responses/ServerError'
+      description: Permet à un utilisateur de soumettre sa participation à un challenge.
+    get:
+      tags:
+        - participations
+      summary: Récupérer toutes les participations
+      parameters:
+        - schema:
+            type: integer
+            minimum: 1
+            default: 20
+          in: query
+          name: limit
+        - schema:
+            type: integer
+          in: query
+          name: challenge_id
+        - schema:
+            type: integer
+          in: query
+          name: user_id
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Récupération réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  participations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Participation'
+                  total:
+                    type: integer
+                    example: 234
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      description: "Récupère une liste de toutes les participations. \r\nAvec possibilité de filtrer par identifiant de challenge et\r\nidentifiant d'utilisateur et de saisir une limite\r\nsur le nombre de participations récupérées."
+  '/participations/{participation_id}':
+    get:
+      tags:
+        - participations
+      summary: Récupérer une participation spécifique par ID
+      parameters:
+        - schema:
+            type: integer
+          in: path
+          name: participation_id
+          required: true
+          example: 123
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Récupération réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  participation:
+                    $ref: '#/components/schemas/Participation'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      description: Récupère les informations d'une participation via son identifiant.
+  /votes:
+    get:
+      tags:
+        - votes
+      summary: Récupérer les votes
+      parameters:
+        - schema:
+            type: integer
+            minimum: 1
+            default: 20
+          in: query
+          name: limit
+        - schema:
+            type: integer
+          in: query
+          name: user_id
+        - schema:
+            type: integer
+          in: query
+          name: participation_id
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Récupération réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  votes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Vote'
+                  total:
+                    type: integer
+                    example: 87
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      description: "Récupère une liste de tous les votes. \r\nAvec possibilité de filtrer par identifiant de participation et\r\nidentifiant d'utilisateur et de saisir une limite\r\nsur le nombre de votes récupérés."
+    post:
+      tags:
+        - votes
+      summary: Soumettre un vote pour une participation
+      description: "Permet à un utilisateur de soumettre son vote pour une participation.\r\nUn vote est composé de trois notes, chacune comprise entre 1 et 5 étoiles, évaluant :\r\n\r\n* la créativité de la retouche,\r\n* la technicité de la retouche,\r\n* le respect du thème imposé.\r\n"
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - participation_id
+                - creativity_note
+                - technic_note
+                - respect_note
+              properties:
+                participation_id:
+                  type: integer
+                  example: 123
+                creativity_note:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                  example: 5
+                technic_note:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                  example: 4
+                respect_note:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                  example: 5
+      responses:
+        '201':
+          description: Vote soumis
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  vote:
+                    $ref: '#/components/schemas/Vote'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Participation non trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                message: Participation introuvable
+        '409':
+          description: Déjà voté
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                message: Vous avez déjà voté pour cette participation
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /comments:
+    get:
+      tags:
+        - comments
+      summary: Récupérer les commentaires d'une participation
+      parameters:
+        - schema:
+            type: integer
+            minimum: 1
+            default: 20
+          in: query
+          name: participationId
+          description: dentifiant de la participation pour laquelle récupérer les commentaires.
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: 'Numéro de la page à récupérer. La pagination est de 20 commentaires par page. Par défaut, page = 1'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Récupération réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  comments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comment'
+                  total:
+                    type: integer
+                    example: 456
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      description: "Récupère la liste des commentaires associés à une participation.\r\nLa liste renvoyée contient 20 commentaires par défaut.\r\nPour accéder à d’autres pages, utilisez le paramètre de query page."
+    post:
+      tags:
+        - comments
+      summary: Poster un commentaire
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - participation_id
+                - text_content
+              properties:
+                participation_id:
+                  type: integer
+                  example: 123
+                text_content:
+                  type: string
+                  example: Super travail !
+      responses:
+        '201':
+          description: Commentaire posté
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  comment:
+                    $ref: '#/components/schemas/Comment'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Participation non trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                message: Participation introuvable
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      description: "Permet à un utilisateur de commenter une participation.\r\n"
+  '/comments/{comment_id}':
+    get:
+      tags:
+        - comments
+      summary: Récupérer un commentaire spécifique par ID
+      parameters:
+        - schema:
+            type: integer
+          in: path
+          name: comment_id
+          required: true
+          example: 789
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Récupération réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  comment:
+                    $ref: '#/components/schemas/Comment'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      description: Récupère les informations d'un commentaire via son identifiant.
+  /users:
+    get:
+      tags:
+        - users
+      summary: Récupérer tous les utilisateurs
+      description: "Récupère la liste de tous les utilisateurs.\r\nCette opération permet également de trier les résultats par ordre alphabétique et de filtrer les utilisateurs dont le nom commence par la chaîne recherchée."
+      security:
+        - BearerAuth: []
+      parameters:
+        - schema:
+            type: integer
+            minimum: 1
+            default: 20
+          in: query
+          name: limit
+        - schema:
+            type: string
+          in: query
+          name: order_by
+        - schema:
+            type: string
+          in: query
+          name: startwith
+      responses:
+        '200':
+          description: Récupération réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  users:
+                    type: array
+                    items:
+                      oneOf:
+                        - $ref: '#/components/schemas/UserBasic'
+                        - $ref: '#/components/schemas/UserAdminView'
+                  total:
+                    type: integer
+                    example: 100
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - users
+      summary: Créer un nouvel utilisateur
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - firstname
+                - lastname
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  format: password
+                  example: securePassword123
+                firstname:
+                  type: string
+                  example: Jean
+                lastname:
+                  type: string
+                  example: Dupont
+      responses:
+        '201':
+          description: Utilisateur créé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  user:
+                    $ref: '#/components/schemas/UserComplete'
+        '409':
+          description: L'email existe déjà
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                message: L'email existe déjà
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/users/{user_id}':
+    get:
+      tags:
+        - users
+      summary: Récupérer les informations de l'utilisateur
+      parameters:
+        - schema:
+            type: integer
+          in: path
+          name: user_id
+          required: true
+          example: 1
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Récupération réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  user:
+                    oneOf:
+                      - $ref: '#/components/schemas/UserBasic'
+                      - $ref: '#/components/schemas/UserAdminView'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      description: Récupère les informations d'un utilisateur via son identifiant.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: 'Non autorisé - Jeton manquant, invalide ou expiré'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: 'Token manquant, invalide ou expiré'
+    ForbiddenError:
+      description: Interdit - Utilisateur non autorisé
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: Utilisateur non autorisé pour cette action
+    NotFoundError:
+      description: Non trouvé - Ressource introuvable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: Ressource introuvable
+    ValidationError:
+      description: Entité non traitable - Données d'entrée invalides
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: Données de requête invalides
+    ServerError:
+      description: Erreur interne du serveur
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: Erreur serveur
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+        - success
+        - message
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Description de l'erreur
+    Challenge:
+      type: object
+      description: Représente un challenge photo hebdomadaire avec un thème spécifique et des contraintes de temps.
+      properties:
+        id:
+          type: integer
+          example: 42
+          description: Identifiant unique du challenge
+        title_theme:
+          type: string
+          example: Challenge hebdomadaire du samedi
+          description: Titre du thème du challenge
+        description_theme:
+          type: string
+          example: Ceci est le challenge hebdomadaire du samedi. Le dieu soleil Helios attend vos offrandes pour cette semaine.
+          description: Description détaillée du thème du challenge
+        photo_url:
+          type: string
+          format: uri
+          example: 'https://framelab.com/challenges/42/photo_base.jpg'
+          description: URL de la photo imposée pour le challenge
+        start_date:
+          type: string
+          format: date-time
+          example: '2024-11-29T12:00:00Z'
+          description: Date de début du challenge
+        end_date:
+          type: string
+          format: date-time
+          example: '2024-12-06T12:00:00Z'
+          description: Date de fin du challenge
+        is_archived:
+          type: boolean
+          example: false
+          description: Si le challenge est archivé
+    Participation:
+      type: object
+      description: Représente la soumission d'un utilisateur à un challenge.
+      properties:
+        id:
+          type: integer
+          example: 123
+          description: Identifiant unique de la participation
+        photo_url:
+          type: string
+          format: uri
+          example: 'https://framelab.com/participations/123/photo.jpg'
+          description: URL de la photo retouchée soumise
+        submission_date:
+          type: string
+          format: date-time
+          example: '2025-01-22T14:30:00Z'
+          description: Date à laquelle la participation a été soumise
+        is_visible:
+          type: boolean
+          example: true
+          description: Si la participation est visible par les autres
+        user_id:
+          type: integer
+          example: 1
+          description: ID de l'utilisateur qui a soumis la participation
+        challenge_id:
+          type: integer
+          example: 42
+          description: ID du challenge auquel cette participation appartient
+    Vote:
+      type: object
+      description: |-
+        Représente un vote émis par un utilisateur sur une participation.
+        Le vote comporte trois scores, chacun compris entre 1 et 5, permettant d’évaluer des critères précis : la créativité de la retouche, la technicité de la retouche et le respect du thème imposé.
+      properties:
+        id:
+          type: integer
+          example: 456
+          description: Identifiant unique du vote
+        creativity_note:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 5
+          description: Note de créativité (1-5)
+        technic_note:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 4
+          description: Note de compétence technique (1-5)
+        respect_note:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 5
+          description: Note de respect du thème (1-5)
+        vote_date:
+          type: string
+          format: date-time
+          example: '2025-01-23T16:45:00Z'
+          description: Date à laquelle le vote a été émis
+        user_id:
+          type: integer
+          example: 20
+          description: ID de l'utilisateur qui a voté
+        participation_id:
+          type: integer
+          example: 123
+          description: ID de la participation soumise au vote
+    Comment:
+      type: object
+      description: Représente un commentaire textuel ajouté par un utilisateur à une participation spécifique.
+      properties:
+        id:
+          type: integer
+          example: 789
+          description: Identifiant unique du commentaire
+        text_content:
+          type: string
+          example: Super travail sur l'éclairage !
+          description: Contenu du commentaire
+        comment_date:
+          type: string
+          format: date-time
+          example: '2025-01-23T10:20:00Z'
+          description: Date à laquelle le commentaire a été posté
+        user_id:
+          type: integer
+          example: 1
+          description: ID de l'utilisateur qui a posté le commentaire
+        participation_id:
+          type: integer
+          example: 123
+          description: ID de la participation commentée
+    UserBasic:
+      type: object
+      description: Informations de base du profil utilisateur disponibles pour les autres utilisateurs (données non sensibles).
+      properties:
+        id:
+          type: integer
+          example: 1
+        firstname:
+          type: string
+          example: Jean
+        lastname:
+          type: string
+          example: Dupont
+    UserComplete:
+      type: object
+      description: Informations complètes du profil utilisateur renvoyées à l’utilisateur lors de la création de son compte ou lors de la consultation de son propre profil.
+      properties:
+        id:
+          type: integer
+          example: 1
+        email:
+          type: string
+          format: email
+          example: user@example.com
+        firstname:
+          type: string
+          example: Jean
+        lastname:
+          type: string
+          example: Dupont
+    UserAdminView:
+      type: object
+      description: 'Profil utilisateur complet incluant les données administratives sensibles, disponible uniquement pour les administrateurs.'
+      properties:
+        id:
+          type: integer
+          example: 1
+        firstname:
+          type: string
+          example: Jean
+        lastname:
+          type: string
+          example: Dupont
+        email:
+          type: string
+          format: email
+          example: user@example.com
+        registration_date:
+          type: string
+          format: date-time
+          example: '2024-11-15T09:30:00Z'
