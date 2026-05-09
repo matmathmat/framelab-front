@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import { slide, fade } from 'svelte/transition';
     import { enhance } from '$app/forms';
     import { invalidateAll } from '$app/navigation'; 
@@ -142,6 +143,25 @@
         const avg = (vote.creativityNote + vote.technicNote + vote.respectNote) / 3;
         return avg.toFixed(1);
     }
+
+    onMount(() => {
+        const hash = window.location.hash;
+
+        if (hash.startsWith('#participation-')) {
+            const id = parseInt(hash.replace('#participation-', ''));
+            if (!isNaN(id)) {
+                // Déplier la participation ciblée
+                expandedId = id;
+                if (!commentsCache[id]) loadComments(id, 0);
+
+                // Scroll vers l'élément après le rendu
+                setTimeout(() => {
+                    const el = document.getElementById('participation-' + id);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 150);
+            }
+        }
+    });    
 </script>
 
 <div class="min-h-screen font-sora pb-20 pt-24 px-4 md:px-8">   
@@ -212,7 +232,7 @@
                 {@const isExpanded = expandedId === p.id}
 
                 <!-- On a une carte participation -->
-                <article class="relative group transition-all duration-300">
+                <article id="participation-{p.id}" class="relative group transition-all duration-300">
                     <div
                         class="absolute inset-0 translate-x-2 translate-y-2 {isExpanded ? 'translate-x-0 translate-y-0' : ''} transition-transform"
                         style="background-color: {shadowBg};"
