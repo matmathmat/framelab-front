@@ -1,18 +1,25 @@
 // Initialiser mermaid
 mermaid.initialize({ startOnLoad: false, theme: 'default' });
 
-// Renderer compatible marked v5+
-const renderer = {
-  code({ text, lang }) {
-    if (lang === 'mermaid') {
-      return `<div class="mermaid">${text}</div>`;
+marked.use({	
+  renderer: {
+    // pour mermaid et le code 
+    code({ text, lang }) {
+      if (lang === 'mermaid') {
+        return `<div class="mermaid">${text}</div>`;
+      }
+      return `<pre><code class="language-${lang ?? ''}">${text}</code></pre>`;
+    },
+    link({ href, title, text }) {
+      // Si le lien commence par / et qu'on est sur GitHub Pages, on préfixe avec BASE_PATH
+      if (href.startsWith('/') && window.location.hostname.includes('github.io')) {
+        href = BASE_PATH + href.replace(/^\//, '');
+      }
+      const titleAttr = title ? ` title="${title}"` : '';
+      return `<a href="${href}"${titleAttr}>${text}</a>`;
     }
-    // Rendu par défaut pour les autres blocs de code
-    return `<pre><code class="language-${lang ?? ''}">${text}</code></pre>`;
   }
-};
-
-marked.use({ renderer });
+});
 
 document.addEventListener("DOMContentLoaded", async () => {
   // Récupérer la section dans l'URL (ex: doc.html?section=guide)
